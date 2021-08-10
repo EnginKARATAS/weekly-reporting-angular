@@ -1,0 +1,113 @@
+<p class="alert alert-success">Şu anda 9-13 Ağustos Haftasının Raporunu Düzenlemektesiniz. </p>
+
+<div class="form-group row">
+    <label class="col-4">Önem Derecesi</label> 
+    <div class="col-8">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_matter" id="form_matter_0" type="radio" aria-describedby="form_matterHelpBlock" class="custom-control-input" value="1"> 
+        <label for="form_matter_0" class="custom-control-label">Çok Düşük</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_matter" id="form_matter_1" type="radio" aria-describedby="form_matterHelpBlock" class="custom-control-input" value="2"> 
+        <label for="form_matter_1" class="custom-control-label">Düşük</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_matter" id="form_matter_2" type="radio" checked="checked" aria-describedby="form_matterHelpBlock" class="custom-control-input" value="3"> 
+        <label for="form_matter_2" class="custom-control-label">Normal</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_matter" id="form_matter_3" type="radio" aria-describedby="form_matterHelpBlock" class="custom-control-input" value="4"> 
+        <label for="form_matter_3" class="custom-control-label">Yüksek</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_matter" id="form_matter_4" type="radio" aria-describedby="form_matterHelpBlock" class="custom-control-input" value="5"> 
+        <label for="form_matter_4" class="custom-control-label">Çok Yüksek</label>
+      </div> 
+      <span id="form_matterHelpBlock" class="form-text text-muted">Yaptığınız işin ne kadar önemli olduğu</span>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="form_start_date" class="col-4 col-form-label">Başlangıç Tarihi</label> 
+    <div class="col-8">
+      <input id="form_start_date" name="form_start_date" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="form_finish_date" class="col-4 col-form-label">Bitiş Tarihi</label> 
+    <div class="col-8">
+      <input id="form_finish_date" name="form_finish_date" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="textarea" class="col-4 col-form-label">Yapılan İşler / Aksiyonlar</label> 
+    <div class="col-8">
+      <textarea id="textarea" name="textarea" cols="40" rows="5" class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="" class="col-4 col-form-label">Talep Sahibi</label> 
+    <div class="col-8">
+      <select id="" name="" class="custom-select">
+        <option value="gm_a">GM A</option>
+        <option value="gm_b">GM B</option>
+        <option value="gm_c">GM C</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="text" class="col-4 col-form-label">Planlanmış Bitirme Tarihi</label> 
+    <div class="col-8">
+      <input id="text" name="text" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-4">Süre Aşımı / Time Out Var Mı ?</label> 
+    <div class="col-8">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_timeout" id="form_timeout_0" type="radio" class="custom-control-input" value="form_yes"> 
+        <label for="form_timeout_0" class="custom-control-label">Var</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_timeout" id="form_timeout_1" type="radio" class="custom-control-input" value="form_no"> 
+        <label for="form_timeout_1" class="custom-control-label">Yok</label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="form_time_spent" class="col-4 col-form-label">Haftalık Harcanan Süre</label> 
+    <div class="col-8">
+      <input id="form_time_spent" name="form_time_spent" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-4">İş Durumu / Status</label> 
+    <div class="col-8">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_status" id="form_status_0" type="radio" class="custom-control-input" value="closed"> 
+        <label for="form_status_0" class="custom-control-label">Closed</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_status" id="form_status_1" type="radio" class="custom-control-input" value="continue"> 
+        <label for="form_status_1" class="custom-control-label">Continue</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_status" id="form_status_2" type="radio" class="custom-control-input" value="canceled"> 
+        <label for="form_status_2" class="custom-control-label">Canceled</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="form_status" id="form_status_3" type="radio" class="custom-control-input" value="waiting"> 
+        <label for="form_status_3" class="custom-control-label">Waiting</label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="form_comments" class="col-4 col-form-label">Yorumlar / Öneriler</label> 
+    <div class="col-8">
+      <textarea id="form_comments" name="form_comments" cols="40" rows="3" class="form-control"></textarea>
+    </div>
+  </div> 
+  <div class="form-group row">
+    <div class="offset-4 col-8">
+      <button name="submit" type="submit" class="btn btn-primary">Satır Ekle</button>
+    </div>
+  </div>

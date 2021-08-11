@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Report } from '../models/reports';
-import { ResponseModel } from '../models/ResponseModel';
 import { HttpClient} from '@angular/common/http'
 import { ReportResponseModel } from '../models/reportsResponseModel';
 
@@ -15,7 +14,6 @@ export class AllReportsComponent implements OnInit {
   reports: Report[]=[]
 
   productResponseModel: ReportResponseModel = {
-    
     data: this.reports,
     message: "",
     success: true,

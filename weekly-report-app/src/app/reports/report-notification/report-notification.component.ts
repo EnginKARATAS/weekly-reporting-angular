@@ -45,12 +45,11 @@ export class ReportNotificationComponent implements OnInit {
           'Değerli çalışanımız, rapor göndermek için son ' +
           howManyDaysToDelivery +
           ' gün. Son gün ' +
-          days[lastDayToSend]; +
-          "gecesidir"
+          days[lastDayToSend];
+        +'gecesidir';
       }
     }
   }
 
-  ngOnInit(): void {
-   }
+  ngOnInit(): void {}
 }

@@ -1,5 +1,5 @@
 
-
+<h1>test header report-all</h1>
 <table class="table">
     <thead>
       <tr>
@@ -19,17 +19,15 @@
     <tbody>
       <tr *ngFor="let report of reports">
         <th scope="row">1</th>
-        <td>4</td>
-        <td>10-02-20</td>
-        <td>10-02-20</td>
-        <td>Neta Ticket No: xxxxy</td>
-        <td>John Doe</td>
-        <td>Yok</td>
-        <td>Hayır</td>
-        <td>2</td>
-        <td>Kapandı</td>
-        <td>Case'de neden sorun ile ilgill geliştirme planlanabilir.</td>
+        <td>{{report.matter}}</td>
+        <td>{{report.startDate}}</td>
+        <td>{{report.finishDate}}</td>
+        <td>{{report.workDone}}</td>
+        <td>{{report.claimant}}</td>
+        <td>{{report.scheduledCompletionDate}}</td>
+        <td>{{report.timeout}}</td>
+        <td>{{report.weeklyTimeSpent}}</td>
+        <td>{{report.comments}}</td>
       </tr>
-     
     </tbody>
   </table>

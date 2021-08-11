@@ -9,8 +9,10 @@ import { ReportFormComponent } from './reports/report-form.component';
 import { ReportNotificationComponent } from './reports/report-notification/report-notification.component';
 import { NaviComponent } from './navi/navi.component';
 import { AllReportsComponent } from './reports/all-reports.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
+
   declarations: [
     AppComponent,
     ReportDetailComponent,
@@ -19,7 +21,9 @@ import { AllReportsComponent } from './reports/all-reports.component';
     ReportNotificationComponent,
     NaviComponent
   ],
+
   imports: [
+    HttpClientModule,
     BrowserModule,
     RouterModule.forRoot([
       { path: 'report-detail', component: ReportDetailComponent },

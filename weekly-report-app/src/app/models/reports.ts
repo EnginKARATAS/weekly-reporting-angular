@@ -1,16 +1,11 @@
 export interface Report {
-  workerId: number;
-  rows: [
+ 
     id: number,
-    matter: number,
-    startDate: Date,
-    finishDate: Date,
-    workDone: string,
-    claimant: string,
-    scheduledCompletionDate: Date,
-    timeout: boolean,
-    weeklyTimeSpent: number,
-    status: string,
-    comments: string
-  ];
+    code: number,
+    worker_id: number,
+    claimant_id: number,
+    report_row_entry_id: number,
+    report_commit_date: Date,
+    report_edit_date: Date
+ 
 }

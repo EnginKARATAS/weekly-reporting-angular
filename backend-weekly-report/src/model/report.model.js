@@ -15,8 +15,39 @@ var Report = function (report) {
 };
 
 // Define CRUD Operations Functions
+Report.findByWorkerId = function (id, result) {
+  let sql =
+  "SELECT * FROM reports where worker_id = ?";
+  
+  console.log("🚀 ~ file: report.model.js ~ line 20 ~ sql", sql)
+    con.query(sql, id, (err, row, fields) =>{
+      console.log("error", err);
+      if (err) result(err, null)
+      console.log(row)
+      result(null, row)
+    })
+};
 
 Report.findById = function (id, result) {
+console.log("🚀 ~ file: report.model.js ~ line 35 ~ id", id)
+  let sql = "SELECT * FROM reports WHERE id = ?";
+
+  console.log("içerdeyim")
+  console.log("içerdeyim")
+  console.log(id)
+  console.log("içerdeyim")
+
+  con.query(sql, id, (err, row, fields) => {
+    console.log("error: ", err);
+    if (err) result(err, null);
+
+    console.log(row);
+    result(null, row);
+  });
+};
+
+Report.findByCategoryId = function (id, result) {
+  console.log("içerdeyim")
   let sql = "SELECT * FROM reports WHERE id = ?";
 
   con.query(sql, id, (err, row, fields) => {

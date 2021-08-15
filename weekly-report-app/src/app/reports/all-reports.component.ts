@@ -9,8 +9,6 @@ import { ReportService } from '../services/report.service';
   styleUrls: ['./all-reports.component.css'],
 })
 export class AllReportsComponent implements OnInit {
-  apiUrl = 'http://localhost:4000/api/reports';
-
   reports: Report[] = [];
 
   //think
@@ -20,17 +18,19 @@ export class AllReportsComponent implements OnInit {
     success: true,
   };
 
-  constructor(private reportService: ReportService) { }
+  constructor(private reportService: ReportService) {}
 
   ngOnInit(): void {
-    this.retrieveTutorials();
+    this.retrieveReports();
   }
 
-  retrieveTutorials(): void {
+  retrieveReports(): void {
     this.reportService.getAll().subscribe(
       (data) => {
         this.reports = data;
         console.log(data);
+        console.log(this.reports);
+        
       },
       (error) => {
         console.log(error);
@@ -39,17 +39,17 @@ export class AllReportsComponent implements OnInit {
   }
 
   // refreshList(): void {
-  //   this.retrieveTutorials();
-  //   this.currentTutorial = null;
+  //   this.retrieveReports();
+  //   this.currentReport = null;
   //   this.currentIndex = -1;
   // }
 
-  // setActiveTutorial(report, index): void {
-  //   this.currentTutorial = report;
+  // setActiveReport(report, index): void {
+  //   this.currentReport = report;
   //   this.currentIndex = index;
   // }
 
-  // removeAllTutorials(): void {
+  // removeAllReports(): void {
   //   this.reportService.deleteAll().subscribe(
   //     (response) => {
   //       console.log(response);

@@ -7,8 +7,8 @@ const controller =   require('../controller/report.controller');
 // Retrieve a single item with id
 reportRouter.get('/:id', controller.findById);
 
-// Retrieve a single item with id
-reportRouter.post('/name', controller.findByName);
+// // Retrieve a single item with id
+// reportWorkerRouter.get('/:worker_id', controller.findByWorkerId);
 
 // Retrieve all items
 reportRouter.get('/', controller.findAll);

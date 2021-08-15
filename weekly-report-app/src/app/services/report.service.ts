@@ -1,41 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Report } from '../models/reports';
 
-const baseUrl = 'http://localhost:8080/api/reports';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
-
-  constructor(private http: HttpClient) { }
+baseUrl: string = 'http://localhost:4000/api/reports';
+constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get(baseUrl);
+    return this.http.get<Report>(this.baseUrl);
   }
 
   get(id): Observable<any> {
-    return this.http.get(`${baseUrl}/${id}`);
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 
   create(data): Observable<any> {
-    return this.http.post(baseUrl, data);
+    return this.http.post(this.baseUrl, data);
   }
 
   update(id, data): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+    return this.http.put(`${this.baseUrl}/${id}`, data);
   }
 
   delete(id): Observable<any> {
-    return this.http.delete(`${baseUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
   deleteAll(): Observable<any> {
-    return this.http.delete(baseUrl);
+    return this.http.delete(this.baseUrl);
   }
 
   findByTitle(title): Observable<any> {
-    return this.http.get(`${baseUrl}?title=${title}`);
+    return this.http.get(`${this.baseUrl}?title=${title}`);
   }
 }

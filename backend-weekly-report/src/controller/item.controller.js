@@ -3,7 +3,9 @@
 const Item = require('../model/item.model');
 
 exports.findById = function(req, res) {
+
 	const id = req.params.id;
+    console.log("🚀 ~ file: item.controller.js ~ line 8 ~ id", id)
 	
 	if (!id) {
 		// 400 = bad request
@@ -36,7 +38,10 @@ exports.findByName = function(req, res) {
 };
 
 exports.findAll = function(req, res) {
+	console.log("findal")
 	Item.findAll(function(err, items) {
+	console.log("findal2")
+
 		if (err) return res.status(500).send('Error occured during fetching items');
 		console.log('items: ', items);
 		

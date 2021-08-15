@@ -10,6 +10,7 @@ import { ReportNotificationComponent } from './reports/report-notification/repor
 import { NaviComponent } from './navi/navi.component';
 import { AllReportsComponent } from './reports/all-reports.component';
 import { HttpClientModule } from '@angular/common/http';
+import { Page404Component } from './page404/page404.component';
 
 @NgModule({
 
@@ -26,11 +27,12 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     BrowserModule,
     RouterModule.forRoot([
-      { path: 'report-detail', component: ReportDetailComponent },
+      { path: 'report-detail', component: Page404Component },
+      { path: 'report-detail/:code', component: ReportDetailComponent },
       { path: 'report-form', component: ReportFormComponent },
       { path: 'all-reports', component: AllReportsComponent },
       { path: '', component: WelcomeComponent, pathMatch:'full' },//anasayfa
-      { path: '**', component: AppComponent, pathMatch:'full' },//404
+      { path: '**', component: Page404Component, pathMatch:'full' },//404
     ])
   ],
   providers: [],

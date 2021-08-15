@@ -1,18 +1,23 @@
-<h1>test header report-all</h1>
+<div class="row alert alert-warning">
+  <div class="col-md-7">
+    <h1>Haftalık Faaliyet Raporları</h1>
+  </div>
+</div>
+
 <table class="table">
   <thead>
     <tr>
       <th scope="col">No</th>
-      <th scope="col">Sıra</th>
-      <th class="text-xs-right" scope="col">asdsad</th>
+      <th scope="col">Haftalık Rapor</th>
+      <th class="text-xs-right" scope="col">Gör</th>
     </tr>
-  </thead>
+  </thead>  
   <tbody>
-    <tr *ngFor="let report of reports">
-      <th scope="row">1</th>
+    <tr *ngFor="let report of reports; let i = index">
+      <th scope="row">{{i + 1}}</th>
       <td>{{report.week_id + ". Hafta Çalışma Raporu " + report.worker_name + " " + report.worker_surname}}</td>
-      <td class="text-xs-right">Test</td>
-      
+      <button class="btn btn-dark text-xs-right" routerLink="/report-detail/{{ report.code }}">Gör</button>
+
     </tr>
   </tbody>
 </table>

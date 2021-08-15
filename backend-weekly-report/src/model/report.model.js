@@ -30,12 +30,10 @@ Report.findByWorkerId = function (id, result) {
 
 Report.findById = function (id, result) {
 console.log("🚀 ~ file: report.model.js ~ line 35 ~ id", id)
-  let sql = "SELECT * FROM reports WHERE id = ?";
+  let sql = "SELECT * FROM reports WHERE code = ?";
 
   console.log("içerdeyim")
-  console.log("içerdeyim")
   console.log(id)
-  console.log("içerdeyim")
 
   con.query(sql, id, (err, row, fields) => {
     console.log("error: ", err);

@@ -1,25 +1,45 @@
-<!-- <h1>test header report-all</h1>
+<div class="row alert alert-info">
+  <div class="col-md-7">
+    <h1>{{reportWithRows[0].report_date |date:"shortDate" }} Haftalık Faaliyet Raporu</h1>
+  </div>
+  <div class="col-md-4  text-center pt-3">
+    <h5>Kişi: {{reportWithRows[0].worker_name + " " + reportWithRows[0].worker_surname}} </h5>
+  </div>
+</div>
+<h3>HAFTALIK FAALİYETLER</h3>
 <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Sıra</th>
-        <th scope="col">Önem Derecesi</th>
-        <th scope="col">Başlangıç Tarihi</th>
-        <th scope="col">Bitiş Tarihi</th>
-        <th scope="col">Yapılan İşler / Alınan Aksiyonlar</th>
-        <th scope="col">Talep Sahibi</th>
-        <th scope="col">Planlanmış Bitiş Tarihi</th>
-        <th scope="col">Süre Aşımı</th>
-        <th scope="col">Haftalık Harcanan Saat</th>
-        <th scope="col">Durumu</th>
-        <th scope="col">Yorum, Öneriler</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let report of reports">
-        <th scope="row">1</th>
-        <td>{{report.code}}</td>
- 
-      </tr>
-    </tbody>
-  </table> -->
+  <thead>
+    <tr>
+      <th scope="col">Sıra</th>
+      <th scope="col">Kod</th>
+      <th scope="col">Önem Derecesi</th>
+      <th scope="col">Başlangıç Tarihi</th>
+      <th scope="col">Bitiş Tarihi</th>
+      <th scope="col">Yapılan İşler / Alınan Aksiyonlar</th>
+      <th scope="col">Talep Sahibi</th>
+      <th scope="col">Planlanmış Bitiş Tarihi</th>
+      <th scope="col">Süre Aşımı Var Mı</th>
+      <th scope="col">Haftalık Harcanan Saat</th>
+      <th scope="col">Durumu</th>
+      <th scope="col">Yorum, Öneriler</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let report of reportWithRows; let i = index">
+      <th scope="row">{{i + 1 }}</th>
+      <td>{{report.code}}</td>
+      <td>{{report.matter}}</td>
+      <td>{{report.start_date}}</td>
+      <td>{{report.finish_date}}</td>
+      <td>{{report.actions}}</td>
+      <td>{{report.claimant_name + " " + report.claimant_surname}}</td>
+      <td>{{report.scheduled_completion_date}}</td>
+      <td>{{report.is_timeout ? "evet":"hayır"}}</td>
+      <td>{{report.weekly_time_spent}}</td>
+      <td>{{report.status}}</td>
+      <td>{{report.comments}}</td>
+
+
+    </tr>
+  </tbody>
+</table>

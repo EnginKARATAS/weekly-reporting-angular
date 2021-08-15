@@ -15,8 +15,8 @@ constructor(private http: HttpClient) { }
     return this.http.get<Report>(this.baseUrl);
   }
 
-  get(id): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  get(code): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${code}`);
   }
 
   create(data): Observable<any> {
@@ -35,7 +35,8 @@ constructor(private http: HttpClient) { }
     return this.http.delete(this.baseUrl);
   }
 
-  findByTitle(title): Observable<any> {
-    return this.http.get(`${this.baseUrl}?title=${title}`);
-  }
+  // findByCode(code): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}?code=${code}`);
+  // }
+ 
 }

@@ -11,6 +11,10 @@ import { NaviComponent } from './navi/navi.component';
 import { AllReportsComponent } from './reports/all-reports.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Page404Component } from './page404/page404.component';
+import { TodoComponent } from './todo/todo.component';
+import { LoginComponent } from './login/login.component';
+import { VatAddedPipe } from './pipes/vat-added.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
 
@@ -20,14 +24,19 @@ import { Page404Component } from './page404/page404.component';
     WelcomeComponent,
     AllReportsComponent,
     ReportNotificationComponent,
-    NaviComponent
+    NaviComponent,
+    TodoComponent,
+    LoginComponent,
+    VatAddedPipe
   ],
 
   imports: [
     HttpClientModule,
     BrowserModule,
+    FormsModule,
     RouterModule.forRoot([
       { path: 'report-detail', component: Page404Component },
+      { path: 'todo', component: TodoComponent },
       { path: 'report-detail/:code', component: ReportDetailComponent },
       { path: 'report-form', component: ReportFormComponent },
       { path: 'all-reports', component: AllReportsComponent },

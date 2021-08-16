@@ -4,6 +4,13 @@
   </div>
 </div>
 
+<div class="form-group">
+  <label for="filterText">Email address</label>
+  <input type="text" [(ngModel)]="_listFilter"  class="form-control" id="_listFilter"
+  placeholder="arama">
+</div>
+ {{_listFilter}}
+
 <table class="table">
   <thead>
     <tr>
@@ -11,11 +18,11 @@
       <th scope="col">Haftalık Rapor</th>
       <th class="text-xs-right" scope="col">Gör</th>
     </tr>
-  </thead>  
+  </thead>
   <tbody>
-    <tr *ngFor="let report of reports; let i = index">
+    <tr [class]="overColor(report.id)" (mouseover)="setCurrentCategory(report.id)" (mouseout)="setCurrentCategory(report.id)" *ngFor="let report of reports; let i = index">
       <th scope="row">{{i + 1}}</th>
-      <td>{{report.week_id + ". Hafta Çalışma Raporu " + report.worker_name + " " + report.worker_surname}}</td>
+      <td >{{report.week_id + ". Hafta Çalışma Raporu " + report.worker_name + " " + report.worker_surname}}</td>
       <button class="btn btn-dark text-xs-right" routerLink="/report-detail/{{ report.code }}">Gör</button>
 
     </tr>

@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Report } from '../models/reports';
+import { Row } from '../models/row';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReportService {
-baseUrl: string = 'http://localhost:4000/api/reports';
+export class RowService {
+baseUrl: string = 'http://localhost:4000/api/rows';
 constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get<Report>(this.baseUrl);
+    return this.http.get<Row>(this.baseUrl);
   }
 
-  get(id): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  get(report_id): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${report_id}`);
   }
 
   create(data): Observable<any> {

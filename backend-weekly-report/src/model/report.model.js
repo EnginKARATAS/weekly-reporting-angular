@@ -12,28 +12,31 @@ var Report = function (report) {
   this.report_row_entry_id = report.report_row_entry_id;
   this.report_commit_date = report.report_commit_date;
   this.report_edit_date = report.report_edit_date;
+  this.week_name = report.week_name;
+  this.worker = report.worker;
 };
 
 // Define CRUD Operations Functions
 Report.findByWorkerId = function (id, result) {
-  let sql =
-  "SELECT * FROM reports where worker_id = ?";
-  
-  console.log("🚀 ~ file: report.model.js ~ line 20 ~ sql", sql)
-    con.query(sql, id, (err, row, fields) =>{
-      console.log("error", err);
-      if (err) result(err, null)
-      console.log(row)
-      result(null, row)
-    })
+  let sql = "SELECT * FROM reports where worker_id = ?";
+
+  console.log("🚀 ~ file: report.model.js ~ line 20 ~ sql", sql);
+  con.query(sql, id, (err, row, fields) => {
+    console.log("error", err);
+    if (err) result(err, null);
+    console.log(row);
+    result(null, row);
+  });
 };
 
 Report.findById = function (id, result) {
-console.log("🚀 ~ file: report.model.js ~ line 35 ~ id", id)
-  let sql = "SELECT * FROM reports WHERE code = ?";
+  console.log("🚀 ~ file: report.model.js ~ line 35 ~ id", id);
+  let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  weeks w ON r.week_id = w.id INNER JOIN 
+  workers wo ON r.worker_id = wo.id`;
 
-  console.log("içerdeyim")
-  console.log(id)
+  console.log("içerdeyim");
+  console.log(id);
 
   con.query(sql, id, (err, row, fields) => {
     console.log("error: ", err);
@@ -45,7 +48,7 @@ console.log("🚀 ~ file: report.model.js ~ line 35 ~ id", id)
 };
 
 Report.findByCategoryId = function (id, result) {
-  console.log("içerdeyim")
+  console.log("içerdeyim");
   let sql = "SELECT * FROM reports WHERE id = ?";
 
   con.query(sql, id, (err, row, fields) => {
@@ -70,7 +73,9 @@ Report.findByCategoryId = function (id, result) {
 // };
 
 Report.findAll = function (result) {
-  let sql = "SELECT * FROM reports";
+  let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  weeks w ON r.week_id = w.id INNER JOIN 
+  workers wo ON r.worker_id = wo.id`;
 
   con.query(sql, (err, rows, fields) => {
     console.log("error: ", err);

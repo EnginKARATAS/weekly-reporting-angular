@@ -37,7 +37,7 @@ import { FormsModule } from '@angular/forms';
     RouterModule.forRoot([
       { path: 'report-detail', component: Page404Component },
       { path: 'todo', component: TodoComponent },
-      { path: 'report-detail/:code', component: ReportDetailComponent },
+      { path: 'report-detail/:row_id', component: ReportDetailComponent },
       { path: 'report-form', component: ReportFormComponent },
       { path: 'all-reports', component: AllReportsComponent },
       { path: '', component: WelcomeComponent, pathMatch:'full' },//anasayfa

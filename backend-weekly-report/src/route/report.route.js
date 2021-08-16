@@ -5,7 +5,7 @@ const reportRouter = express.Router()
 const controller =   require('../controller/report.controller');
 
 // Retrieve a single item with id
-reportRouter.get('/:id', controller.findById);
+reportRouter.get('/:id', controller.findByWorkerId);
 
 // // Retrieve a single item with id
 // reportWorkerRouter.get('/:worker_id', controller.findByWorkerId);

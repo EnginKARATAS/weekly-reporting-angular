@@ -8,7 +8,7 @@
   <label for="filterText">Email address</label>
   <input type="text" [(ngModel)]="_listFilter"  class="form-control" id="_listFilter"
   placeholder="arama">
-</div> 
+</div>
  {{_listFilter}}
 
 <table class="table">
@@ -22,8 +22,8 @@
   <tbody>
     <tr [class]="overColor(report.id)" (mouseover)="setCurrentCategory(report.id)" (mouseout)="setCurrentCategory(report.id)" *ngFor="let report of reports; let i = index">
       <th scope="row">{{i + 1}}</th>
-      <td >{{report.week_id + ". Hafta Çalışma Raporu " + report.worker_name + " " + report.worker_surname}}</td>
-      <button class="btn btn-dark text-xs-right" routerLink="/report-detail/{{ report.code }}">Gör</button>
+      <td >{{report.week_name + " " + report.worker + " Hafta Çalışma Raporu"}}</td>
+      <button class="btn btn-dark text-xs-right" routerLink="/report-detail/{{ report.id }}">Gör</button>
 
     </tr>
   </tbody>

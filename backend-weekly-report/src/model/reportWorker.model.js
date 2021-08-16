@@ -33,8 +33,6 @@ ReportWorker.findByWorkerId = function (id, result) {
     if (err) result(err, null);
     ReportWorker(row)
 
-
-
     result(null, row);
   });
 };

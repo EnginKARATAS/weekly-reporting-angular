@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Report } from '../models/reports';
+import { Row } from '../models/row';
 import { ReportService } from '../services/report.service';
+import { RowService } from '../services/row.service';
 
 @Component({
   selector: 'app-report-detail',
@@ -10,25 +10,26 @@ import { ReportService } from '../services/report.service';
   styleUrls: ['./report-detail.component.css'],
 })
 export class ReportDetailComponent implements OnInit {
-  reportWithRows: Report[] = [];
+  rows: Row[] = [];
   constructor(
     private reportService: ReportService,
+    private rowService: RowService,
     private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
-      if (params['code']) {
-        this.get(params['code']);
-      } else {
+      if (params['row_id']) {
+        this.getRows(params['row_id']);
+        //this.//raporlama tarihi, kişi ad soyad. tanıdık geldi mi ? hayır : D
       }
     });
   }
 
-  get(code: any) {
-    this.reportService.get(code).subscribe((response) => {
-      this.reportWithRows = response;
-      console.log(response)
+  getRows(row_id: any) {
+    this.rowService.get(row_id).subscribe((response) => {
+      this.rows = response;
+      console.log(response);
     });
   }
 }

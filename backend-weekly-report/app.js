@@ -14,11 +14,17 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 
 const routes = require('./src/route/item.route')
-const reportRouter = require('./src/route/report.route')
 const reportWorkerRouter = require('./src/route/reportWorker.route')
 
-app.use('/item', routes)
+
+const reportRouter = require('./src/route/report.route')
+const rowRouter = require('./src/route/row.route')
+
 app.use('/api/reports', reportRouter)
+app.use('/api/rows', rowRouter)
+
+
+app.use('/item', routes)
 app.use('/api/reports/worker', reportWorkerRouter)
 
 

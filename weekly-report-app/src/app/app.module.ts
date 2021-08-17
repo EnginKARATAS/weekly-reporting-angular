@@ -14,7 +14,7 @@ import { Page404Component } from './page404/page404.component';
 import { TodoComponent } from './todo/todo.component';
 import { LoginComponent } from './login/login.component';
 import { VatAddedPipe } from './pipes/vat-added.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
 
@@ -34,9 +34,11 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'report-detail', component: Page404Component },
       { path: 'todo', component: TodoComponent },
+      { path: 'login', component: LoginComponent },
       { path: 'report-detail/:row_id', component: ReportDetailComponent },
       { path: 'report-form', component: ReportFormComponent },
       { path: 'all-reports', component: AllReportsComponent },

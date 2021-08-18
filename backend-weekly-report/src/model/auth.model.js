@@ -2,9 +2,9 @@
 
 var con = require("./../../config/db");
 
-// Report Object
+// Auth Object
 
-var Report = function (report) {
+var Auth = function (report) {
   this.id = report.id;
   this.code = report.code;
   this.worker_id = report.worker_id;
@@ -17,19 +17,25 @@ var Report = function (report) {
 };
 
 // Define CRUD Operations Functions
-Report.findByWorkerId = function (id, result) {
-  let sql = "SELECT * FROM reports where worker_id = ?";
+Auth.login = function ({username,password, request}, result) {
+  
+  let sql = "SELECT username, password, id FROM workers where username = ? AND password=?";
 
-  console.log("🚀 ~ file: report.model.js ~ line 20 ~ sql", sql);
-  con.query(sql, id, (err, row, fields) => {
-    console.log("error", err);
+  con.query(sql, [username, password], (err, row, fields) => {
+    console.log("error: ", err);
     if (err) result(err, null);
-    console.log(row);
+
+    request.session.loggedin = true;
+    request.session.username = username;
+    request.session.id = id;
+
+    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row)
     result(null, row);
   });
+ 
 };
 
-Report.findById = function (id, result) {
+Auth.findById = function (id, result) {
   console.log("🚀 ~ file: report.model.js ~ line 35 ~ id", id);
   let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
   weeks w ON r.week_id = w.id INNER JOIN 
@@ -47,7 +53,7 @@ Report.findById = function (id, result) {
   });
 };
 
-Report.findByCategoryId = function (id, result) {
+Auth.findByCategoryId = function (id, result) {
   console.log("içerdeyim");
   let sql = "SELECT * FROM reports WHERE id = ?";
 
@@ -60,7 +66,7 @@ Report.findByCategoryId = function (id, result) {
   });
 };
 
-// Report.findByName = function (name, result) {
+// Auth.findByName = function (name, result) {
 // 	let sql = 'SELECT * FROM reports WHERE item_name = ?';
 
 // 	con.query(sql, name, (err, rows, fields) => {
@@ -72,21 +78,21 @@ Report.findByCategoryId = function (id, result) {
 // 	});
 // };
 
-Report.findAll = function (result) {
-  console.log("🚀 ~ file: report.model.js ~ line 76 ~ result", result);
+Auth.findAll = function (result) {
   let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
   weeks w ON r.week_id = w.id INNER JOIN 
   workers wo ON r.worker_id = wo.id`;
+
   con.query(sql, (err, rows, fields) => {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    // console.log(rows);
+    console.log(rows);
     result(null, rows);
   });
 };
 
-Report.create = function (newItem, result) {
+Auth.create = function (newItem, result) {
   console.log("gelen create istenen data");
   console.log(newItem);
 
@@ -121,7 +127,7 @@ Report.create = function (newItem, result) {
   });
 };
 
-Report.update = function (report, result) {
+Auth.update = function (report, result) {
   let data = [
     report.code,
     report.worker_id,
@@ -143,7 +149,7 @@ Report.update = function (report, result) {
   });
 };
 
-Report.delete = function (id, result) {
+Auth.delete = function (id, result) {
   let sql = "DELETE FROM reports WHERE report_id = ?";
 
   con.query(sql, id, (err, row, fields) => {
@@ -155,4 +161,4 @@ Report.delete = function (id, result) {
   });
 };
 
-module.exports = Report;
+module.exports = Auth;

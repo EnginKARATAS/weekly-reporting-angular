@@ -46,9 +46,14 @@ exports.findByWorkerId = function (req, res) {
 
 exports.findAll = function (req, res) {
   Report.findAll(function (err, reports) {
+    if(req.session.page_views){
+      req.session.page_views++;
+    } else {
+      req.session.page_views = 1;
+    }
     if (err)
       return res.status(500).send("Error occured during fetching reports");
-    console.log("reports: ", reports);
+    // console.log("reports: ", reports);
 
     return res.send(reports);
   });

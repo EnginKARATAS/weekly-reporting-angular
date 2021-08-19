@@ -20,7 +20,6 @@ var Report = function (report) {
 Report.findByWorkerId = function (id, result) {
   let sql = "SELECT * FROM reports where worker_id = ?";
 
-  console.log("🚀 ~ file: report.model.js ~ line 20 ~ sql", sql);
   con.query(sql, id, (err, row, fields) => {
     console.log("error", err);
     if (err) result(err, null);
@@ -34,9 +33,6 @@ Report.findById = function (id, result) {
   let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
   weeks w ON r.week_id = w.id INNER JOIN 
   workers wo ON r.worker_id = wo.id`;
-
-  console.log("içerdeyim");
-  console.log(id);
 
   con.query(sql, id, (err, row, fields) => {
     console.log("error: ", err);

@@ -1,5 +1,6 @@
 export interface Report {
     id: number,
+    report_id: number;
     week_name: string;
     worker: string;
 }

@@ -22,7 +22,7 @@
   <tbody>
     <tr [class]="overColor(report.id)" (mouseover)="setCurrentCategory(report.id)" (mouseout)="setCurrentCategory(report.id)" *ngFor="let report of reports; let i = index">
       <th scope="row">{{i + 1}}</th>
-      <td >{{report.week_name + " " + report.worker + " Hafta Çalışma Raporu"}}</td>
+      <td >{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
       <button class="btn btn-dark text-xs-right" routerLink="/report-detail/{{ report.id }}">Gör</button>
 
     </tr>

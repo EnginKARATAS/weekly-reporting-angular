@@ -32,7 +32,6 @@ Auth.login = function ({username,password, request}, result) {
     console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row)
     result(null, row);
   });
- 
 };
 
 Auth.findById = function (id, result) {

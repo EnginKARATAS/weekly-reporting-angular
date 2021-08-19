@@ -24,10 +24,9 @@ exports.findByReport = function (req, res) {
 };
 
 exports.findByWorkerId = function (req, res) {
- 
   const worker_id = req.params.worker_id;
-  console.log("🚀 ~ file: report.controller.js ~ line 29 ~ id", worker_id)
- 
+  console.log("🚀 ~ file: report.controller.js ~ line 29 ~ id", worker_id);
+
   if (!worker_id) {
     // 400 = bad request
     return res.status(400).send("The required path variable id is missing");
@@ -56,20 +55,11 @@ exports.findAll = function (req, res) {
 
 exports.create = function (req, res) {
   const newRow = new Row(req.body);
+  console.log("🚀 ~ file: row.controller.js ~ line 63 ~ req.body", req.body);
   console.log(newRow);
   // 400 = bad request
 
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    return res.status(400).send("One or more required fields are missing");
-  }
-  if (
-    !newRow.code ||
-    !newRow.worker_id ||
-    !newRow.claimant_id ||
-    !newRow.report_row_entry_id ||
-    !newRow.report_commit_date ||
-    !newRow.report_edit_date
-  ) {
+  if (!newRow.report_id) {
     return res.status(400).send("One or more required fields are missing");
   } else {
     Row.create(newRow, function (err, report_id) {

@@ -26,6 +26,7 @@ const reportWorkerRouter = require("./src/route/reportWorker.route");
 
 const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
+const { EDESTADDRREQ } = require("constants");
 // const authRouter = require('./src/route/auth.route')
 
 app.use("/api/reports", reportRouter);
@@ -35,28 +36,41 @@ app.use("/api/rows", rowRouter);
 app.use("/item", routes);
 app.use("/api/reports/worker", reportWorkerRouter);
 
-
 server.listen(port, () => {
   console.log("Listening on port: " + port);
 });
 
-const validatePayloadMiddleware = (req,res, next) => {
-  console.log("**********************")
-  console.log(req.session.page_views)
-  if (req.body) 
-  next();
-  else{
+const validatePayloadMiddleware = (req, res, next) => {
+  console.log("**********************");
+  console.log(req.session.page_views);
+  if (req.body) next();
+  else {
     res.status(403).send({
-      errorMessage: "you need a payload"
-    })
+      errorMessage: "you need a payload",
+    });
   }
-}
+};
 
+app.get("/api/claimants", (req, res) => {
+  console.log("**********************");
+  let sql =
+    "SELECT claimant_name, claimant_surname FROM claimants";
 
-app.post("/auth",validatePayloadMiddleware, function (request, response) {
-  request.session.test2 = "hello world";
-  console.log("🚀 ~ file: app.js ~ line 46 ~ req.session.test2", request.session)
+  con.query(sql, (err, row, fields) => {
+    console.log("error: ", err);
+    if (err) result(err, null);
 
+    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
+    res.send(row);
+  });
+});
+
+app.post("/auth", function (request, response) {
+  console.log(
+    "🚀 ~ file: app.js ~ line 58 ~ request.session.test2",
+    request.session.test2
+  );
+  request.session.test = "asdsadsa";
   var username = request.body.username;
   var password = request.body.password;
   if (username && password) {
@@ -64,11 +78,12 @@ app.post("/auth",validatePayloadMiddleware, function (request, response) {
       "SELECT username, password, id FROM workers where username = ? AND password=?";
     con.query(sql, [username, password], function (error, results, fields) {
       if (results.length > 0) {
-        console.log("🚀 ~ file: app.js ~ line 64 ~ results.length", results.length)
+        console.log(
+          "🚀 ~ file: app.js ~ line 64 ~ results.length",
+          results.length
+        );
         request.session.loggedin = true;
         request.session.username = username;
-
-        response.redirect("/all-reports");
       } else {
         response.send("Incorrect Username and/or Password!");
       }
@@ -78,4 +93,17 @@ app.post("/auth",validatePayloadMiddleware, function (request, response) {
     response.send("Please enter Username and Password!");
     response.end();
   }
+});
+
+app.get("/sec", (req, res) => {
+  console.log(
+    "🚀 ~ file: app.js ~ line 85 ~ app.get ~ req.session.test2",
+    req.session.test2
+  );
+  req.session.test2++;
+  res.send("sec " + req.session.test2);
+});
+app.get("/first", (req, res) => {
+  req.session.test2 = 1;
+  res.send("req.session.test2  " + req.session.test2);
 });

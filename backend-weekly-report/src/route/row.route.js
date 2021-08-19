@@ -9,14 +9,11 @@ rowRouter.get('/:id', rowController.findByReport);
 // Create a new item
 rowRouter.post('/', rowController.create);
 
-
-
 // // Retrieve a single item with id
 // reportWorkerRouter.get('/:worker_id', rowController.findByWorkerId);
 
 // Retrieve all items
 rowRouter.get('/', rowController.findAll);
-
 
 // Update an item
 rowRouter.put('/', rowController.update);

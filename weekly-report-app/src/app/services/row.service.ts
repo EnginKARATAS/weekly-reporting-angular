@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Row } from '../models/row';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,7 @@ constructor(private http: HttpClient) { }
     return this.http.get(`${this.baseUrl}/${report_id}`);
   }
 
-  create(data): Observable<any> {
+  addRow(data): Observable<any> {
     return this.http.post(this.baseUrl, data);
   }
 

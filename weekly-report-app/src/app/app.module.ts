@@ -15,9 +15,18 @@ import { TodoComponent } from './todo/todo.component';
 import { LoginComponent } from './login/login.component';
 import { VatAddedPipe } from './pipes/vat-added.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditWeeklyReportComponent } from './reports/edit-weekly-report/edit-weekly-report.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatSliderModule } from '@angular/material/slider';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
-
   declarations: [
     AppComponent,
     ReportDetailComponent,
@@ -27,14 +36,25 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NaviComponent,
     TodoComponent,
     LoginComponent,
-    VatAddedPipe
+    VatAddedPipe,
+    EditWeeklyReportComponent,
+    ReportFormComponent,
   ],
-
+  exports: [
+    MatNativeDateModule,
+  ],
   imports: [
+    BrowserAnimationsModule, 
+
+    
     HttpClientModule,
-    BrowserModule,
-    FormsModule,
     ReactiveFormsModule,
+    BrowserModule,MatDatepickerModule,
+    MatSliderModule,
+    FormsModule,
+    ToastrModule.forRoot({
+      positionClass :'toast-bottom-right'
+    }),
     RouterModule.forRoot([
       { path: 'report-detail', component: Page404Component },
       { path: 'todo', component: TodoComponent },
@@ -42,11 +62,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       { path: 'report-detail/:row_id', component: ReportDetailComponent },
       { path: 'report-form', component: ReportFormComponent },
       { path: 'all-reports', component: AllReportsComponent },
-      { path: '', component: WelcomeComponent, pathMatch:'full' },//anasayfa
-      { path: '**', component: Page404Component, pathMatch:'full' },//404
-    ])
+      { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa
+      { path: '**', component: Page404Component, pathMatch: 'full' }, //404
+    ]),
+    BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

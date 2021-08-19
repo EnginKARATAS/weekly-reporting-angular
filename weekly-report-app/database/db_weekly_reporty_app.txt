@@ -1,0 +1,54 @@
+CREATE TABLE claimants(
+	id INT AUTO_INCREMENT,
+	claimant_name VARCHAR(50) NOT NULL,
+	claimant_surname VARCHAR(50) NOT NULL,
+	CONSTRAINT pk_id PRIMARY KEY(id)
+);
+
+CREATE TABLE workers(
+	id INT AUTO_INCREMENT,
+	worker_name VARCHAR(50) NOT NULL,
+	worker_surname VARCHAR (50) NOT NULL,
+	username VARCHAR (25) NOT NULL,
+	password VARCHAR (16) NOT NULL,
+	job_title VARCHAR (30) NOT NULL,
+	CONSTRAINT pk_workers PRIMARY KEY (id)
+	
+);
+
+CREATE TABLE report_row_entries(
+	id INT AUTO_INCREMENT,
+	code INT NOT NULL,
+	matter INT NOT NULL,
+	start_date Date NOT NULL,
+	finish_date Date NOT NULL,
+	claimant
+	actions VARCHAR(500) NOT NULL
+	is_timeout BOOLEAN NOT NULL,
+	scheduled_completion_date Date NOT NULL,
+	weekly_time_spent INT NOT NULL,
+	status VARCHAR(15) NOT NULL,
+	comments VARCHAR (300),
+	CONSTRAINT pk_reportrowentries PRIMARY KEY(id)
+);
+
+CREATE TABLE weeks(
+	id INT AUTO_INCREMENT,
+	week_date Date NOT NULL
+	CONSTRAINT pk_weeks PRIMARY KEY(id),
+);
+
+CREATE TABLE reports(
+	id INT AUTO_INCREMENT,
+	week_id INT NOT NULL,
+	worker_id INT NOT NULL,
+	claimants VARCHAR(50) NOT NULL,
+	report_row_entry_id INT NOT NULL,
+	report_commit_date DATE NOT NULL,
+	report_edit_date Date NOT NULL,
+	CONSTRAINT pk_reports PRIMARY KEY(id),
+	CONSTRAINT pk_reports_workers FOREIGN KEY (worker_id) REFERENCES workers(id),
+	CONSTRAINT fk_reports_claimants FOREIGN KEY(claimant_id) REFERENCES claimants(id),
+	CONSTRAINT fk_reports_weeks FOREIGN KEY(weeks_id) REFERENCES weeks(id),
+	CONSTRAINT fk_reports_report_row_entries FOREIGN KEY(report_row_entry_id) REFERENCES report_row_entries(id)
+);

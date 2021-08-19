@@ -6,6 +6,7 @@ var con = require("./../../config/db");
 
 
 var Row = function (row) {
+  this.report_id = row.report_id,
   this.matter = row.matter,
   this.start_date = row.start_date,
   this.finish_date = row.finish_date,
@@ -15,8 +16,7 @@ var Row = function (row) {
   this.status = row.status,
   this.comments = row.comments,
   this.actions = row.actions,
-  this.claimants = row.claimants,
-  this.report_id = row.report_id
+  this.claimants = row.claimants
 };
 
 

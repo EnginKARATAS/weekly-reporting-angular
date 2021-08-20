@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-report-notification',
@@ -15,7 +16,7 @@ export class ReportNotificationComponent implements OnInit {
     this.message = val;
   }
 
-  constructor() {}
+  constructor(private toastrService: ToastrService) {}
   getir(): void {
     const output = document.getElementById('test');
     if (output) {
@@ -49,7 +50,10 @@ export class ReportNotificationComponent implements OnInit {
         +'gecesidir';
       }
     }
+    this.toastrService.success(output.innerHTML)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getir();
+  }
 }

@@ -24,9 +24,9 @@ exports.findById = function (req, res) {
 };
 
 exports.findByWorkerId = function (req, res) {
+  console.log("findByWorkerId")
   const id = req.params.id;
-  console.log(id);
-  console.log("id");
+  console.log("🚀 ~ file: report.controller.js ~ line 29 ~ id", id)
   if (!id) {
     // 400 = bad request
     return res.status(400).send("The required path variable id is missing");

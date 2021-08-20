@@ -1,5 +1,4 @@
 <body class="text-center">
-
     <main class="form-signin">
         <form [formGroup]="loginForm">
             <img class="mb-4" src="../../assets/images/logo.png" alt="" width="175" height="175">
@@ -7,6 +6,7 @@
 
             <div class="form-floating">
                 <!-- <label for="floatingInput">Email address</label> -->
+                <input formControlName="username" type="email" class="form-control" id="floatingInput" placeholder="mail@dvudomain.com">
             </div>
             <br>
             <div  class="form-floating">

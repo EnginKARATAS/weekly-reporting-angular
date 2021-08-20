@@ -4,61 +4,54 @@ var con = require("./../../config/db");
 
 // Row Object
 
-
 var Row = function (row) {
-  this.report_id = row.report_id,
-  this.matter = row.matter,
-  this.start_date = row.start_date,
-  this.finish_date = row.finish_date,
-  this.is_timeout = row.is_timeout,
-  this.scheduled_completion_date = row.scheduled_completion_date,
-  this.weekly_time_spent = row.weekly_time_spent,
-  this.status = row.status,
-  this.comments = row.comments,
-  this.actions = row.actions,
-  this.claimants = row.claimants
+  (this.report_id = row.report_id),
+    (this.matter = row.matter),
+    (this.start_date = row.start_date),
+    (this.finish_date = row.finish_date),
+    (this.is_timeout = row.is_timeout),
+    (this.scheduled_completion_date = row.scheduled_completion_date),
+    (this.weekly_time_spent = row.weekly_time_spent),
+    (this.status = row.status),
+    (this.comments = row.comments),
+    (this.actions = row.actions),
+    (this.claimants = row.claimants);
 };
 
-
 Row.findByReport = function (id, result) {
-   console.log(id)
-    let sql = `SELECT r.id, wee.week_name, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments
+  console.log(id);
+  let sql = `SELECT r.id, wee.week_name, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments
     FROM reports r 
     INNER JOIN workers w ON r.worker_id = w.id 
     INNER JOIN report_row_entries s ON r.report_row_entry_id = s.id
     INNER JOIN claimants c ON r.claimant_id = c.id
     INNER JOIN weeks wee ON r.week_id = wee.id
     WHERE r.id = ?;`;
-  
-  
-    con.query(sql, id, (err, row, fields) => {
-      console.log("error: ", err);
-      if (err) result(err, null);
-  
-      console.log(row);
-      result(null, row);
-    });
-  };
 
+  con.query(sql, id, (err, row, fields) => {
+    console.log("error: ", err);
+    if (err) result(err, null);
 
+    console.log(row);
+    result(null, row);
+  });
+};
 
 // Define CRUD Operations Functions
 Row.findByWorkerId = function (id, result) {
-  let sql =
-  "SELECT * FROM reports where worker_id = ?";
-  
-  console.log("🚀 ~ file: report.model.js ~ line 20 ~ sql", sql)
-    con.query(sql, id, (err, row, fields) =>{
-      console.log("error", err);
-      if (err) result(err, null)
-      console.log(row)
-      result(null, row)
-    })
+  let sql = "SELECT * FROM reports where worker_id = ?";
+
+  console.log("🚀 ~ file: report.model.js ~ line 20 ~ sql", sql);
+  con.query(sql, id, (err, row, fields) => {
+    console.log("error", err);
+    if (err) result(err, null);
+    console.log(row);
+    result(null, row);
+  });
 };
 
-
 Row.findByCategoryId = function (id, result) {
-  console.log("içerdeyim")
+  console.log("içerdeyim");
   let sql = "SELECT * FROM reports WHERE id = ?";
 
   con.query(sql, id, (err, row, fields) => {
@@ -98,7 +91,6 @@ Row.create = function (newRow, result) {
   console.log("gelen create istenen data");
   console.log(newRow);
 
-  let code = Math.floor(100000 + Math.random() * 900000);
   //-----------
   // var commit_date = new Date();
   // var dd = String(today.getDate()).padStart(2, "0");
@@ -107,7 +99,8 @@ Row.create = function (newRow, result) {
   // var yyyy = today.getFullYear();
   // today = mm + "/" + dd + "/" + yyyy;
   //-----------
-
+  
+  let code = Math.floor(100000 + Math.random() * 900000);
   let data = [
     code,
     newRow.matter,
@@ -122,10 +115,11 @@ Row.create = function (newRow, result) {
     newRow.claimants,
     newRow.report_id,
   ];
+  console.log("🚀 ~ file: row.model.js ~ line 118 ~ data", data)
 
   let sql = `INSERT INTO report_row_entries
  (code, matter, start_date, finish_date, is_timeout, scheduled_completion_date, weekly_time_spent, status, comments, actions, claimants, report_id) VALUES 
- (?,?,?,?,?,?,?,?,?,?,?,?);` 
+ (?,?,?,?,?,?,?,?,?,?,?,?);`;
 
   con.query(sql, data, (err, row, fields) => {
     console.log("error: ", err);

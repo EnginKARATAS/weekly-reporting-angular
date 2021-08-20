@@ -2,27 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { Report } from '../models/reports';
 import { ReportResponseModel } from '../models/reportsResponseModel';
 import { ReportService } from '../services/report.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
-  selector: 'app-all-reports',
-  templateUrl: './all-reports.component.html',
-  styleUrls: ['./all-reports.component.css'],
+  selector: 'app-gmadmin',
+  templateUrl: './gmadmin.component.html',
+  styleUrls: ['./gmadmin.component.css'],
 })
-export class AllReportsComponent implements OnInit {
+export class GmadminComponent implements OnInit {
   reports: Report[] = [];
   dataLoaded: boolean = false;
   currentReportId: number = 0;
   _listFilter = '';
-  worker_name: string = '';
-  worker_surname: string = '';
-  id: number;
-  message: string = "";
 
   constructor(
-    private reportService: ReportService,
-    private cookieService: CookieService
-  ) {}
+    private reportService: ReportService
+  ) // private cookieService: CookieService
+  {}
 
   // get listFilter(): string {
   //   return this._listFilter;
@@ -50,18 +45,12 @@ export class AllReportsComponent implements OnInit {
     message: '',
     success: true,
   };
-
+  showMessage = '';
   ngOnInit(): void {
-    this.worker_name = this.cookieService.get('name');
-    this.worker_surname = this.cookieService.get('surname');
-    this.id = parseInt(this.cookieService.get('id'));
-    if(this.id){
-      this.retrieveReports();
-    }
-    else
-      this.message = 'İlk Önce Giriş Yapmalısınız!'
-    
+    this.retrieveReports();
+    // this.showMessage = this.cookieService.get('Test');
   }
+
   setCurrentCategory(currentReportId: number) {
     this.currentReportId = currentReportId;
   }
@@ -73,13 +62,12 @@ export class AllReportsComponent implements OnInit {
   }
 
   retrieveReports(): void {
-    this.reportService.get(this.id).subscribe(
+    this.reportService.getAll().subscribe(
       (data) => {
-      console.log("🚀 ~ file: all-reports.component.ts ~ line 73 ~ AllReportsComponent ~ retrieveReports ~ data", data)
         this.reports = data;
         console.log(data);
-        console.log(this.reports);
         this.dataLoaded = true;
+        console.log(this.reports);
       },
       (error) => {
         console.log(error);

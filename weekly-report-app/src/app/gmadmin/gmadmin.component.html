@@ -1,11 +1,15 @@
-<p class="alert alert-info">Haftalık Faaliyet Raporlarım {{worker_name + " " + worker_surname}}</p>
+<div class="row alert alert-warning">
+  <div class="col-md-7 pt-2">
+    <h1>Çalışan Raporları {{showMessage}}</h1>
+  </div>
+</div>
 
 <!-- <div class="form-group">
-  <label for="filterText">Email address</label>
-  <input type="text" [(ngModel)]="_listFilter" class="form-control" id="_listFilter" placeholder="arama">
-</div>
-{{_listFilter}} -->
-<p *ngIf="message" class="alert alert-danger">{{message}}</p>
+    <label for="filterText">Email address</label>
+    <input type="text" [(ngModel)]="_listFilter" class="form-control" id="_listFilter" placeholder="arama">
+  </div>
+  {{_listFilter}} -->
+
 <table class="table">
   <thead>
     <tr>
@@ -33,7 +37,6 @@
           <p>✖gönderilmedi</p>
         </div>
       </ng-template>
-
     </tr>
   </tbody>
 </table>

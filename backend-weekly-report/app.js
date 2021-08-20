@@ -53,8 +53,7 @@ const validatePayloadMiddleware = (req, res, next) => {
 
 app.get("/api/claimants", (req, res) => {
   console.log("**********************");
-  let sql =
-    "SELECT claimant_name, claimant_surname FROM claimants";
+  let sql = "SELECT claimant_name, claimant_surname FROM claimants";
 
   con.query(sql, (err, row, fields) => {
     console.log("error: ", err);
@@ -75,15 +74,10 @@ app.post("/auth", function (request, response) {
   var password = request.body.password;
   if (username && password) {
     let sql =
-      "SELECT username, password, id FROM workers where username = ? AND password=?";
+      "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password=?";
     con.query(sql, [username, password], function (error, results, fields) {
       if (results.length > 0) {
-        console.log(
-          "🚀 ~ file: app.js ~ line 64 ~ results.length",
-          results.length
-        );
-        request.session.loggedin = true;
-        request.session.username = username;
+        response.send(results);
       } else {
         response.send("Incorrect Username and/or Password!");
       }

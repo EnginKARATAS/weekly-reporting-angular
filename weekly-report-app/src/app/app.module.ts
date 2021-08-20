@@ -25,6 +25,10 @@ import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 
 import { ToastrModule } from 'ngx-toastr';
 
+import { CookieService } from 'ngx-cookie-service';
+import { GmadminComponent } from './gmadmin/gmadmin.component';
+
+
 
 @NgModule({
   declarations: [
@@ -39,6 +43,7 @@ import { ToastrModule } from 'ngx-toastr';
     VatAddedPipe,
     EditWeeklyReportComponent,
     ReportFormComponent,
+    GmadminComponent,
   ],
   exports: [
     MatNativeDateModule,
@@ -46,7 +51,6 @@ import { ToastrModule } from 'ngx-toastr';
   imports: [
     BrowserAnimationsModule, 
 
-    
     HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,MatDatepickerModule,
@@ -57,6 +61,7 @@ import { ToastrModule } from 'ngx-toastr';
     }),
     RouterModule.forRoot([
       { path: 'report-detail', component: Page404Component },
+      { path: 'gmadmin', component: GmadminComponent },
       { path: 'todo', component: TodoComponent },
       { path: 'login', component: LoginComponent },
       { path: 'report-detail/:row_id', component: ReportDetailComponent },
@@ -67,7 +72,7 @@ import { ToastrModule } from 'ngx-toastr';
     ]),
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

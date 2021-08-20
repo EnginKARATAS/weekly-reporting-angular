@@ -9,6 +9,7 @@ import { Claimants } from '../models/claimants';
 import { ClaimantService } from '../services/claimant.service';
 import { RowService } from '../services/row.service';
 import { ToastrService } from 'ngx-toastr';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-report-form',
@@ -24,12 +25,13 @@ export class ReportFormComponent implements OnInit {
     private toastrService: ToastrService,
     private formBuilder: FormBuilder,
     private claimantService: ClaimantService,
-    private rowService: RowService
+    private rowService: RowService,
+    private cookieService: CookieService
   ) {}
 
   createRowForm() {
     this.rowForm = this.formBuilder.group({
-      report_id: [2, Validators.required],
+      report_id: ['', Validators.required],
       matter: ['', Validators.required],
       status: ['', Validators.required],
       is_timeout: ['', Validators.required],
@@ -50,17 +52,26 @@ export class ReportFormComponent implements OnInit {
   getClaimants(): void {
     this.claimantService.getAll().subscribe((data) => {
       this.claimants = data;
-      console.log(data);
     });
   }
 
   addRow(): void {
-    this.toastrService.success('Satır başarılı bir şekilde eklendi');
+    this.toastrService.info('Satır başarılı bir şekilde eklendi');
     console.log('😒😒😒');
-    console.log(this.rowForm.value)
-    this.rowService.addRow(this.rowForm.value).subscribe((data) => {
-    console.log("🚀 ~ file: report-form.component.ts ~ line 62 ~ ReportFormComponent ~ this.rowService.addRow ~ data", data)
-    });
+    console.log(this.rowForm.value);
+    this.rowForm.value.report_id = this.cookieService.get("id");
+    debugger;
+    console.log("🚀 ~ file: report-form.component.ts ~ line 69 ~ ReportFormComponent ~ addRow ~ this.rowForm.value", this.rowForm.value)
+
+    
+    this.rowService
+      .addRow(this.rowForm.value)
+      .subscribe((data) => {
+        console.log(
+          '🚀 ~ file: report-form.component.ts ~ line 62 ~ ReportFormComponent ~ this.rowService.addRow ~ data',
+          data
+        );
+      });
 
     // if (this.rowForm.valid) {
     //   console.log("valid")

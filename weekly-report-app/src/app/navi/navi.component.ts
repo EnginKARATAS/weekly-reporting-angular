@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navi',
@@ -8,7 +10,9 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class NaviComponent implements OnInit {
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService,
+    private router: Router,
+    private toast: ToastrService) { }
 
   ngOnInit(): void {
     
@@ -18,6 +22,8 @@ export class NaviComponent implements OnInit {
     this.cookieService.delete("id")
     this.cookieService.delete("name")
     this.cookieService.delete("surname")
+    this.toast.info("Çıkış Başarılı")
+    this.router.navigate(['/login']);
   }
 
 }

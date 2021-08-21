@@ -17,7 +17,7 @@ export class AllReportsComponent implements OnInit {
   worker_name: string = '';
   worker_surname: string = '';
   id: number;
-  message: string = "";
+  message: string = '';
 
   constructor(
     private reportService: ReportService,
@@ -55,12 +55,9 @@ export class AllReportsComponent implements OnInit {
     this.worker_name = this.cookieService.get('name');
     this.worker_surname = this.cookieService.get('surname');
     this.id = parseInt(this.cookieService.get('id'));
-    if(this.id){
+    if (this.id) {
       this.retrieveReports();
-    }
-    else
-      this.message = 'İlk Önce Giriş Yapmalısınız!'
-    
+    } else this.message = 'İlk Önce Giriş Yapmalısınız!';
   }
   setCurrentCategory(currentReportId: number) {
     this.currentReportId = currentReportId;
@@ -75,9 +72,7 @@ export class AllReportsComponent implements OnInit {
   retrieveReports(): void {
     this.reportService.get(this.id).subscribe(
       (data) => {
-      console.log("🚀 ~ file: all-reports.component.ts ~ line 73 ~ AllReportsComponent ~ retrieveReports ~ data", data)
         this.reports = data;
-        console.log(data);
         console.log(this.reports);
         this.dataLoaded = true;
       },

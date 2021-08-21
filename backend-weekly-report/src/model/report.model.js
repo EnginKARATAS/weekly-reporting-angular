@@ -18,7 +18,7 @@ var Report = function (report) {
 
 // Define CRUD Operations Functions
 Report.findByWorkerId = function (id, result) {
-  let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  let sql = `SELECT r.id, w.week_name, r.is_report_sended, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
   weeks w ON r.week_id = w.id INNER JOIN 
   workers wo ON r.worker_id = wo.id
   WHERE worker_id = ?`;

@@ -4,102 +4,63 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Talep Durumu</th>
-        <th>Talep Tarihleri</th>
-        <th>Talep Süresi</th>
-        <th>Talep Detay</th>
+        <th class="col-md-2">Talep Durumu</th>
+        <th class="col-md-3">Talep Tarihleri</th>
+        <th class="col-md-3">Talep Süresi</th>
+        <th class="col-md-4">Talep Detay</th>
       </tr>
     </thead>
     <tbody>
 
       <tr>
         <td class="bg-light">
-          <div class="form-group row ">
-            <label for="" class="col-4 col-form-label">Talep Sahibi</label>
-            <div class="col-8">
-              <select formControlName="claimants" id="claimants" name="claimants" class="custom-select">
-                <option>Seç:</option>
-                <option *ngFor="let claimant of claimants">{{ claimant.claimant_name + " " + claimant.claimant_surname
-                  }}</option>
-                <!-- <option value="GM B">GM B</option>
-                <option value="GM C">GM C</option> -->
-              </select>
-            </div>
-          </div>
           <div class="form-group row">
-            <label class="col-4">Önem Derecesi</label>
+            <label for="form-weekly-time-spent" class="col-4 col-form-label">Talep Sahibi</label>
             <div class="col-8">
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="matter" name="matter" id="matter_0" type="radio" class="custom-control-input"
-                  value="1">
-                <label for="matter_0" class="custom-control-label">Çok Düşük</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="matter" name="matter" id="matter_1" type="radio" class="custom-control-input"
-                  value="2">
-                <label for="matter_1" class="custom-control-label">Düşük</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="matter" formControlName="matter" name="matter" id="matter_2" type="radio"
-                  class="custom-control-input" value="3">
-                <label for="matter_2" class="custom-control-label">Normal</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="matter" name="matter" id="matter_3" type="radio" class="custom-control-input"
-                  value="4">
-                <label for="matter_3" class="custom-control-label">Yüksek</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="matter" name="matter" id="matter_4" type="radio" class="custom-control-input"
-                  value="5">
-                <label for="matter_4" class="custom-control-label">Çok Yüksek</label>
-              </div>
-              <span id="matterHelpBlock" class="form-text text-muted">Yaptığınız işin ne kadar önemli olduğu</span>
+              <input formControlName="claimants" id="claimants" name="claimants" type="text" class="form-control">
             </div>
           </div>
-          <div class="form-group row">
-            <label class="col-4">İş Durumu / Status</label>
-            <div class="col-8">
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="status" name="status" id="status_0" type="radio" class="custom-control-input"
-                  value="kapandı">
-                <label for="status_0" class="custom-control-label">Kapandı</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="status" name="status" id="status_1" type="radio" class="custom-control-input"
-                  value="devam ediyor">
-                <label for="status_1" class="custom-control-label">Devam Ediyor</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="status" name="status" id="status_2" type="radio" class="custom-control-input"
-                  value="iptal edildi">
-                <label for="status_2" class="custom-control-label">İptal Edildi</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="status" name="status" id="status_3" type="radio" class="custom-control-input"
-                  value="bekliyor">
-                <label for="status_3" class="custom-control-label">Bekliyor</label>
+            <div class="form-group row ">
+              <label for="" class="col-4 col-form-label">Önem Derecesi</label>
+              <div class="col-8">
+                <select formControlName="claimants" id="claimants" name="claimants" class="custom-select">
+                  <option value="1">Çok Düşük</option>
+                  <option value="2">Düşük</option>
+                  <option value="3">Normal</option>
+                  <option value="4">Yüksek</option>
+                  <option value="5">Çok Yüksek</option>
+                </select>
               </div>
             </div>
-          </div>
+            <div class="form-group row ">
+              <label for="" class="col-4 col-form-label">İş Durumu</label>
+              <div class="col-8">
+                <select formControlName="claimants" id="claimants" name="claimants" class="custom-select">
+                  <option value="Devam Ediyor">Devam Ediyor</option>
+                  <option value="Bitti">Bitti</option>
+                  <option value="Kapandı">Kapandı</option>
+                  <option value="İptal Edildi">İptal Edildi</option>
+                </select>
+              </div>
+            </div>
         </td>
         <td class="bg-light">
 
-          <div class="alert  row">
+          <div class="row ml-2">
             <input class="col-md-6" formControlName="start_date" matInput [matDatepicker]="picker1">
             <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker1"></mat-datepicker-toggle>
             <p class="col-md-12 ">Başlangıç Tarihi</p>
             <mat-datepicker #picker1></mat-datepicker>
           </div>
           <!-- -->
-          <div class="alert  row">
+          <div class="row ml-2">
             <input class="col-md-6" formControlName="scheduled_completion_date" matInput [matDatepicker]="picker2">
             <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker2"></mat-datepicker-toggle>
             <p class="col-md-12 ">Planlanmış Bitirme Tarihi</p>
             <mat-datepicker #picker2></mat-datepicker>
           </div>
           <!-- -->
-          <div class="alert  row">
+          <div class="row ml-2">
             <input class="col-md-6" formControlName="finish_date" matInput [matDatepicker]="picker3">
             <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker3"></mat-datepicker-toggle>
             <p class="col-md-12 ">Bitirme Tarihi</p>
@@ -109,44 +70,36 @@
         </td>
         <td class="bg-light">
           <div class="form-group row">
-            <label for="form-weekly-time-spent" class="col-4 col-form-label">Haftalık Harcanan Süre</label>
-            <div class="col-8">
-              <input formControlName="weekly_time_spent" id="form-time-spent" name="form-time-spent" type="text"
+             <div class="col-md-12">
+              <input formControlName="weekly_time_spent" id="form-time-spent" placeholder="Haftalık Harcanan Süre" name="form-time-spent" type="text"
                 class="form-control">
             </div>
           </div>
           <!-- -->
-          <div class="form-group row">
-            <label class="col-6">Süre Aşımı / Time Out Var Mı ?</label>
-            <div class="col-6">
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="is_timeout" name="is_timeout" id="timeout_0" type="radio" class="custom-control-input"
-                  value="var">
-                <label for="timeout_0" class="custom-control-label">Var</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input formControlName="is_timeout" name="is_timeout" id="timeout_1" type="radio" class="custom-control-input"
-                  value="yok">
-                <label for="timeout_1" class="custom-control-label">Yok</label>
-              </div>
+          <div class="form-group row ">
+            <div class="col-md-5">
+              <select formControlName="matter" id="matter" name="matter" class="custom-select">
+                <option value="Var">Var</option>
+                <option value="Yok">Yok</option>
+              </select>
             </div>
+            <label for="" class="col-md-7 col-form-label">Süre Aşımı Var Mı</label>
           </div>
+          <div class="form-group row">
+            <div class="col-md-12">
+             <textarea formControlName="comments" placeholder="Yorumlar / Öneriler" id="comments" name="comments" cols="40" rows="3"
+               class="form-control"></textarea>
+           </div>
+         </div>
         </td>
         <td class="bg-light">
           <div class="form-group row">
-            <label for="textarea" class="col-4 col-form-label">Yapılan İşler / Aksiyonlar</label>
-            <div class="col-8">
-              <textarea formControlName="actions" id="actions" name="actions" cols="40" rows="5"
+            <div class="col-12">
+              <textarea formControlName="actions" placeholder="Yapılan İşler / Aksiyonlar" id="actions" name="actions" cols="40" rows="8"
                 class="form-control"></textarea>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="comments" class="col-4 col-form-label">Yorumlar / Öneriler</label>
-            <div class="col-8">
-              <textarea formControlName="comments" id="comments" name="comments" cols="40" rows="3"
-                class="form-control"></textarea>
-            </div>
-          </div>
+         
         </td>
       </tr>
     </tbody>
@@ -158,125 +111,3 @@
     </div>
   </div>
 </form>
-
-<!-- <div class="form">
-  <div class="form-group row">
-    <label class="col-4">Önem Derecesi</label>
-    <div class="col-8">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="matter" id="matter_0" type="radio" 
-          class="custom-control-input" value="1">
-        <label for="matter_0" class="custom-control-label">Çok Düşük</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="matter" id="matter_1" type="radio" 
-          class="custom-control-input" value="2">
-        <label for="matter_1" class="custom-control-label">Düşük</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="matter" id="matter_2" type="radio" checked="checked"
-           class="custom-control-input" value="3">
-        <label for="matter_2" class="custom-control-label">Normal</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="matter" id="matter_3" type="radio" 
-          class="custom-control-input" value="4">
-        <label for="matter_3" class="custom-control-label">Yüksek</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="matter" id="matter_4" type="radio" 
-          class="custom-control-input" value="5">
-        <label for="matter_4" class="custom-control-label">Çok Yüksek</label>
-      </div>
-      <span id="matterHelpBlock" class="form-text text-muted">Yaptığınız işin ne kadar önemli olduğu</span>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="start_date" class="col-4 col-form-label">Başlangıç Tarihi</label>
-    <div class="col-8">
-      <input id="start_date" name="start_date" type="text" class="form-control">
-    </div>
-  </div>  
-  <div class="form-group row">
-    <label for="finish_date" class="col-4 col-form-label">Bitiş Tarihi</label>
-    <div class="col-8">
-      <input id="finish_date" name="finish_date" type="text" class="form-control">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="textarea" class="col-4 col-form-label">Yapılan İşler / Aksiyonlar</label>
-    <div class="col-8">
-      <textarea id="actions" name="actions" cols="40" rows="5" class="form-control"></textarea>
-    </div>
-  </div>
-
-
-  <div class="form-group row">
-    <label for="" class="col-4 col-form-label">Talep Sahibi</label>
-    <div class="col-8">
-      <select id="form-claimant" name="form-claimant" class="custom-select">
-        <option value="gm_a">GM A</option>
-        <option value="gm_b">GM B</option>
-        <option value="gm_c">GM C</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="text" class="col-4 col-form-label">Planlanmış Bitirme Tarihi</label>
-    <div class="col-8">
-      <input id="form-scheculed-compleation-date" name="form-scheculed-compleation-date" type="scheculed"
-        class="form-control">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label class="col-4">Süre Aşımı / Time Out Var Mı ?</label>
-    <div class="col-8">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="timeout" id="timeout_0" type="radio" class="custom-control-input" value="form_yes">
-        <label for="timeout_0" class="custom-control-label">Var</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="timeout" id="timeout_1" type="radio" class="custom-control-input" value="form_no">
-        <label for="timeout_1" class="custom-control-label">Yok</label>
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="form-weekly-time-spent" class="col-4 col-form-label">Haftalık Harcanan Süre</label>
-    <div class="col-8">
-      <input id="form-time-spent" name="form-time-spent" type="text" class="form-control">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label class="col-4">İş Durumu / Status</label>
-    <div class="col-8">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="status" id="status_0" type="radio" class="custom-control-input" value="closed">
-        <label for="status_0" class="custom-control-label">Closed</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="status" id="status_1" type="radio" class="custom-control-input" value="continue">
-        <label for="status_1" class="custom-control-label">Continue</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="status" id="status_2" type="radio" class="custom-control-input" value="canceled">
-        <label for="status_2" class="custom-control-label">Canceled</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input name="status" id="status_3" type="radio" class="custom-control-input" value="waiting">
-        <label for="status_3" class="custom-control-label">Waiting</label>
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="comments" class="col-4 col-form-label">Yorumlar / Öneriler</label>
-    <div class="col-8">
-      <textarea id="comments" name="comments" cols="40" rows="3" class="form-control"></textarea>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="offset-4 col-8">
-      <button name="submit" type="submit" class="btn btn-primary">Satır Ekle</button>
-    </div>
-  </div>
-</div> -->

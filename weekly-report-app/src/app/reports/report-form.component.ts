@@ -60,7 +60,6 @@ export class ReportFormComponent implements OnInit {
     console.log('😒😒😒');
     console.log(this.rowForm.value);
     this.rowForm.value.report_id = this.cookieService.get("id");
-    debugger;
     console.log("🚀 ~ file: report-form.component.ts ~ line 69 ~ ReportFormComponent ~ addRow ~ this.rowForm.value", this.rowForm.value)
 
     

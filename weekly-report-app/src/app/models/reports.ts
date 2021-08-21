@@ -6,7 +6,7 @@ export interface Report {
     worker: string;
 }
 
-// id: number,
+// id: number,t
 // week_id: number,
 // report_commit_date: Date,
 // report_date: Date

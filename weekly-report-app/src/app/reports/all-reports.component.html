@@ -17,20 +17,22 @@
   <tbody>
     <tr [class]="overColor(report.id)" (mouseover)="setCurrentCategory(report.id)"
       (mouseout)="setCurrentCategory(report.id)" *ngFor="let report of reports; let i = index">
+
       <ng-container *ngIf="report.is_report_sended; else elseTemplate">
         <th scope="row">{{i + 1}}</th>
         <td>{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
         <div class="row">
-          <button class="btn btn-dark text-xs-right" routerLink="/report-detail/{{ report.id }}">Gör</button>
-          <p>✔gönderildi</p>
+          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-2" routerLink="/report-detail/{{ report.id }}">Gör</button>
+          <p class="bg-light text-success p-2 m-2" >✔gönderildi</p>
         </div>
       </ng-container>
+
       <ng-template #elseTemplate>
         <th scope="">{{i + 1}}</th>
         <td>{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
         <div class="row">
-          <button class="btn btn-dark text-xs-right" routerLink="/report-detail/{{ report.id }}">Gör</button>
-          <p>✖gönderilmedi</p>
+          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-1" routerLink="/report-detail/{{ report.id }}">Gör</button>
+          <p class="bg-light text-danger p-2 m-1 col-md-6" for="">✖gönderilmedi</p>
         </div>
       </ng-template>
 

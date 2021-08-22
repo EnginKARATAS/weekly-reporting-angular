@@ -27,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { CookieService } from 'ngx-cookie-service';
 import { GmadminComponent } from './gmadmin/gmadmin.component';
+import { LoginGuard } from './guards/login.guard';
 
 
 
@@ -60,13 +61,14 @@ import { GmadminComponent } from './gmadmin/gmadmin.component';
       positionClass :'toast-bottom-right'
     }),
     RouterModule.forRoot([
+      { path: 'login', component: LoginComponent },
+      { path: '', component: LoginComponent },
       { path: 'report-detail', component: Page404Component },
       { path: 'gmadmin', component: GmadminComponent },
       { path: 'todo', component: TodoComponent },
-      { path: 'login', component: LoginComponent },
       { path: 'report-detail/:row_id', component: ReportDetailComponent },
       { path: 'report-form', component: ReportFormComponent },
-      { path: 'all-reports', component: AllReportsComponent },
+      { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
       { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa
       { path: '**', component: Page404Component, pathMatch: 'full' }, //404
     ]),

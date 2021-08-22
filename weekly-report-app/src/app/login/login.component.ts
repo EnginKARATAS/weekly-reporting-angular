@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
           this.cookieService.set('name', data[0].worker_name);
           this.cookieService.set('surname', data[0].worker_surname);
           this.cookieService.set('id', data[0].id);
+          this.cookieService.set('isLoggedIn', 'true');
           this.router.navigate(['/all-reports']);
         });
     }

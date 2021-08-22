@@ -6,24 +6,27 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-navi',
   templateUrl: './navi.component.html',
-  styleUrls: ['./navi.component.css']
+  styleUrls: ['./navi.component.css'],
 })
 export class NaviComponent implements OnInit {
-
-  constructor(private cookieService: CookieService,
+  isLoggedIn: string = 'false';
+  constructor(
+    private cookieService: CookieService,
     private router: Router,
-    private toast: ToastrService) { }
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
-    
+    this.isLoggedIn = this.cookieService.get('isLoggedIn');
+    console.log("🚀 ~ file: navi.component.ts ~ line 21 ~ NaviComponent ~ ngOnInit ~ this.isLoggedIn", this.isLoggedIn)
   }
 
   logout(): void {
-    this.cookieService.delete("id")
-    this.cookieService.delete("name")
-    this.cookieService.delete("surname")
-    this.toast.info("Çıkış Başarılı")
+    this.cookieService.delete('id');
+    this.cookieService.delete('name');
+    this.cookieService.delete('surname');
+    this.cookieService.delete('isLoggedIn');
+    this.toast.info('Çıkış Başarılı');
     this.router.navigate(['/login']);
   }
-
 }

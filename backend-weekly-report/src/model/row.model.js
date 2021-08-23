@@ -20,13 +20,13 @@ var Row = function (row) {
 
 Row.findByReport = function (id, result) {
   console.log(id);
-  let sql = `SELECT r.id, wee.week_name, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments
-    FROM reports r 
-    INNER JOIN workers w ON r.worker_id = w.id 
-    INNER JOIN report_row_entries s ON r.report_row_entry_id = s.id
-    INNER JOIN claimants c ON r.claimant_id = c.id
-    INNER JOIN weeks wee ON r.week_id = wee.id
-    WHERE r.id = ?;`;
+  let sql = `SELECT r.id, wee.week_name, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments, s.id
+  FROM report_row_entries s
+  INNER JOIN reports r ON s.report_id = r.id
+  INNER JOIN workers w ON r.worker_id = w.id 
+  INNER JOIN claimants c ON r.claimant_id = c.id
+  INNER JOIN weeks wee ON r.week_id = wee.id
+  WHERE r.id = ?;`;
 
   con.query(sql, id, (err, row, fields) => {
     console.log("error: ", err);
@@ -99,7 +99,7 @@ Row.create = function (newRow, result) {
   // var yyyy = today.getFullYear();
   // today = mm + "/" + dd + "/" + yyyy;
   //-----------
-  
+
   let code = Math.floor(100000 + Math.random() * 900000);
   let data = [
     code,
@@ -115,7 +115,7 @@ Row.create = function (newRow, result) {
     newRow.claimants,
     newRow.report_id,
   ];
-  console.log("🚀 ~ file: row.model.js ~ line 118 ~ data", data)
+  console.log("🚀 ~ file: row.model.js ~ line 118 ~ data", data);
 
   let sql = `INSERT INTO report_row_entries
  (code, matter, start_date, finish_date, is_timeout, scheduled_completion_date, weekly_time_spent, status, comments, actions, claimants, report_id) VALUES 

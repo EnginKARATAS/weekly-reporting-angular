@@ -5,8 +5,7 @@ const Row = require("../model/row.model");
 
 exports.findByReport = function (req, res) {
   const id = req.params.id;
-  console.log(id);
-  console.log("id");
+ 
   if (!id) {
     // 400 = bad request
     return res.status(400).send("The required path variable id is missing");

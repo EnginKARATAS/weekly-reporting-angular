@@ -66,7 +66,7 @@ import { LoginGuard } from './guards/login.guard';
       { path: 'report-detail', component: Page404Component },
       { path: 'gmadmin', component: GmadminComponent },
       { path: 'todo', component: TodoComponent },
-      { path: 'report-detail/:row_id', component: ReportDetailComponent },
+      { path: 'report-detail/:report_id', component: ReportDetailComponent },
       { path: 'report-form', component: ReportFormComponent },
       { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
       { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa

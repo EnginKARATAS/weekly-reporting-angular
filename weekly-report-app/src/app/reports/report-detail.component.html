@@ -43,3 +43,115 @@
     </tr>
   </tbody>
 </table>
+
+<form [formGroup]="rowForm">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th class="col-md-2">Talep Durumu</th>
+        <th class="col-md-3">Talep Tarihleri</th>
+        <th class="col-md-3">Talep Süresi</th>
+        <th class="col-md-4">Talep Detay</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td class="bg-light">
+          <div class="form-group row">
+            <label for="form-weekly-time-spent" class="col-4 col-form-label">Talep Sahibi</label>
+            <div class="col-8">
+              <input formControlName="claimants" id="claimants" name="claimants" type="text" class="form-control">
+            </div>
+          </div>
+            <div class="form-group row ">
+              <label for="" class="col-4 col-form-label">Önem Derecesi</label>
+              <div class="col-8">
+                <select formControlName="matter" id="matter" name="matter" class="custom-select">
+                  <option value="1">Çok Düşük</option>
+                  <option value="2">Düşük</option>
+                  <option value="3">Normal</option>
+                  <option value="4">Yüksek</option>
+                  <option value="5">Çok Yüksek</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row ">
+              <label for="" class="col-4 col-form-label">İş Durumu</label>
+              <div class="col-8">
+                <select formControlName="status" id="status" name="status" class="custom-select">
+                  <option value="Devam Ediyor">Devam Ediyor</option>
+                  <option value="Bitti">Bitti</option>
+                  <option value="Kapandı">Kapandı</option>
+                  <option value="İptal Edildi">İptal Edildi</option>
+                </select>
+              </div>
+            </div>
+        </td>
+        <td class="bg-light">
+
+          <div class="row ml-2">
+            <input class="col-md-6" formControlName="start_date" matInput [matDatepicker]="picker1">
+            <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <p class="col-md-12 ">Başlangıç Tarihi</p>
+            <mat-datepicker #picker1></mat-datepicker>
+          </div>
+          <!-- -->
+          <div class="row ml-2">
+            <input class="col-md-6" formControlName="scheduled_completion_date" matInput [matDatepicker]="picker2">
+            <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <p class="col-md-12 ">Planlanmış Bitirme Tarihi</p>
+            <mat-datepicker #picker2></mat-datepicker>
+          </div>
+          <!-- -->
+          <div class="row ml-2">
+            <input class="col-md-6" formControlName="finish_date" matInput [matDatepicker]="picker3">
+            <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <p class="col-md-12 ">Bitirme Tarihi</p>
+            <mat-datepicker #picker3></mat-datepicker>
+          </div>
+          <!-- -->
+        </td>
+        <td class="bg-light">
+          <div class="form-group row">
+             <div class="col-md-12">
+              <input formControlName="weekly_time_spent" id="form-time-spent" placeholder="Haftalık Harcanan Süre" name="form-time-spent" type="text"
+                class="form-control">
+            </div>
+          </div>
+          <!-- -->
+          <div class="form-group row ">
+            <div class="col-md-5">
+              <select formControlName="is_timeout" id="is_timeout" name="is_timeout" class="custom-select">
+                <option value="Var">Var</option>
+                <option value="Yok">Yok</option>
+              </select>
+            </div>
+            <label for="" class="col-md-7 col-form-label">Süre Aşımı Var Mı</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12">
+             <textarea formControlName="comments" placeholder="Yorumlar / Öneriler" id="comments" name="comments" cols="40" rows="3"
+               class="form-control"></textarea>
+           </div>
+         </div>
+        </td>
+        <td class="bg-light">
+          <div class="form-group row">
+            <div class="col-12">
+              <textarea formControlName="actions" placeholder="Yapılan İşler / Aksiyonlar" id="actions" name="actions" cols="40" rows="8"
+                class="form-control"></textarea>
+            </div>
+          </div>
+         
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+  <div class="form-group row float-right">
+    <div class="offset-4 col-8">
+      <button (click)="addRow()" name="submit" type="submit" class="btn btn-primary">Satır Ekle</button>
+    </div>
+  </div>
+</form>

@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NaviComponent implements OnInit {
   isLoggedIn: string = 'false';
+  gmisLoggedIn: string;
   constructor(
     private cookieService: CookieService,
     private router: Router,
@@ -18,6 +19,11 @@ export class NaviComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.cookieService.get('isLoggedIn');
+    this.gmisLoggedIn = this.cookieService.get('isLoggedIn');
+    
+    if (this.isLoggedIn && this.gmisLoggedIn) { 
+      this.cookieService.deleteAll();
+    }
     console.log("🚀 ~ file: navi.component.ts ~ line 21 ~ NaviComponent ~ ngOnInit ~ this.isLoggedIn", this.isLoggedIn)
   }
 

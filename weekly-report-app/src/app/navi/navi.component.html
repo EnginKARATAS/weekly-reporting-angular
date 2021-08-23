@@ -13,8 +13,11 @@
         <li class="nav-item">
           <a class="nav-link active" routerLink="/all-reports">Tüm Raporlar</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="gmisLoggedIn" class="nav-item">
           <a class="nav-link active" routerLink="/report-form">Haftalık Raporu Düzenle</a>
+        </li>
+        <li *ngIf="!gmisLoggedIn" class="nav-item">
+          <a class="nav-link active" routerLink="/report-form">Yeni Çalışan Ekle</a>
         </li>
 
         <li class="nav-item">

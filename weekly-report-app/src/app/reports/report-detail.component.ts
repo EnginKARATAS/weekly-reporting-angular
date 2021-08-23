@@ -15,10 +15,10 @@ import { RowService } from '../services/row.service';
   styleUrls: ['./report-detail.component.css'],
 })
 export class ReportDetailComponent implements OnInit {
-
   rows: Row[] = [];
   reportId: number;
-
+  reportSendStatus: boolean = true;
+  gmLoginStatus: boolean = false;
   constructor(
     private reportService: ReportService,
     private rowService: RowService,
@@ -35,19 +35,41 @@ export class ReportDetailComponent implements OnInit {
       if (params['report_id']) {
         this.getRows(params['report_id']);
         this.reportId = params['report_id'];
-        console.log("🚀 ~ file: report-detail.component.ts ~ line 36 ~ ReportDetailComponent ~ this.activatedRoute.params.subscribe ~ params['report_id']", params['report_id'])
-        //this.//raporlama tarihi, kişi ad soyad. tanıdık geldi mi ? hayır : D
       }
     });
-
     this.createRowForm();
-    // this.getClaimants();
+    this.checkReportSended();
+    
+  }
+
+  checkGmLogin() {
+    if (this.cookieService.get("gmisLoggedIn").includes("true")) {
+      this.gmLoginStatus = true;
+    }
+    else this.gmLoginStatus = false;
+ 
+  }
+  checkReportSended(): void {
+    this.reportService.sendingStatus(this.reportId).subscribe((data) => {
+      this.reportSendStatus = data[0].is_report_sended;
+    });
+  }
+
+  sendWorkerWeeklyReport(): void {
+    this.reportService.sendReport(this.reportId).subscribe((data) => {
+      this.reportSendStatus = data[0].is_report_sended;
+      debugger;
+      console.log(
+        '🚀 ~ file: report-detail.component.ts ~ line 54 ~ ReportDetailComponent ~ this.reportService.sendReport ~ this.reportSendStatus',
+        this.reportSendStatus
+      );
+    });
+    window.location.reload();
   }
 
   getRows(report_id: any) {
     this.rowService.get(report_id).subscribe((response) => {
       this.rows = response;
-      console.log(response);
     });
   }
 
@@ -79,16 +101,10 @@ export class ReportDetailComponent implements OnInit {
 
   addRow(): void {
     this.toastrService.info('Satır başarılı bir şekilde eklendi');
-    console.log('😒😒😒');
-    console.log(this.rowForm.value);
+
     this.rowForm.value.report_id = this.reportId;
 
-    this.rowService.addRow(this.rowForm.value).subscribe((data) => {
-      console.log(
-        '🚀 ~ file: report-form.component.ts ~ line 62 ~ ReportFormComponent ~ this.rowService.addRow ~ data',
-        data
-      );
-    });
+    this.rowService.addRow(this.rowForm.value).subscribe((data) => {});
 
     // if (this.rowForm.valid) {
     //   console.log("valid")

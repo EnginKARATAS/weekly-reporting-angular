@@ -1,9 +1,9 @@
-<body class="text-center">
-    <main class="form-signin">
-        <form [formGroup]="loginForm">
+<body class="text-center d-flex justify-content-center">
+    <main class="form-signin col-md-4">
+        <form [formGroup]="gmloginForm">
             <img class="mb-4" src="../../assets/images/logo.png" alt="" width="175" height="175">
             <br>
-            <p class="rounded-right p-1 bg-light text-left d-inline">Çalışan</p>
+            <p class="rounded-right p-1 bg-light text-left d-inline">Yönetici</p>
             <h1 class="h3 mb-3 fw-normal">Giriş Yap</h1>
 
             <div class="form-floating">
@@ -21,8 +21,8 @@
                     <input type="checkbox" value="remember-me "> Beni hatırla
                 </label>
             </div>
-            <a routerLink="/gmlogin" class="float-right"> yönetici girişi</a>
-            <button class="w-100 btn btn-lg btn-primary" (click)="login()" >Giriş Yap</button>
+            <a routerLink="/login" class="float-right"> kullanıcı girişi</a>
+            <button class="w-100 btn btn-lg btn-primary" (click)="gmlogin()" >Giriş Yap</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2021 DVU</p>
         </form>
     </main>

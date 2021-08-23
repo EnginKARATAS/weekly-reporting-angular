@@ -64,7 +64,62 @@ app.get("/api/claimants", (req, res) => {
   });
 });
 
+app.get("/api/reports/isreportsended/:id", (req, res) => {
+  let id = req.params.id;
+  console.log("**********************");
+  let sql = "SELECT is_report_sended from reports where id = ?";
+
+  con.query(sql, id, (err, row, fields) => {
+    console.log("error: ", err);
+    if (err) result(err, null);
+
+    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
+    res.send(row);
+  });
+});
+
+app.get("/api/sendreport/:id", function (request, response) {
+  let report_id = request.params.id ;
+  console.log("🚀 ~ file: app.js ~ line 83 ~ report_id", report_id)
+  if (report_id > 0) {
+    let sql = `UPDATE reports
+    SET is_report_sended = 1
+    WHERE id = ?; `;
+    con.query(sql, report_id, function (error, results, fields) {
+      if (report_id) {
+        response.send(results);
+      } else {
+        response.send("Güncelleme başarısız");
+      }
+      response.end();
+    });
+  } else {
+    response.send("Güncellenecek id hatalı");
+    response.end();
+  }
+});
+
 app.post("/auth", function (request, response) {
+  var username = request.body.username;
+  var password = request.body.password;
+  if (username && password) {
+    let sql =
+      "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password=?";
+    con.query(sql, [username, password], function (error, results, fields) {
+      if (results.length > 0) {
+        response.send(results);
+      } else {
+        response.send("Incorrect Username and/or Password!");
+      }
+      response.end();
+    });
+  } else {
+    response.send("Please enter Username and Password!");
+    response.end();
+  }
+});
+
+app.post("/gmauth", function (request, response) {
   console.log(
     "🚀 ~ file: app.js ~ line 58 ~ request.session.test2",
     request.session.test2
@@ -74,7 +129,7 @@ app.post("/auth", function (request, response) {
   var password = request.body.password;
   if (username && password) {
     let sql =
-      "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password=?";
+      "SELECT username, claimant_name, claimant_surname, id FROM claimants where username = ? AND password=?";
     con.query(sql, [username, password], function (error, results, fields) {
       if (results.length > 0) {
         response.send(results);

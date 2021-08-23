@@ -9,6 +9,8 @@ import { Report } from '../models/reports';
 })
 export class ReportService {
 baseUrl: string = 'http://localhost:4000/api/reports';
+secondUrl: string = 'http://localhost:4000/api/reports/isreportsended'
+thirdUrl: string = 'http://localhost:4000/api/sendreport'
 constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
@@ -18,9 +20,18 @@ constructor(private http: HttpClient) { }
   get(id): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
+  sendingStatus(id): Observable<any> {
+    return this.http.get(`${this.secondUrl}/${id}`);
+  }
+
 
   create(data): Observable<any> {
     return this.http.post(this.baseUrl, data);
+  }
+
+  sendReport(id): Observable<any> {//if report with id is exist. set is_report_sended = true 
+    return this.http.get(`${this.thirdUrl}/${id}`);
+    debugger;
   }
 
   update(id, data): Observable<any> {

@@ -28,6 +28,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { GmadminComponent } from './gmadmin/gmadmin.component';
 import { LoginGuard } from './guards/login.guard';
+import { AppRoutingModule } from './app-routing.module';
+import { GmloginComponent } from './login/gmlogin.component';
+import { AddNewWorkerComponent } from './add-new-worker/add-new-worker.component';
 
 
 
@@ -45,13 +48,14 @@ import { LoginGuard } from './guards/login.guard';
     EditWeeklyReportComponent,
     ReportFormComponent,
     GmadminComponent,
+    GmloginComponent,
+    AddNewWorkerComponent,
   ],
   exports: [
     MatNativeDateModule,
   ],
   imports: [
     BrowserAnimationsModule, 
-
     HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,MatDatepickerModule,
@@ -60,18 +64,7 @@ import { LoginGuard } from './guards/login.guard';
     ToastrModule.forRoot({
       positionClass :'toast-bottom-right'
     }),
-    RouterModule.forRoot([
-      { path: 'login', component: LoginComponent },
-      { path: '', component: LoginComponent },
-      { path: 'report-detail', component: Page404Component },
-      { path: 'gmadmin', component: GmadminComponent },
-      { path: 'todo', component: TodoComponent },
-      { path: 'report-detail/:report_id', component: ReportDetailComponent },
-      { path: 'report-form', component: ReportFormComponent },
-      { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
-      { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa
-      { path: '**', component: Page404Component, pathMatch: 'full' }, //404
-    ]),
+    AppRoutingModule,
     BrowserAnimationsModule,
   ],
   providers: [CookieService],

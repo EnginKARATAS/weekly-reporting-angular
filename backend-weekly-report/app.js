@@ -8,6 +8,7 @@ app.use(cors());
 var server = require("http").Server(app);
 var port = process.env.PORT || 4000;
 var con = require("./config/db");
+var mailer = require("./src/mailSender/sender");
 
 app.use(
   session({
@@ -51,51 +52,28 @@ const validatePayloadMiddleware = (req, res, next) => {
   }
 };
 
-app.get("/api/claimants", (req, res) => {
-  console.log("**********************");
-  let sql = "SELECT claimant_name, claimant_surname FROM claimants";
+app.post("/api/workers", function (req, res) {
+  let worker_name = req.body.worker_name;
+  let worker_surname = req.body.worker_surname;
+  let worker_email = req.body.worker_email;
+  let job_title = req.body.job_title;
+  let username = req.body.username;
 
-  con.query(sql, (err, row, fields) => {
-    console.log("error: ", err);
-    if (err) result(err, null);
+  let subject = "Katana Reporting Kaydı!";
+  let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
+    <br>Kullanıcı adı: ${username} <br>şire: <a>belirlemek için bu linke tıklayınız</a>`;
 
-    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
-    res.send(row);
-  });
-});
-
-app.get("/api/reports/isreportsended/:id", (req, res) => {
-  let id = req.params.id;
-  console.log("**********************");
-  let sql = "SELECT is_report_sended from reports where id = ?";
-
-  con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
-    if (err) result(err, null);
-
-    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
-    res.send(row);
-  });
-});
-
-app.get("/api/sendreport/:id", function (request, response) {
-  let report_id = request.params.id ;
-  console.log("🚀 ~ file: app.js ~ line 83 ~ report_id", report_id)
-  if (report_id > 0) {
-    let sql = `UPDATE reports
-    SET is_report_sended = 1
-    WHERE id = ?; `;
-    con.query(sql, report_id, function (error, results, fields) {
-      if (report_id) {
-        response.send(results);
-      } else {
-        response.send("Güncelleme başarısız");
-      }
-      response.end();
+  let data = [worker_name, worker_surname, job_title, worker_email, username];
+  if (true) {
+    let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username) VALUES (?, ? , ?, ?, ?)`;
+    con.query(sql, data, function (error, results, fields) {
+      res.send(results);
+      mailer.sendMailToWorker(subject, html, worker_email);
+      res.end();
     });
   } else {
-    response.send("Güncellenecek id hatalı");
-    response.end();
+    res.send("girdiler geçersizdir.");
+    res.end();
   }
 });
 
@@ -144,6 +122,54 @@ app.post("/gmauth", function (request, response) {
   }
 });
 
+app.get("/api/claimants", (req, res) => {
+  console.log("**********************");
+  let sql = "SELECT claimant_name, claimant_surname FROM claimants";
+
+  con.query(sql, (err, row, fields) => {
+    console.log("error: ", err);
+    if (err) result(err, null);
+
+    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
+    res.send(row);
+  });
+});
+
+app.get("/api/reports/isreportsended/:id", (req, res) => {
+  let id = req.params.id;
+  console.log("**********************");
+  let sql = "SELECT is_report_sended from reports where id = ?";
+
+  con.query(sql, id, (err, row, fields) => {
+    console.log("error: ", err);
+    if (err) result(err, null);
+
+    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
+    res.send(row);
+  });
+});
+
+app.get("/api/sendreport/:id", function (request, response) {
+  let report_id = request.params.id;
+  console.log("🚀 ~ file: app.js ~ line 83 ~ report_id", report_id);
+  if (report_id > 0) {
+    let sql = `UPDATE reports
+    SET is_report_sended = 1
+    WHERE id = ?; `;
+    con.query(sql, report_id, function (error, results, fields) {
+      if (report_id) {
+        response.send(results);
+      } else {
+        response.send("Güncelleme başarısız");
+      }
+      response.end();
+    });
+  } else {
+    response.send("Güncellenecek id hatalı");
+    response.end();
+  }
+});
+
 app.get("/sec", (req, res) => {
   console.log(
     "🚀 ~ file: app.js ~ line 85 ~ app.get ~ req.session.test2",
@@ -152,6 +178,7 @@ app.get("/sec", (req, res) => {
   req.session.test2++;
   res.send("sec " + req.session.test2);
 });
+
 app.get("/first", (req, res) => {
   req.session.test2 = 1;
   res.send("req.session.test2  " + req.session.test2);

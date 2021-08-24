@@ -4,50 +4,46 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
+import { WorkerService } from '../services/worker.service';
 
 @Component({
   selector: 'app-add-new-worker',
   templateUrl: './add-new-worker.component.html',
-  styleUrls: ['./add-new-worker.component.css']
+  styleUrls: ['./add-new-worker.component.css'],
 })
 export class AddNewWorkerComponent implements OnInit {
   id: number;
 
-  loginForm: FormGroup;
+  addWorkerForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private cookieService: CookieService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private workerService: WorkerService
   ) {}
 
   ngOnInit(): void {
-    this.createLoginForm();
+    this.createWorkerForm();
     // this.id = this.cookieService.get('Test');
   }
 
-  createLoginForm() {
-    this.loginForm = this.formBuilder.group({
+  createWorkerForm() {
+    this.addWorkerForm = this.formBuilder.group({
+      worker_name: ['', Validators.required],
+      worker_surname: ['', Validators.required],
+      worker_email: ['', Validators.required],
+      job_title: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required],
     });
   }
 
-  login(): void {
-    if (this.loginForm.valid) {
-    this.toastrService.success("Başarıyla Giriş Yapıldı")
-
-      this.authService
-        .login(this.loginForm.value.username, this.loginForm.value.password)
-        .subscribe((data) => {
-          console.log(data);
-          this.cookieService.set('name', data[0].worker_name);
-          this.cookieService.set('surname', data[0].worker_surname);
-          this.cookieService.set('id', data[0].id);
-          this.cookieService.set('isLoggedIn', 'true');
-          this.router.navigate(['/all-reports']);
-        });
-    }
+  addNewWorker(): void {
+    console.log(this.addWorkerForm.value);
+    this.workerService.addWorker(this.addWorkerForm.value).subscribe(data => {
+      this.toastrService.success("Kullanıcı kaydı başarıyla eklendi. Kullanıcıya şifre belirlemesi için mail gönderildi");
+    });
+    
   }
 }

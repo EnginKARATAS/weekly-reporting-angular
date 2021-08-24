@@ -11,10 +11,12 @@ import { LoginGuard } from './guards/login.guard';
 import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
 import { GmloginComponent } from './login/gmlogin.component';
+import { AddNewWorkerComponent } from './add-new-worker/add-new-worker.component';
 
 const routes = ([
   { path: 'login', component: LoginComponent },
   { path: 'gmlogin', component: GmloginComponent },
+  { path: 'add-worker', component: AddNewWorkerComponent },
   { path: '', component: LoginComponent },
   { path: 'report-detail', component: Page404Component },
   { path: 'gmadmin', component: GmadminComponent },

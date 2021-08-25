@@ -12,11 +12,14 @@ import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
 import { GmloginComponent } from './login/gmlogin.component';
 import { AddNewWorkerComponent } from './add-new-worker/add-new-worker.component';
+import { SetPasswordComponent } from './set-password/set-password.component';
+import { SetPasswordGuard } from './guards/set-password.guard';
 
 const routes = ([
   { path: 'login', component: LoginComponent },
   { path: 'gmlogin', component: GmloginComponent },
   { path: 'add-worker', component: AddNewWorkerComponent },
+  { path: 'set-password/:token', component: SetPasswordComponent, canActivate:[SetPasswordGuard] },
   { path: '', component: LoginComponent },
   { path: 'report-detail', component: Page404Component },
   { path: 'gmadmin', component: GmadminComponent },

@@ -31,6 +31,7 @@ import { LoginGuard } from './guards/login.guard';
 import { AppRoutingModule } from './app-routing.module';
 import { GmloginComponent } from './login/gmlogin.component';
 import { AddNewWorkerComponent } from './add-new-worker/add-new-worker.component';
+import { SetPasswordComponent } from './set-password/set-password.component';
 
 
 
@@ -50,6 +51,7 @@ import { AddNewWorkerComponent } from './add-new-worker/add-new-worker.component
     GmadminComponent,
     GmloginComponent,
     AddNewWorkerComponent,
+    SetPasswordComponent,
   ],
   exports: [
     MatNativeDateModule,

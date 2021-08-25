@@ -1,14 +1,17 @@
-var mysql = require("mysql");
-var express = require("express");
-var session = require("express-session");
-var bodyParser = require("body-parser");
-var cors = require("cors");
-var app = express();
+const mysql = require("mysql");
+const express = require("express");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const app = express();
 app.use(cors());
-var server = require("http").Server(app);
-var port = process.env.PORT || 4000;
-var con = require("./config/db");
-var mailer = require("./src/mailSender/sender");
+const server = require("http").Server(app);
+const port = process.env.PORT || 4000;
+const con = require("./config/db");
+const mailer = require("./src/mailSender/sender");
+const crypto = require("crypto");
+
+let host = "req.headers.host";
 
 app.use(
   session({
@@ -52,29 +55,79 @@ const validatePayloadMiddleware = (req, res, next) => {
   }
 };
 
-app.post("/api/workers", function (req, res) {
-  let worker_name = req.body.worker_name;
-  let worker_surname = req.body.worker_surname;
-  let worker_email = req.body.worker_email;
-  let job_title = req.body.job_title;
-  let username = req.body.username;
+app.put("/setpassword", (req, res) => {
+  console.log("**********************");
+  console.log(req.body)
+  let token = req.body.token;
+  let password = req.body.password;
+  console.log("🚀 ~ file: app.js ~ line 63 ~ app.post ~ password", password)
 
-  let subject = "Katana Reporting Kaydı!";
-  let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    <br>Kullanıcı adı: ${username} <br>şire: <a>belirlemek için bu linke tıklayınız</a>`;
-
-  let data = [worker_name, worker_surname, job_title, worker_email, username];
+  let datenow = Date();
+  data = [password, token, datenow];
+  // token.length == 254
   if (true) {
-    let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username) VALUES (?, ? , ?, ?, ?)`;
-    con.query(sql, data, function (error, results, fields) {
-      res.send(results);
-      mailer.sendMailToWorker(subject, html, worker_email);
-      res.end();
+    let sql = `UPDATE workers SET password = ? WHERE token = ? AND ? < token_expire `;
+    con.query(sql, data, (err, rows, fields) => {
+      if (err) {
+        res.send(err);
+      }
+      res.sendStatus(200).send();
     });
-  } else {
-    res.send("girdiler geçersizdir.");
-    res.end();
   }
+  else res.send("no")
+});
+
+//create a worker via GM
+app.post("/api/workers", function (req, res) {
+  crypto.randomBytes(127, (err, buf) => {
+    if (err) {
+      // Prints error
+      console.log(err);
+      return;
+    }
+    // Prints random bytes of generated data
+    console.log("The random data is: " + buf.toString("hex"));
+
+    let worker_name = req.body.worker_name;
+    let worker_surname = req.body.worker_surname;
+    let worker_email = req.body.worker_email;
+    let job_title = req.body.job_title;
+    let username = req.body.username;
+    let token = buf.toString("hex");
+
+    let date = new Date();
+    date.setHours(date.getHours() + 3);
+    let token_expire = date;
+    console.log(
+      "🚀 ~ file: app.js ~ line 84 ~ crypto.randomBytes ~ token_expire",
+      date
+    );
+
+    let subject = "Katana Reporting Kaydı!";
+    let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
+    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost:4200/set-password/${token}">tıklayınız</a>`;
+    // ${req.headers.host}
+    let data = [
+      worker_name,
+      worker_surname,
+      job_title,
+      worker_email,
+      username,
+      token,
+      token_expire,
+    ];
+    if (true) {
+      let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username, token, token_expire) VALUES (?, ? , ?, ?, ?, ?, ?)`;
+      con.query(sql, data, function (error, results, fields) {
+        res.send(results);
+        mailer.sendMailToWorker(subject, html, worker_email);
+        res.end();
+      });
+    } else {
+      res.send("girdiler geçersizdir.");
+      res.end();
+    }
+  });
 });
 
 app.post("/auth", function (request, response) {
@@ -123,7 +176,6 @@ app.post("/gmauth", function (request, response) {
 });
 
 app.get("/api/claimants", (req, res) => {
-  console.log("**********************");
   let sql = "SELECT claimant_name, claimant_surname FROM claimants";
 
   con.query(sql, (err, row, fields) => {

@@ -15,17 +15,17 @@ var mailOptions = {
   html: ``,
 };
 
-function sendMailToWorker(workerEmail, subject, html) {
-  mailOptions.to = workerEmail;
+function sendMailToWorker(workerMail, subject, html ) {
+  console.log("🚀 ~ file: sender.js ~ line 19 ~ sendMailToWorker ~ workerMail, subject, html", workerMail, subject, html)
+  mailOptions.to = workerMail;
   mailOptions.subject = subject;
   mailOptions.html = html;
 
   transporter.sendMail(mailOptions, function (error, info) {
-    console.log("🚀 ~ file: sender.js ~ line 25 ~ mailOptions", mailOptions)
     if (error) {
-      console.log("🚀 ~ file: sender.js ~ line 27 ~ error", error)
+      console.log(error);
     } else {
-      console.log("🚀 ~ file: sender.js ~ line 31 ~ info.response email gönderildi", info.response)
+      console.log("Email sent: " + info.response);
     }
   });
 }

@@ -29,7 +29,7 @@ export class NaviComponent implements OnInit {
 
   addReport() {
     const is_report_sended = false;
-    const week_id = parseInt(prompt('Hafta Numarası girin')) ;
+    const week_id = parseInt(prompt('Hafta Numarası giriniz')) ;
     const worker_id = this.worker_id;
     const claimant_id = 1;
     const report_commit_date = Date();
@@ -43,8 +43,14 @@ export class NaviComponent implements OnInit {
       report_commit_date: report_commit_date,
       report_edit_date: report_edit_date
     };
-
-    this.reportService.create(report).subscribe((data) => {});
+    if (confirm(`${week_id}. hafta raporunuz oluşturulacak onaylıyor musunuz`)) {
+      this.reportService.create(report).subscribe((data) => {
+        console.log("🚀 ~ file: navi.component.ts ~ line 48 ~ NaviComponent ~ this.reportService.create ~ data", data)
+      });
+    }
+      
+    
+    
   }
 
   logout(): void {

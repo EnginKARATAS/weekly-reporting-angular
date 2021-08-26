@@ -21,7 +21,12 @@
                     <input type="checkbox" value="remember-me "> Beni hatırla
                 </label>
             </div>
-            <a routerLink="/login" class="float-right"> kullanıcı girişi</a>
+            <div class="row">
+                <a routerLink="/reset-password" class="offset-4 d-flex justify-content-center"> şifremi unuttum</a>
+            </div>
+            <div class="row">
+                <a routerLink="/login" class="offset-4 d-flex justify-content-center"> kullanıcı girişi</a>
+            </div>
             <button class="w-100 btn btn-lg btn-primary" (click)="gmlogin()" >Giriş Yap</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2021 DVU</p>
         </form>

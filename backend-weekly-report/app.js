@@ -151,7 +151,7 @@ app.post("/api/workers", function (req, res) {
       let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username, token, token_expire) VALUES (?, ? , ?, ?, ?, ?, ?)`;
       con.query(sql, data, function (error, results, fields) {
         res.send(results);
-        mailer.sendMailToWorker(subject, html, worker_email);
+        mailer.sendMailToWorker(worker_email, subject, html );
         res.end();
       });
     } else {

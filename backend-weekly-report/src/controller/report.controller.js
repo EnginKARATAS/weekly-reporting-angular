@@ -24,9 +24,9 @@ exports.findById = function (req, res) {
 };
 
 exports.findByWorkerId = function (req, res) {
-  console.log("findByWorkerId")
+  console.log("findByWorkerId");
   const id = req.params.id;
-  console.log("🚀 ~ file: report.controller.js ~ line 29 ~ id", id)
+  console.log("🚀 ~ file: report.controller.js ~ line 29 ~ id", id);
   if (!id) {
     // 400 = bad request
     return res.status(400).send("The required path variable id is missing");
@@ -43,10 +43,9 @@ exports.findByWorkerId = function (req, res) {
   });
 };
 
-
 exports.findAll = function (req, res) {
   Report.findAll(function (err, reports) {
-    if(req.session.page_views){
+    if (req.session.page_views) {
       req.session.page_views++;
     } else {
       req.session.page_views = 1;
@@ -60,29 +59,30 @@ exports.findAll = function (req, res) {
 };
 
 exports.create = function (req, res) {
-  const newItem = new Report(req.body);
-  console.log(newItem);
-  // 400 = bad request
+  console.log("🚀 ~ file: report.controller.js ~ line 62 ~ req", req.body);
 
+  const newReport = new Report(req.body);
+
+  // 400 = bad request
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     return res.status(400).send("One or more required fields are missing");
   }
-  if (
-    !newItem.code ||
-    !newItem.worker_id ||
-    !newItem.claimant_id ||
-    !newItem.report_row_entry_id ||
-    !newItem.report_commit_date ||
-    !newItem.report_edit_date
-  ) {
+  if (!newReport.week_id || !newReport.worker_id) {
     return res.status(400).send("One or more required fields are missing");
   } else {
-    Report.create(newItem, function (err, report_id) {
-      console.log("err: ", err);
-      //if (err === Object) res.status(500).send('Report already exist with name ' + err.item_name);
+    Report.create(newReport, function (err, fields) {
+      if (newReport.week_id > 0) {
+        console.log(
+          "🚀 ~ file: report.controller.js ~ line 76 ~ Report.create ~ newReport.week_id",
+          newReport.week_id
+        );
+        res.status(400).send("id yanılş");
+      }
 
-      if (err || report_id <= 0)
-        return res.status(500).send("Error occured during saving report");
+      if (err === Object)
+        res.status(500).send("Item already exist with name " + err.item_name);
+
+      if (err) return res.status(500).send("Error occured during saving item");
 
       return res.sendStatus(200);
     });

@@ -3,15 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Report } from '../models/reports';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReportService {
-baseUrl: string = 'http://localhost:4000/api/reports';
-secondUrl: string = 'http://localhost:4000/api/reports/isreportsended'
-thirdUrl: string = 'http://localhost:4000/api/sendreport'
-constructor(private http: HttpClient) { }
+  baseUrl: string = 'http://localhost:4000/api/reports';
+  secondUrl: string = 'http://localhost:4000/api/reports/isreportsended';
+  thirdUrl: string = 'http://localhost:4000/api/sendreport';
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {
     return this.http.get<Report>(this.baseUrl);
@@ -24,14 +23,13 @@ constructor(private http: HttpClient) { }
     return this.http.get(`${this.secondUrl}/${id}`);
   }
 
-
   create(data): Observable<any> {
     return this.http.post(this.baseUrl, data);
   }
 
-  sendReport(id): Observable<any> {//if report with id is exist. set is_report_sended = true 
+  sendReport(id): Observable<any> {
+    //if report with id is exist. set is_report_sended = true
     return this.http.get(`${this.thirdUrl}/${id}`);
-    debugger;
   }
 
   update(id, data): Observable<any> {
@@ -49,5 +47,4 @@ constructor(private http: HttpClient) { }
   // findByCode(code): Observable<any> {
   //   return this.http.get(`${this.baseUrl}?code=${code}`);
   // }
- 
 }

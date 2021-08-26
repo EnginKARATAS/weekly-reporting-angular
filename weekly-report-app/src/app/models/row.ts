@@ -1,6 +1,7 @@
 export interface Row{
     report_id: number,
     week_name: string,
+    week_id: number,
     code: number,
     matter: string,
     start_date: Date,

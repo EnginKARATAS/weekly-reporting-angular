@@ -17,9 +17,9 @@ var Auth = function (report) {
 };
 
 // Define CRUD Operations Functions
-Auth.login = function ({username,password, request}, result) {
-  
-  let sql = "SELECT username, password, id FROM workers where username = ? AND password=?";
+Auth.login = function ({ username, password, request }, result) {
+  let sql =
+    "SELECT username, password, id FROM workers where username = ? AND password=?";
 
   con.query(sql, [username, password], (err, row, fields) => {
     console.log("error: ", err);
@@ -29,38 +29,30 @@ Auth.login = function ({username,password, request}, result) {
     request.session.username = username;
     request.session.id = id;
 
-    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row)
     result(null, row);
   });
 };
 
 Auth.findById = function (id, result) {
-  console.log("🚀 ~ file: report.model.js ~ line 35 ~ id", id);
   let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
   weeks w ON r.week_id = w.id INNER JOIN 
   workers wo ON r.worker_id = wo.id`;
-
-  console.log("içerdeyim");
-  console.log(id);
 
   con.query(sql, id, (err, row, fields) => {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row);
     result(null, row);
   });
 };
 
 Auth.findByCategoryId = function (id, result) {
-  console.log("içerdeyim");
   let sql = "SELECT * FROM reports WHERE id = ?";
 
   con.query(sql, id, (err, row, fields) => {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row);
     result(null, row);
   });
 };
@@ -86,15 +78,11 @@ Auth.findAll = function (result) {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(rows);
     result(null, rows);
   });
 };
 
 Auth.create = function (newItem, result) {
-  console.log("gelen create istenen data");
-  console.log(newItem);
-
   let code = Math.floor(100000 + Math.random() * 900000);
   //-----------
   // var today = new Date();
@@ -121,7 +109,6 @@ Auth.create = function (newItem, result) {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row.insertId);
     result(null, row.insertId);
   });
 };
@@ -136,14 +123,11 @@ Auth.update = function (report, result) {
     report.report_edit_date,
     report.id,
   ];
-  console.log(data);
   let sql = `UPDATE reports SET code = ?, worker_id = ?, claimant_id = ?, report_row_entry_id = ?, report_commit_date = ?, report_edit_date = ? WHERE id = ?`;
-  console.log(sql);
   con.query(sql, data, (err, row, fields) => {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row.affectedRows);
     result(null, row.affectedRows);
   });
 };
@@ -155,7 +139,6 @@ Auth.delete = function (id, result) {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row.affectedRows);
     result(null, row.affectedRows);
   });
 };

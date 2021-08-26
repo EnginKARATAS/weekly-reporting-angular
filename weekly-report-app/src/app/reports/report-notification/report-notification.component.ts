@@ -20,7 +20,6 @@ export class ReportNotificationComponent implements OnInit {
   getir(): void {
     const output = document.getElementById('test');
     if (output) {
-      console.log('hello dayı');
       let d = new Date();
 
       let thisDay = d.getDay(); //salı

@@ -55,12 +55,24 @@ const validatePayloadMiddleware = (req, res, next) => {
   }
 };
 
+app.post("/sendmailtogm", (req, res) => {
+  let mailSended = mailer.sendMailToGeneralManager(
+    req.body.general_manager_email,
+    req.body.subject,
+    req.body.html
+  );
+  if (mailSended) {
+    res.status(200).send("email general manager epostasına gönderildi");
+    res.end();
+  } else {
+    res.status(400).send("email gönderilirken hata oluştu");
+    res.end();
+  }
+});
+
 app.put("/setpassword", (req, res) => {
-  console.log("**********************");
-  console.log(req.body)
   let token = req.body.token;
   let password = req.body.password;
-  console.log("🚀 ~ file: app.js ~ line 63 ~ app.post ~ password", password)
 
   let datenow = Date();
   data = [password, token, datenow];
@@ -73,8 +85,7 @@ app.put("/setpassword", (req, res) => {
       }
       res.sendStatus(200).send();
     });
-  }
-  else res.send("no")
+  } else res.send("no");
 });
 
 //create a worker via GM
@@ -82,11 +93,9 @@ app.post("/api/workers", function (req, res) {
   crypto.randomBytes(127, (err, buf) => {
     if (err) {
       // Prints error
-      console.log(err);
       return;
     }
     // Prints random bytes of generated data
-    console.log("The random data is: " + buf.toString("hex"));
 
     let worker_name = req.body.worker_name;
     let worker_surname = req.body.worker_surname;
@@ -98,10 +107,6 @@ app.post("/api/workers", function (req, res) {
     let date = new Date();
     date.setHours(date.getHours() + 3);
     let token_expire = date;
-    console.log(
-      "🚀 ~ file: app.js ~ line 84 ~ crypto.randomBytes ~ token_expire",
-      date
-    );
 
     let subject = "Katana Reporting Kaydı!";
     let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
@@ -151,10 +156,6 @@ app.post("/auth", function (request, response) {
 });
 
 app.post("/gmauth", function (request, response) {
-  console.log(
-    "🚀 ~ file: app.js ~ line 58 ~ request.session.test2",
-    request.session.test2
-  );
   request.session.test = "asdsadsa";
   var username = request.body.username;
   var password = request.body.password;
@@ -203,11 +204,8 @@ app.get("/api/reports/isreportsended/:id", (req, res) => {
 
 app.get("/api/sendreport/:id", function (request, response) {
   let report_id = request.params.id;
-  console.log("🚀 ~ file: app.js ~ line 83 ~ report_id", report_id);
   if (report_id > 0) {
-    let sql = `UPDATE reports
-    SET is_report_sended = 1
-    WHERE id = ?; `;
+    let sql = `UPDATE reports SET is_report_sended = 1 WHERE id = ?; `;
     con.query(sql, report_id, function (error, results, fields) {
       if (report_id) {
         response.send(results);

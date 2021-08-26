@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Claimants } from '../models/claimants';
 import { Row } from '../models/row';
 import { ClaimantService } from '../services/claimant.service';
+import { MailService } from '../services/mail.service';
 import { ReportService } from '../services/report.service';
 import { RowService } from '../services/row.service';
 
@@ -19,6 +20,7 @@ export class ReportDetailComponent implements OnInit {
   reportId: number;
   reportSendStatus: boolean = true;
   gmLoginStatus: boolean = false;
+  week_id: number;
   constructor(
     private reportService: ReportService,
     private rowService: RowService,
@@ -27,7 +29,8 @@ export class ReportDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private claimantService: ClaimantService,
     private cookieService: CookieService,
-    private router: Router
+    private router: Router,
+    private mailService: MailService
   ) {}
 
   ngOnInit(): void {
@@ -57,15 +60,62 @@ export class ReportDetailComponent implements OnInit {
     this.reportService.sendReport(this.reportId).subscribe((data) => {
       this.reportSendStatus = data[0].is_report_sended;
     });
-    window.location.reload();
-    this.toastrService.success("Rapor başarıyla gönderildi.")
+    this.sendMailToGm();
+
+    // window.location.reload();
+    this.toastrService.success('Rapor başarıyla gönderildi.');
+    this.router.navigate(['/all-reports']);
   }
+
+  sendMailToGm() {
+    let general_manager_email = 'enginkaratas99@gmail.com';
+    let worker_name = this.cookieService.get('name') + this.cookieService.get('surname');
+    let week_id = (this.week_id)? this.week_id:"yapılan işler eklenmeden gönderildi. "
+    let subject = `<${week_id}>.Hafta<${worker_name}>`;
+    let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>
+    ${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
+
+    let mailPacket = {
+      general_manager_email: general_manager_email,
+      subject: subject,
+      html: html,
+    };
+    this.mailService.sentToGm(mailPacket).subscribe((data) => {
+      console.log(data);
+      console.log(
+        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',
+        data
+      );
+    });
+  }
+
+  sendMailToWorker() {
+    let worker_email = 'enginkaratas99@gmail.com';
+    let worker_name = this.cookieService.get('name') + this.cookieService.get('surname');
+    let week_id = (this.week_id)? this.week_id:"yapılan işler eklenmeden gönderildi. "
+    let subject = `<${week_id}>.Hafta<${worker_name}>`;
+    let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>
+    ${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
+
+    let mailPacket = {
+      worker_email: worker_email,
+      subject: subject,
+      html: html,
+    };
+    this.mailService.sentToGm(mailPacket).subscribe((data) => {
+      console.log(data);
+      console.log(
+        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',
+        data
+      );
+    });
+  }
+
 
   getRows(report_id: any) {
     this.rowService.get(report_id).subscribe((response) => {
-      console.log("🚀 ~ file: report-detail.component.ts ~ line 65 ~ ReportDetailComponent ~ this.rowService.get ~ response", response)
-       
-      this.rows = response;
+      this.rows = response; //sadece rowları değil yanında week idyi de getirir
+      this.week_id = response[0].week_id;
     });
   }
 
@@ -107,5 +157,12 @@ export class ReportDetailComponent implements OnInit {
     // }
 
     window.location.reload();
+  }
+
+  revisionRequest(rowId: number) {
+    console.log(
+      '🚀 ~ file: report-detail.component.ts ~ line 113 ~ ReportDetailComponent ~ revisionRequest ~ rowId',
+      rowId
+    );
   }
 }

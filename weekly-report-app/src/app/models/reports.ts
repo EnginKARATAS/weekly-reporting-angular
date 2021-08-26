@@ -3,6 +3,7 @@ export interface Report {
     report_id: number;
     is_report_sended: boolean;
     week_name: string;
+    week_id: number;
     worker: string;
 }
 

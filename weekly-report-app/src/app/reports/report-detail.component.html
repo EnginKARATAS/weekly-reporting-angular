@@ -1,6 +1,6 @@
 <div class="row alert alert-info">
   <div class="col-md-7">
-    <h5>{{rows[0]?.week_name}} Haftalık Faaliyet Raporu</h5>
+    <h5>{{'<'+rows[0]?.week_id+'. Hafta>'}}, Haftalık Faaliyet Raporu</h5>
   </div>
   <div class="col-md-4  text-center pt-3">
     <!-- <h5>Kişi: {{rows[0].worker_name + " " + rows[0].worker_surname}} </h5> -->
@@ -27,8 +27,12 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of rows; let i = index">
-      <th scope="row"><button *ngIf="gmLoginStatus" id="codeButton" class="btn btn-outline-dark btn-sm"
-          routerLink="/gmeditrequest/"> {{i + 1}}: revizyon iste</button></th>
+      <th scope="row">
+        <button *ngIf="gmLoginStatus" (click)="revisionRequest(row.code)" id="codeButton"
+          class="btn btn-outline-dark btn-sm"> {{i + 1}}:
+          revizyon iste
+        </button>
+      </th>
       <td>{{row.code}}</td>
       <!-- <td>{{row.code | vatAdded: 10 | currency:'₺'}}</td> -->
       <td>{{row.matter}}</td>

@@ -29,6 +29,21 @@ function sendMailToWorker(subject, html, workerMail) {
   });
 }
 
+function sendMailToGeneralManager(generalManagerMail, subject, html, ) {
+  mailOptions.to = generalManagerMail;
+  mailOptions.subject = subject;
+  mailOptions.html = html;
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+      return false;
+    } else {
+      return true
+    }
+  });
+}
+
 // transporter.sendMail(mailOptions, function (error, info) {
 //   if (error) {
 //     console.log(error);
@@ -38,5 +53,6 @@ function sendMailToWorker(subject, html, workerMail) {
 // });
 
 module.exports = {transporter,
-    sendMailToWorker
+    sendMailToWorker,
+    sendMailToGeneralManager
 };

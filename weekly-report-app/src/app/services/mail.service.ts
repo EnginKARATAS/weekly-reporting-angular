@@ -7,12 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class MailService {
   baseUrl: string = 'http://localhost:4000/sendmailtogm';
+  secondUrl: string = 'http://localhost:4000/sendmailtoworker';
   constructor(private http: HttpClient) {}
 
   sentToGm(data): Observable<any> {
-    return this.http.post(this.baseUrl,data);
+    return this.http.post(this.baseUrl, data);
   }
   sentToWorker(data): Observable<any> {
-    return this.http.post(this.baseUrl,data);
+    return this.http.post(this.secondUrl, data);
   }
 }

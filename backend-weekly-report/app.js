@@ -55,12 +55,38 @@ const validatePayloadMiddleware = (req, res, next) => {
   }
 };
 
+app.get('/api/workers/getbycode/:code', (req,res) => {
+  let code = req.params.code;
+  sql = `SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
+         reports ro ON w.id = ro.worker_id INNER JOIN
+         report_row_entries rre ON rre.report_id = ro.id
+         WHERE code = ?
+  `
+  con.query(sql,code,(err,result) => {
+    if (err) {
+      res.send(err)
+    }
+    res.send(result);
+  })
+})
+
 app.post("/sendmailtogm", (req, res) => {
   let mailSended = mailer.sendMailToGeneralManager(
     req.body.general_manager_email,
     req.body.subject,
     req.body.html
   );
+  if (mailSended) {
+    res.status(200).send("email general manager epostasına gönderildi");
+    res.end();
+  } else {
+    res.status(400).send("email gönderilirken hata oluştu");
+    res.end();
+  }
+});
+app.post("/sendmailtoworker", (req, res) => {
+  
+  let mailSended = mailer.sendMailToWorker(req.body.worker_email, req.body.subject, req.body.html);
   if (mailSended) {
     res.status(200).send("email general manager epostasına gönderildi");
     res.end();
@@ -206,6 +232,25 @@ app.get("/api/sendreport/:id", function (request, response) {
   let report_id = request.params.id;
   if (report_id > 0) {
     let sql = `UPDATE reports SET is_report_sended = 1 WHERE id = ?; `;
+    con.query(sql, report_id, function (error, results, fields) {
+      if (report_id) {
+        response.send(results);
+      } else {
+        response.send("Güncelleme başarısız");
+      }
+      response.end();
+    });
+  } else {
+    response.send("Güncellenecek id hatalı");
+    response.end();
+  }
+});
+
+app.get("/api/sendbackreport/:id", function (request, response) {
+  let report_id = request.params.id;
+  console.log("🚀 ~ file: app.js ~ line 252 ~ report_id", report_id)
+  if (report_id > 0) {
+    let sql = `UPDATE reports SET is_report_sended = 0 WHERE id = ?; `;
     con.query(sql, report_id, function (error, results, fields) {
       if (report_id) {
         response.send(results);

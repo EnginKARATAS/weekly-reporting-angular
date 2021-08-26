@@ -15,21 +15,22 @@ var mailOptions = {
   html: ``,
 };
 
-function sendMailToWorker(subject, html, workerMail) {
-  mailOptions.to = workerMail;
+function sendMailToWorker(workerEmail, subject, html) {
+  mailOptions.to = workerEmail;
   mailOptions.subject = subject;
   mailOptions.html = html;
 
   transporter.sendMail(mailOptions, function (error, info) {
+    console.log("🚀 ~ file: sender.js ~ line 25 ~ mailOptions", mailOptions)
     if (error) {
-      console.log(error);
+      console.log("🚀 ~ file: sender.js ~ line 27 ~ error", error)
     } else {
-      console.log("Email sent: " + info.response);
+      console.log("🚀 ~ file: sender.js ~ line 31 ~ info.response email gönderildi", info.response)
     }
   });
 }
 
-function sendMailToGeneralManager(generalManagerMail, subject, html, ) {
+function sendMailToGeneralManager(generalManagerMail, subject, html ) {
   mailOptions.to = generalManagerMail;
   mailOptions.subject = subject;
   mailOptions.html = html;

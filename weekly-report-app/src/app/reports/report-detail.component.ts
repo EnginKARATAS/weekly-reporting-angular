@@ -9,6 +9,7 @@ import { ClaimantService } from '../services/claimant.service';
 import { MailService } from '../services/mail.service';
 import { ReportService } from '../services/report.service';
 import { RowService } from '../services/row.service';
+import { WorkerService } from '../services/worker.service';
 
 @Component({
   selector: 'app-report-detail',
@@ -21,6 +22,11 @@ export class ReportDetailComponent implements OnInit {
   reportSendStatus: boolean = true;
   gmLoginStatus: boolean = false;
   week_id: number;
+  worker_name: string = ".";
+  worker_surname: string = ".";
+  worker_email: string = ".";
+
+
   constructor(
     private reportService: ReportService,
     private rowService: RowService,
@@ -30,7 +36,8 @@ export class ReportDetailComponent implements OnInit {
     private claimantService: ClaimantService,
     private cookieService: CookieService,
     private router: Router,
-    private mailService: MailService
+    private mailService: MailService,
+    private workerService: WorkerService
   ) {}
 
   ngOnInit(): void {
@@ -69,8 +76,11 @@ export class ReportDetailComponent implements OnInit {
 
   sendMailToGm() {
     let general_manager_email = 'enginkaratas99@gmail.com';
-    let worker_name = this.cookieService.get('name') + this.cookieService.get('surname');
-    let week_id = (this.week_id)? this.week_id:"yapılan işler eklenmeden gönderildi. "
+    let worker_name =
+      this.cookieService.get('name') + this.cookieService.get('surname');
+    let week_id = this.week_id
+      ? this.week_id
+      : 'yapılan işler eklenmeden gönderildi. ';
     let subject = `<${week_id}>.Hafta<${worker_name}>`;
     let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>
     ${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
@@ -91,8 +101,11 @@ export class ReportDetailComponent implements OnInit {
 
   sendMailToWorker() {
     let worker_email = 'enginkaratas99@gmail.com';
-    let worker_name = this.cookieService.get('name') + this.cookieService.get('surname');
-    let week_id = (this.week_id)? this.week_id:"yapılan işler eklenmeden gönderildi. "
+    let worker_name =
+      this.cookieService.get('name') + this.cookieService.get('surname');
+    let week_id = this.week_id
+      ? this.week_id
+      : 'yapılan işler eklenmeden gönderildi. ';
     let subject = `<${week_id}>.Hafta<${worker_name}>`;
     let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>
     ${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
@@ -111,6 +124,14 @@ export class ReportDetailComponent implements OnInit {
     });
   }
 
+  sendMailToWorker2(mailPacket) {
+ 
+    this.mailService.sentToWorker(mailPacket).subscribe((data) => {
+      console.log(data);
+      console.log(
+        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',data);
+    });
+  }
 
   getRows(report_id: any) {
     this.rowService.get(report_id).subscribe((response) => {
@@ -159,10 +180,27 @@ export class ReportDetailComponent implements OnInit {
     window.location.reload();
   }
 
-  revisionRequest(rowId: number) {
-    console.log(
-      '🚀 ~ file: report-detail.component.ts ~ line 113 ~ ReportDetailComponent ~ revisionRequest ~ rowId',
-      rowId
-    );
+  revisionRequest(code: number) {
+    if (confirm('Kullanıcıdan raporun ' + code +' kodlu satırını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!')) {
+      this.workerService.getWorkerWithCode(code).subscribe((data) => {
+        this.reportService.sendBackReport(this.reportId).subscribe((data) => {
+          console.log("🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data", data)
+          this.toastrService.info(`${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`)
+        })
+        this.worker_name = data[0].worker_name;
+        this.worker_surname = data[0].worker_surname;
+        this.worker_email = data[0].worker_email;
+        let mailPacket = {
+          worker_email: this.worker_email,
+          subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
+          html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b> `
+        };
+        this.sendMailToWorker2(mailPacket);
+        this.toastrService.success('kullanıcıya e posta gönderildi');
+      });
+    }
+    else {
+      this.toastrService.info('mail gönderimi iptal edilmiştir');
+    }
   }
 }

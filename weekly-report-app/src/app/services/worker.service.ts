@@ -14,6 +14,10 @@ export class WorkerService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
+  getWorkerWithCode(code: number): Observable<any>{
+    return this.http.get(`${this.baseUrl}/getbycode/${code}`)
+  }
+
   addWorker(data): Observable<any> {
     return this.http.post(this.baseUrl, data);
   }

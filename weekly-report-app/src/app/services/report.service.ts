@@ -10,6 +10,7 @@ export class ReportService {
   baseUrl: string = 'http://localhost:4000/api/reports';
   secondUrl: string = 'http://localhost:4000/api/reports/isreportsended';
   thirdUrl: string = 'http://localhost:4000/api/sendreport';
+  fourthUrl: string = 'http://localhost:4000/api/sendbackreport';
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {
@@ -30,6 +31,10 @@ export class ReportService {
   sendReport(id): Observable<any> {
     //if report with id is exist. set is_report_sended = true
     return this.http.get(`${this.thirdUrl}/${id}`);
+  }
+  sendBackReport(id): Observable<any> {
+    //if report with id is exist. set is_report_sended = true
+    return this.http.get(`${this.fourthUrl}/${id}`);
   }
 
   update(id, data): Observable<any> {

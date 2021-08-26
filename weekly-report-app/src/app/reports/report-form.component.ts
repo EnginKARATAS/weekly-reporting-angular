@@ -19,7 +19,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class ReportFormComponent implements OnInit {
   claimants: Claimants[] = [];
 
-  rowForm: FormGroup;
+  reportForm: FormGroup;
 
   constructor(
     private toastrService: ToastrService,
@@ -30,7 +30,7 @@ export class ReportFormComponent implements OnInit {
   ) {}
 
   createRowForm() {
-    this.rowForm = this.formBuilder.group({
+    this.reportForm = this.formBuilder.group({
       report_id: ['', Validators.required],
       matter: ['', Validators.required],
       status: ['', Validators.required],
@@ -58,13 +58,13 @@ export class ReportFormComponent implements OnInit {
   addRow(): void {
     this.toastrService.info('Satır başarılı bir şekilde eklendi');
     console.log('😒😒😒');
-    console.log(this.rowForm.value);
-    this.rowForm.value.report_id = this.cookieService.get("id");
-    console.log("🚀 ~ file: report-form.component.ts ~ line 69 ~ ReportFormComponent ~ addRow ~ this.rowForm.value", this.rowForm.value)
+    console.log(this.reportForm.value);
+    this.reportForm.value.report_id = this.cookieService.get("id");
+    console.log("🚀 ~ file: report-form.component.ts ~ line 69 ~ ReportFormComponent ~ addRow ~ this.rowForm.value", this.reportForm.value)
 
     
     this.rowService
-      .addRow(this.rowForm.value)
+      .addRow(this.reportForm.value)
       .subscribe((data) => {
         console.log(
           '🚀 ~ file: report-form.component.ts ~ line 62 ~ ReportFormComponent ~ this.rowService.addRow ~ data',

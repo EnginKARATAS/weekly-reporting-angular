@@ -37,18 +37,15 @@ export class ReportDetailComponent implements OnInit {
         this.reportId = params['report_id'];
       }
     });
-    this.checkGmLogin()
+    this.checkGmLogin();
     this.createRowForm();
     this.checkReportSended();
-    
   }
 
   checkGmLogin() {
-    if (this.cookieService.get("gmisLoggedIn").includes("true")) {
+    if (this.cookieService.get('gmisLoggedIn').includes('true')) {
       this.gmLoginStatus = true;
-    }
-    else this.gmLoginStatus = false;
- 
+    } else this.gmLoginStatus = false;
   }
   checkReportSended(): void {
     this.reportService.sendingStatus(this.reportId).subscribe((data) => {
@@ -59,17 +56,15 @@ export class ReportDetailComponent implements OnInit {
   sendWorkerWeeklyReport(): void {
     this.reportService.sendReport(this.reportId).subscribe((data) => {
       this.reportSendStatus = data[0].is_report_sended;
-      debugger;
-      console.log(
-        '🚀 ~ file: report-detail.component.ts ~ line 54 ~ ReportDetailComponent ~ this.reportService.sendReport ~ this.reportSendStatus',
-        this.reportSendStatus
-      );
     });
     window.location.reload();
+    this.toastrService.success("Rapor başarıyla gönderildi.")
   }
 
   getRows(report_id: any) {
     this.rowService.get(report_id).subscribe((response) => {
+      console.log("🚀 ~ file: report-detail.component.ts ~ line 65 ~ ReportDetailComponent ~ this.rowService.get ~ response", response)
+       
       this.rows = response;
     });
   }

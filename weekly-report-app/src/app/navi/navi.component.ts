@@ -9,8 +9,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./navi.component.css'],
 })
 export class NaviComponent implements OnInit {
-  isLoggedIn: boolean ;
-  gmisLoggedIn: boolean ;
+  isLoggedIn: boolean;
+  gmisLoggedIn: boolean;
   constructor(
     private cookieService: CookieService,
     private router: Router,
@@ -18,20 +18,20 @@ export class NaviComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = this.cookieService.get('isLoggedIn').includes("true");
-    this.gmisLoggedIn = this.cookieService.get('isLoggedIn').includes("true");
-    
-    if (this.isLoggedIn) { 
+    this.isLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
+    this.gmisLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
+
+    if (this.isLoggedIn) {
       this.cookieService.delete('gmisLoggedIn');
     }
-    console.log("🚀 ~ file: navi.component.ts ~ line 21 ~ NaviComponent ~ ngOnInit ~ this.isLoggedIn", this.isLoggedIn)
+    console.log(
+      '🚀 ~ file: navi.component.ts ~ line 21 ~ NaviComponent ~ ngOnInit ~ this.isLoggedIn',
+      this.isLoggedIn
+    );
   }
 
   logout(): void {
-    this.cookieService.delete('id');
-    this.cookieService.delete('name');
-    this.cookieService.delete('surname');
-    this.cookieService.delete('isLoggedIn');
+    this.cookieService.deleteAll();
     this.toast.info('Çıkış Başarılı');
     this.router.navigate(['/login']);
   }

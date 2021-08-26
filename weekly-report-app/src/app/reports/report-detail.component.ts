@@ -37,14 +37,18 @@ export class ReportDetailComponent implements OnInit {
         this.reportId = params['report_id'];
       }
     });
+    this.checkGmLogin()
     this.createRowForm();
     this.checkReportSended();
+    
   }
 
   checkGmLogin() {
-    if (this.cookieService.get('gmisLoggedIn').includes('true')) {
+    if (this.cookieService.get("gmisLoggedIn").includes("true")) {
       this.gmLoginStatus = true;
-    } else this.gmLoginStatus = false;
+    }
+    else this.gmLoginStatus = false;
+ 
   }
   checkReportSended(): void {
     this.reportService.sendingStatus(this.reportId).subscribe((data) => {

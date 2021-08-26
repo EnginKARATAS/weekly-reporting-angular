@@ -23,11 +23,8 @@ export class NaviComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
-    this.gmisLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
+    this.gmisLoggedIn = this.cookieService.get('gmisLoggedIn').includes('true');
     this.worker_id = parseInt(this.cookieService.get('id'));
-    if (this.isLoggedIn) {
-      this.cookieService.delete('gmisLoggedIn');
-    }
   }
 
   addReport() {

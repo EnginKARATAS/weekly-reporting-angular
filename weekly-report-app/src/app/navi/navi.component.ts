@@ -45,7 +45,7 @@ export class NaviComponent implements OnInit {
     };
     if (confirm(`${week_id}. hafta raporunuz oluşturulacak onaylıyor musunuz`)) {
       this.reportService.create(report).subscribe((data) => {
-        console.log("🚀 ~ file: navi.component.ts ~ line 48 ~ NaviComponent ~ this.reportService.create ~ data", data)
+        window.location.reload();
       });
     }
       

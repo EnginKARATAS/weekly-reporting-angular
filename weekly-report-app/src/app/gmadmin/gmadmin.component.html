@@ -25,16 +25,18 @@
         <th scope="row">{{i + 1}}</th>
         <td>{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
         <div class="row">
-          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-2" routerLink="/report-detail/{{ report.id }}">Gör</button>
-          <p class="bg-light text-success p-2 m-2" >✔gönderildi</p>
+          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-1 pb-2" routerLink="/report-detail/{{ report.id }}">Gör</button>
+          <button class="btn btn-danger btn-sm col-md-1 mt-1 mb-1 p-1" (click)="deleteReport(report.id)">Sil</button>
+          <p class=" text-success m-1 col-md-2" >✔gönderildi</p>
         </div>
       </ng-container>
       <ng-template #elseTemplate>
         <th scope="">{{i + 1}}</th>
         <td>{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
         <div class="row">
-          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-2" routerLink="/report-detail/{{ report.id }}">Gör</button>
-          <p class="bg-light text-danger p-2 m-2 col-md-6" for="">✖gönderilmedi</p>
+          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-1 pb-2" routerLink="/report-detail/{{ report.id }}">Gör</button>
+          <button class="btn btn-danger btn-sm col-md-1 mt-1 mb-1 p-1" routerLink="/report-detail/{{ report.id }}">Sil</button>
+          <p class=" text-danger m-1 col-md-2" >✖gönderilmedi</p>
         </div>
       </ng-template>
     </tr>

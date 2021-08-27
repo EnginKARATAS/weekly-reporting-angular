@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Report } from '../models/reports';
 import { ReportResponseModel } from '../models/reportsResponseModel';
 import { ReportService } from '../services/report.service';
@@ -15,9 +17,10 @@ export class GmadminComponent implements OnInit {
   _listFilter = '';
 
   constructor(
-    private reportService: ReportService
-  ) // private cookieService: CookieService
-  {}
+    private reportService: ReportService,
+    private router: Router,
+    private toastrService: ToastrService // private cookieService: CookieService
+  ) {}
 
   // get listFilter(): string {
   //   return this._listFilter;
@@ -59,6 +62,13 @@ export class GmadminComponent implements OnInit {
     if (reportId == this.currentReportId) {
       return 'text-primary';
     } else return 'text-secondary';
+  }
+
+  deleteReport(report_id: number) {
+    this.reportService.delete(report_id).subscribe((data) => {
+      this.toastrService.success(report_id + 'Silinmiştir');
+      this.router.navigate(['/gmadmin']);
+    });
   }
 
   retrieveReports(): void {

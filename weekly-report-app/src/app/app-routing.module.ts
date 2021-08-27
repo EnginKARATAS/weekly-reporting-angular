@@ -24,7 +24,7 @@ const routes = ([
   { path: 'report-detail', component: Page404Component },
   { path: 'gmadmin', component: GmadminComponent },
   { path: 'todo', component: TodoComponent },
-  { path: 'report-detail/:report_id', component: ReportDetailComponent },
+  { path: 'report-detail/:report_id', component: ReportDetailComponent, canActivate:[LoginGuard] },
   { path: 'report-form', component: ReportFormComponent },
   { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
   { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa

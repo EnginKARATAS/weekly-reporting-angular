@@ -193,8 +193,12 @@ export class ReportDetailComponent implements OnInit {
         let mailPacket = {
           worker_email: this.worker_email,
           subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
-          html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b> `
+          html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
+          <br>
+          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a> `
         };
+        debugger
+
         this.sendMailToWorker2(mailPacket);
         this.toastrService.success('kullanıcıya e posta gönderildi');
       });

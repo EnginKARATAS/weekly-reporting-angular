@@ -42,17 +42,20 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
-    this.toastrService.success("Başarıyla Giriş Yapıldı")
-
       this.authService
         .login(this.loginForm.value.username, this.loginForm.value.password)
         .subscribe((data) => {
-          console.log(data);
-          this.cookieService.set('name', data[0].worker_name);
-          this.cookieService.set('surname', data[0].worker_surname);
-          this.cookieService.set('id', data[0].id);
-          this.cookieService.set('isLoggedIn', 'true');
-          this.router.navigate(['/all-reports']);
+          if (data) {
+            console.log(data);
+            this.cookieService.set('name', data[0].worker_name);
+            this.cookieService.set('surname', data[0].worker_surname);
+            this.cookieService.set('id', data[0].id);
+            this.cookieService.set('isLoggedIn', 'true');
+            this.router.navigate(['/all-reports']);
+            this.toastrService.success('Başarıyla Giriş Yapıldı');
+          }
+          else this.toastrService.error("Kullanıcı Adı Veya Şifre Hatalı")
+          
         });
     }
   }

@@ -71,20 +71,10 @@ exports.create = function (req, res) {
     return res.status(400).send("One or more required fields are missing");
   } else {
     Report.create(newReport, function (err, fields) {
-      if (newReport.week_id > 0) {
-        console.log(
-          "🚀 ~ file: report.controller.js ~ line 76 ~ Report.create ~ newReport.week_id",
-          newReport.week_id
-        );
-        res.status(400).send("id yanılş");
-      }
-
-      if (err === Object)
-        res.status(500).send("Item already exist with name " + err.item_name);
-
+ 
       if (err) return res.status(500).send("Error occured during saving item");
 
-      return res.sendStatus(200);
+      return res.sendStatus(200).send();
     });
   }
 };

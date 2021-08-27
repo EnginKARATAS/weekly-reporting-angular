@@ -55,6 +55,10 @@ const validatePayloadMiddleware = (req, res, next) => {
   }
 };
 
+app.delete("/deletereportbyid", (req,res)=> {
+  sql = ""
+});
+
 app.get('/api/workers/getbycode/:code', (req,res) => {
   let code = req.params.code;
   sql = `SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
@@ -167,11 +171,11 @@ app.post("/auth", function (request, response) {
   if (username && password) {
     let sql =
       "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password=?";
-    con.query(sql, [username, password], function (error, results, fields) {
+    con.query(sql, [username, password], function (err, results, fields) {
       if (results.length > 0) {
         response.send(results);
       } else {
-        response.send("Incorrect Username and/or Password!");
+        response.send(err);
       }
       response.end();
     });
@@ -188,18 +192,18 @@ app.post("/gmauth", function (request, response) {
   if (username && password) {
     let sql =
       "SELECT username, claimant_name, claimant_surname, id FROM claimants where username = ? AND password=?";
-    con.query(sql, [username, password], function (error, results, fields) {
-      if (results.length > 0) {
-        response.send(results);
-      } else {
-        response.send("Incorrect Username and/or Password!");
-      }
+      con.query(sql, [username, password], function (err, results, fields) {
+        if (results.length > 0) {
+          response.send(results);
+        } else {
+          response.send(err);
+        }
+        response.end();
+      });
+    } else {
+      response.send("Please enter Username and Password!");
       response.end();
-    });
-  } else {
-    response.send("Please enter Username and Password!");
-    response.end();
-  }
+    }
 });
 
 app.get("/api/claimants", (req, res) => {

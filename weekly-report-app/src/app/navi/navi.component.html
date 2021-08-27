@@ -12,24 +12,21 @@
         <li class="nav-item">
           <a class="nav-link active" routerLink="/all-reports">Tüm Raporlar</a>
         </li>
+
         <li *ngIf="isLoggedIn" class="nav-item">
           <a class="nav-link active" (click)="addReport()">Haftalık Rapor Ekle</a>
         </li>
+
         <li *ngIf="gmisLoggedIn" class="nav-item">
           <a class="nav-link active" routerLink="/add-worker">Yeni Çalışan Ekle</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#"></a>
-        </li>
-        <div class="float-right row">
           <li class="nav-item">
             <a class="nav-link active" routerLink="/login">Giriş Yap</a>
           </li>
           <li class="nav-item">
             <button class="btn nav-link active" (click)="logout()">Çıkış Yap</button>
           </li>
-        </div>
       </ul>
     </div>
   </div>

@@ -85,8 +85,6 @@ Report.create = function (newReport, result) {
     console.log("error: ", err);
 		if (err) result(err, null);
 		
-    console.log("🚀 ~ file: report.model.js ~ line 85 ~ con.query ~ row", row)
-		console.log(row);
 		result(null, row);
 	});
 };

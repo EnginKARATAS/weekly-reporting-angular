@@ -43,17 +43,19 @@ export class GmloginComponent implements OnInit {
 
   gmlogin(): void {
     if (this.gmloginForm.valid) {
-    this.toastrService.success("Başarıyla Giriş Yapıldı")
-
       this.authService
         .gmlogin(this.gmloginForm.value.username, this.gmloginForm.value.password)
         .subscribe((data) => {
-          console.log(data);
-          this.cookieService.set('gmname', data[0].claimant_name);
-          this.cookieService.set('gmsurname', data[0].claimnats_surname);
-          this.cookieService.set('gmid', data[0].id);
-          this.cookieService.set('gmisLoggedIn', 'true');
-          this.router.navigate(['/gmadmin']);
+          if (data) {
+            console.log(data);
+            this.cookieService.set('gmname', data[0].claimant_name);
+            this.cookieService.set('gmsurname', data[0].claimnats_surname);
+            this.cookieService.set('gmid', data[0].id);
+            this.cookieService.set('gmisLoggedIn', 'true');
+            this.router.navigate(['/gmadmin']);
+          }
+          else this.toastrService.error("Kullanıcı Adı Veya Şifre Hatalı")
+
         });
     }
   }

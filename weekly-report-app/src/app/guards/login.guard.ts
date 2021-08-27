@@ -23,7 +23,7 @@ export class LoginGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.cookieService.get('isLoggedIn')) {
+    if (this.cookieService.get('isLoggedIn') || this.cookieService.get('gmisLoggedIn')) {
       return true;
     } else {
       this.router.navigate(['login']);

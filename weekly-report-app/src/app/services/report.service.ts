@@ -11,6 +11,7 @@ export class ReportService {
   secondUrl: string = 'http://localhost:4000/api/reports/isreportsended';
   thirdUrl: string = 'http://localhost:4000/api/sendreport';
   fourthUrl: string = 'http://localhost:4000/api/sendbackreport';
+  deleteUrl: string = 'http://localhost:4000/deletereportbyid'
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {
@@ -41,8 +42,8 @@ export class ReportService {
     return this.http.put(`${this.baseUrl}/${id}`, data);
   }
 
-  delete(id): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  delete(report_id): Observable<any> {
+    return this.http.delete(`${this.deleteUrl}/${report_id}`);
   }
 
   deleteAll(): Observable<any> {

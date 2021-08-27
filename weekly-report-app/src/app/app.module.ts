@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ReportDetailComponent } from './reports/report-detail.component';
@@ -10,7 +9,6 @@ import { ReportNotificationComponent } from './reports/report-notification/repor
 import { NaviComponent } from './navi/navi.component';
 import { AllReportsComponent } from './reports/all-reports.component';
 import { HttpClientModule } from '@angular/common/http';
-import { Page404Component } from './page404/page404.component';
 import { TodoComponent } from './todo/todo.component';
 import { LoginComponent } from './login/login.component';
 import { VatAddedPipe } from './pipes/vat-added.pipe';

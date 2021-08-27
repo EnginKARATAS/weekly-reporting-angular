@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkerService } from '../services/worker.service';
 
@@ -15,7 +15,8 @@ export class SetPasswordComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private workerService: WorkerService
+    private workerService: WorkerService,
+    private router: Router
   ) {}
 
   setPasswordForm: FormGroup;
@@ -45,6 +46,7 @@ export class SetPasswordComponent implements OnInit {
       console.log(data);
       this.workerService.updatePassword(data).subscribe(data => {
         console.log(data);
+        this.router.navigate(['/login']);
       });
     }
   }

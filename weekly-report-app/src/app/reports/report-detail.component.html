@@ -1,6 +1,6 @@
 <section class="jumbotron text-center mt-4">
   <div class="container">
-    <h1 class="jumbotron-heading">{{rows[0]?.week_id}}. Hafta | Haftalık Faaliyet Raporu</h1>
+    <h1 class="jumbotron-heading">{{rows[0]?.week_id + ". Hafta"}} | Haftalık Faaliyet Raporu</h1>
     <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyiniz<br>Teşekkür ederiz.</p>
     <p>
       <button (click)="sendWorkerWeeklyReport()" class="btn btn-primary  my-2">Haftalık Raporumu Gönder</button>
@@ -53,8 +53,8 @@
 </table>
 
 <!-- && gmLoginStatus -->
-
-<div *ngIf="!reportSendStatus&&!gmLoginStatus">
+<br><br>
+<div class="mt-5" *ngIf="!reportSendStatus&&!gmLoginStatus">
   <div class="addRow">
     <p class="bg-light h4 pl-2">satır ekle</p>
     <form [formGroup]="rowForm">

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Report } from '../models/reports';
-import { ReportResponseModel } from '../models/reportsResponseModel';
-import { ReportService } from '../services/report.service';
+import { Report } from 'src/app/models/reports';
+import { ReportResponseModel } from 'src/app/models/reportsResponseModel';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-gmadmin',
@@ -15,7 +15,12 @@ export class GmadminComponent implements OnInit {
   dataLoaded: boolean = false;
   currentReportId: number = 0;
   _listFilter = '';
+  showMessage = '';
 
+  ngOnInit(): void {
+    this.retrieveReports();
+    // this.showMessage = this.cookieService.get('Test');
+  }
   constructor(
     private reportService: ReportService,
     private router: Router,
@@ -48,11 +53,7 @@ export class GmadminComponent implements OnInit {
     message: '',
     success: true,
   };
-  showMessage = '';
-  ngOnInit(): void {
-    this.retrieveReports();
-    // this.showMessage = this.cookieService.get('Test');
-  }
+ 
 
   setCurrentCategory(currentReportId: number) {
     this.currentReportId = currentReportId;

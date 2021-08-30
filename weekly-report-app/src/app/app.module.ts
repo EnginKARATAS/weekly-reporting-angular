@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { ReportDetailComponent } from './reports/report-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { ReportFormComponent } from './reports/report-form.component';
 import { ReportNotificationComponent } from './reports/report-notification/report-notification.component';
@@ -37,7 +36,6 @@ import { ReportModule } from './reports/report.module';
 @NgModule({
   declarations: [
     AppComponent,
-    ReportDetailComponent,
     WelcomeComponent,
     ReportNotificationComponent,
     NaviComponent,

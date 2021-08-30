@@ -9,11 +9,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSliderModule } from '@angular/material/slider';
 import { ToastrModule } from 'ngx-toastr';
+import { ReportDetailComponent } from './report-detail.component';
 
 
 
 @NgModule({
-  declarations: [AllReportsComponent],
+    
+  declarations: [AllReportsComponent, ReportDetailComponent, ReportDetailComponent, ],
   imports: [
     CommonModule,
     RouterModule,

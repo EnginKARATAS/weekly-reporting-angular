@@ -21,16 +21,15 @@ const routes = ([
   { path: 'add-worker', component: AddNewWorkerComponent },
   { path: 'set-password/:token', component: SetPasswordComponent, canActivate:[SetPasswordGuard] },
   { path: '', component: LoginComponent },
-  { path: 'report-detail', component: Page404Component },
   { path: 'gmadmin', component: GmadminComponent },
   { path: 'todo', component: TodoComponent },
-  { path: 'report-detail/:report_id', component: ReportDetailComponent, canActivate:[LoginGuard] },
   { path: 'report-form', component: ReportFormComponent },
   { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa
 ])
 
 const childRoutes = ([
   { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
+  { path: 'report-detail/:report_id', component: ReportDetailComponent, canActivate:[LoginGuard] },
   { path: '**', component: Page404Component, pathMatch: 'full' }, //404
 
 ])

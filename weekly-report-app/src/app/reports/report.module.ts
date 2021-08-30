@@ -10,27 +10,33 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSliderModule } from '@angular/material/slider';
 import { ToastrModule } from 'ngx-toastr';
 import { ReportDetailComponent } from './report-detaill/report-detail.component';
-
-
+import { ReportNotificationComponent } from './report-notification/report-notification.component';
+import { EditWeeklyReportComponent } from './edit-weekly-report/edit-weekly-report.component';
+import { ReportFormComponent } from './report-form.component';
 
 @NgModule({
-    
-  declarations: [AllReportsComponent, ReportDetailComponent, ],
+  declarations: [
+    AllReportsComponent,
+    ReportDetailComponent,
+    ReportFormComponent,
+    ReportNotificationComponent,
+    EditWeeklyReportComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,
 
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserModule,MatDatepickerModule,
+    BrowserModule,
+    MatDatepickerModule,
     MatSliderModule,
     FormsModule,
     ToastrModule.forRoot({
-      positionClass :'toast-bottom-right'
+      positionClass: 'toast-bottom-right',
     }),
     BrowserAnimationsModule,
-    
-  ]
+  ],
 })
-export class ReportModule { }
+export class ReportModule {}

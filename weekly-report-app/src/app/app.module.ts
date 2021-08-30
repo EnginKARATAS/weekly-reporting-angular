@@ -36,15 +36,15 @@ import { ReportModule } from './reports/report.module';
   declarations: [
     AppComponent,
     WelcomeComponent,
-    ReportNotificationComponent,
+
     NaviComponent,
     TodoComponent,
     LoginComponent,
     VatAddedPipe,
-    EditWeeklyReportComponent,
-    ReportFormComponent,
+
     GmadminComponent,
     GmloginComponent,
+
     AddNewWorkerComponent,
     SetPasswordComponent,
   ],

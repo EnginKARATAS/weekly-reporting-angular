@@ -26,9 +26,13 @@ const routes = ([
   { path: 'todo', component: TodoComponent },
   { path: 'report-detail/:report_id', component: ReportDetailComponent, canActivate:[LoginGuard] },
   { path: 'report-form', component: ReportFormComponent },
-  { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
   { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa
+])
+
+const childRoutes = ([
+  { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
   { path: '**', component: Page404Component, pathMatch: 'full' }, //404
+
 ])
 
 
@@ -37,7 +41,8 @@ const routes = ([
   ],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    RouterModule.forChild(childRoutes)
   ],
   exports: [RouterModule]
 

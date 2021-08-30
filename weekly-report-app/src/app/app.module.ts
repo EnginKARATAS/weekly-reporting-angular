@@ -30,6 +30,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { GmloginComponent } from './login/gmlogin.component';
 import { AddNewWorkerComponent } from './add-new-worker/add-new-worker.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
+import { ReportModule } from './reports/report.module';
 
 
 
@@ -38,7 +39,6 @@ import { SetPasswordComponent } from './set-password/set-password.component';
     AppComponent,
     ReportDetailComponent,
     WelcomeComponent,
-    AllReportsComponent,
     ReportNotificationComponent,
     NaviComponent,
     TodoComponent,
@@ -64,8 +64,9 @@ import { SetPasswordComponent } from './set-password/set-password.component';
     ToastrModule.forRoot({
       positionClass :'toast-bottom-right'
     }),
-    AppRoutingModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
+    ReportModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

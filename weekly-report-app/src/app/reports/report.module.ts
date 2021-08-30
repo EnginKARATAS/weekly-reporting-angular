@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AllReportsComponent } from './all-reports.component';
+import { AllReportsComponent } from './all-reports/all-reports.component';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -9,13 +9,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSliderModule } from '@angular/material/slider';
 import { ToastrModule } from 'ngx-toastr';
-import { ReportDetailComponent } from './report-detail.component';
+import { ReportDetailComponent } from './report-detaill/report-detail.component';
 
 
 
 @NgModule({
     
-  declarations: [AllReportsComponent, ReportDetailComponent, ReportDetailComponent, ],
+  declarations: [AllReportsComponent, ReportDetailComponent, ],
   imports: [
     CommonModule,
     RouterModule,

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Report } from '../models/reports';
-import { ReportResponseModel } from '../models/reportsResponseModel';
-import { ReportService } from '../services/report.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Report } from 'src/app/models/reports';
+import { ReportResponseModel } from 'src/app/models/reportsResponseModel';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-all-reports',

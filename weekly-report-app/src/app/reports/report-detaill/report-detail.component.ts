@@ -3,13 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
-import { Claimants } from '../models/claimants';
-import { Row } from '../models/row';
-import { ClaimantService } from '../services/claimant.service';
-import { MailService } from '../services/mail.service';
-import { ReportService } from '../services/report.service';
-import { RowService } from '../services/row.service';
-import { WorkerService } from '../services/worker.service';
+import { Row } from 'src/app/models/row';
+import { ClaimantService } from 'src/app/services/claimant.service';
+import { MailService } from 'src/app/services/mail.service';
+import { ReportService } from 'src/app/services/report.service';
+import { RowService } from 'src/app/services/row.service';
+import { WorkerService } from 'src/app/services/worker.service';
 
 @Component({
   selector: 'app-report-detail',
@@ -197,7 +196,6 @@ export class ReportDetailComponent implements OnInit {
           <br>
           <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a> `
         };
-        debugger
 
         this.sendMailToWorker2(mailPacket);
         this.toastrService.success('kullanıcıya e posta gönderildi');

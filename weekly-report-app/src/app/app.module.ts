@@ -6,7 +6,6 @@ import { WelcomeComponent } from './home/welcome.component';
 import { ReportFormComponent } from './reports/report-form.component';
 import { ReportNotificationComponent } from './reports/report-notification/report-notification.component';
 import { NaviComponent } from './navi/navi.component';
-import { AllReportsComponent } from './reports/all-reports.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TodoComponent } from './todo/todo.component';
 import { LoginComponent } from './login/login.component';
@@ -53,16 +52,19 @@ import { ReportModule } from './reports/report.module';
     MatNativeDateModule,
   ],
   imports: [
-    BrowserAnimationsModule, 
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserModule,MatDatepickerModule,
+    BrowserModule,
+    
+    BrowserAnimationsModule,
+    MatDatepickerModule,
     MatSliderModule,
+    
     FormsModule,
     ToastrModule.forRoot({
       positionClass :'toast-bottom-right'
     }),
-    BrowserAnimationsModule,
+
     AppRoutingModule,
     ReportModule,
   ],

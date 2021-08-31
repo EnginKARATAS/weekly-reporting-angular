@@ -29,9 +29,7 @@ const childRoutes = ([
   { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
   { path: 'report-detail/:report_id', component: ReportDetailComponent, canActivate:[LoginGuard] },
   { path: '**', component: Page404Component, pathMatch: 'full' }, //404
-
 ])
-
 
 @NgModule({
   declarations: [

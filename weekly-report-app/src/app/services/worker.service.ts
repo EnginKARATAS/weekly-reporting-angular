@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class WorkerService {
-  baseUrl: string = 'http://localhost:4000/api/workers';
-  passwordUrl: string = 'http://localhost:4000/setpassword';
+  baseUrl: string = 'http://localhost/api/workers';
+  passwordUrl: string = 'http://localhost/setpassword';
   constructor(private http: HttpClient) {}
 
   get(id): Observable<any> {

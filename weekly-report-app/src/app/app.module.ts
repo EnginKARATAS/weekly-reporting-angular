@@ -25,9 +25,8 @@ import { GmadminComponent } from './reports/gmadmin/gmadmin.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/worker-login/login.component';
-
-
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { InfoPipePipe } from './pipes/info-pipe.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +42,7 @@ import { LoginComponent } from './login/worker-login/login.component';
 
     AddNewWorkerComponent,
     SetPasswordComponent,
+    InfoPipePipe,
   ],
   exports: [
     MatNativeDateModule,
@@ -65,7 +65,7 @@ import { LoginComponent } from './login/worker-login/login.component';
       positionClass :'toast-bottom-right'
     }),
   ],
-  providers: [CookieService],
+  providers: [CookieService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

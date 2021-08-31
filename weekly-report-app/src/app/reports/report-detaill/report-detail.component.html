@@ -10,23 +10,73 @@
 
 
 <h6>HAFTALIK FAALİYETLER</h6>
-<table class="table table-striped table-bordered table-hover ">
-  <thead class="thead-dark">
+<table class="table table-striped  table-hover ">
+  <thead class="thead">
     <tr>
       <th>Sıra</th>
       <th>Kod</th>
       <!-- <th>Pipe Kod</th> -->
       <th>Önem</th>
-      <th>Başlangıç<mat-icon matTooltip="Cool">info</mat-icon>
+      <th class="col-md-4">
+        <div class="row">
+          <span class="col-md-4">Aksiyonlar </span>
+          <span class="col-md-4"><mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon></span>
+          
+        </div>
       </th>
-      <th>Bitiş</th>
-      <th>İşler/Aksiyonlar</th>
-      <th>Talep Eden</th>
-      <th>Planlanmış Bitiş</th>
-      <th>Süre Aşımı</th>
-      <th>Harcanan Saat</th>
-      <th>Durumu</th>
-      <th>Yorum ve Öneriler</th>
+      <th>
+        <div class="row">
+          <span class="col-md-7">Başlangıç</span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
+      <th>
+        <div class="row">
+          <span class="col-md-4">Bitiş</span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
+
+      <th>
+        <div class="row ">
+          <span class="col-md-7">Talep</span>
+          <span class="col-md-7">Sahibi</span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
+      <th>
+        <div class="row ">
+          <span class="col-md-7">Planlanan</span>
+          <span class="col-md-7">Tarih </span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
+      <th>
+        <div class="row ">
+          <span class="col-md-7">Aşım</span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
+      <th>
+        <div class="row ">
+          <span class="col-md-7">Harcanan</span>
+          <span class="col-md-7">Saat</span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
+      <th>
+        <div class="row ">
+          <span class="col-md-7">Durumu</span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
+      <th class="col-md-3">
+        <div class="row  ">
+          <span class="col-md-7">Yorumlar</span>
+          <span class="col-md-7">Öneriler</span>
+          <mat-icon matTooltip="Cool" class="col-md-1">help_outline</mat-icon>
+        </div>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -40,9 +90,9 @@
       <td>{{row.code}}</td>
       <!-- <td>{{row.code | vatAdded: 10 | currency:'₺'}}</td> -->
       <td [style.color]="setColor(row.matter+1)" class="font-weight-bolder">{{row.matter+1}}</td>
+      <td>{{row.actions}}</td>
       <td>{{row.start_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.finish_date | date: 'dd/MM/yyyy'}}</td>
-      <td>{{row.actions}}</td>
       <td>{{row.claimants}}</td>
       <td>{{row.scheduled_completion_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.is_timeout ? "evet":"hayır"}}</td>
@@ -135,7 +185,7 @@
               </div>
               <!-- -->
               <div class="form-group row ">
-                <div class="col-md-5">
+                <div class="col-md-1">
                   <select formControlName="is_timeout" id="is_timeout" name="is_timeout" class="custom-select">
                     <option value="Var">Var</option>
                     <option value="Yok">Yok</option>

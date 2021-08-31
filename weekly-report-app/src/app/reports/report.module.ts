@@ -13,6 +13,9 @@ import { ReportDetailComponent } from './report-detaill/report-detail.component'
 import { ReportNotificationComponent } from './report-notification/report-notification.component';
 import { EditWeeklyReportComponent } from './edit-weekly-report/edit-weekly-report.component';
 import { ReportFormComponent } from './report-form.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatIcon, MatIconModule} from '@angular/material/icon'
+
 
 @NgModule({
   declarations: [
@@ -26,12 +29,17 @@ import { ReportFormComponent } from './report-form.component';
     CommonModule,
     RouterModule,
 
+    MatDatepickerModule,
+    MatSliderModule,
+    MatTooltipModule,
+    MatIconModule,
+
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,
-    MatDatepickerModule,
-    MatSliderModule,
+
+   
     FormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',

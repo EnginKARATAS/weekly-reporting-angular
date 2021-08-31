@@ -21,10 +21,9 @@ export class ReportDetailComponent implements OnInit {
   reportSendStatus: boolean = true;
   gmLoginStatus: boolean = false;
   week_id: number;
-  worker_name: string = ".";
-  worker_surname: string = ".";
-  worker_email: string = ".";
-
+  worker_name: string = '.';
+  worker_surname: string = '.';
+  worker_email: string = '.';
 
   constructor(
     private reportService: ReportService,
@@ -49,6 +48,23 @@ export class ReportDetailComponent implements OnInit {
     this.checkGmLogin();
     this.createRowForm();
     this.checkReportSended();
+  }
+
+  setColor(matter: string): string {
+    switch (parseInt(matter)) {
+      case 1:
+        return '#36b342';
+      case 2:
+        return '#84f928';
+      case 3:
+        return '#c9c950';
+      case 4:
+        return '#f2852e';
+      case 5:
+        return '#f43735';
+      default:
+        return 'black';
+    }
   }
 
   checkGmLogin() {
@@ -124,11 +140,12 @@ export class ReportDetailComponent implements OnInit {
   }
 
   sendMailToWorker2(mailPacket) {
- 
     this.mailService.sentToWorker(mailPacket).subscribe((data) => {
       console.log(data);
       console.log(
-        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',data);
+        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',
+        data
+      );
     });
   }
 
@@ -180,12 +197,23 @@ export class ReportDetailComponent implements OnInit {
   }
 
   revisionRequest(code: number) {
-    if (confirm('Kullanıcıdan raporun ' + code +' kodlu satırını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!')) {
+    if (
+      confirm(
+        'Kullanıcıdan raporun ' +
+          code +
+          ' kodlu satırını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!'
+      )
+    ) {
       this.workerService.getWorkerWithCode(code).subscribe((data) => {
         this.reportService.sendBackReport(this.reportId).subscribe((data) => {
-          console.log("🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data", data)
-          this.toastrService.info(`${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`)
-        })
+          console.log(
+            '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
+            data
+          );
+          this.toastrService.info(
+            `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
+          );
+        });
         this.worker_name = data[0].worker_name;
         this.worker_surname = data[0].worker_surname;
         this.worker_email = data[0].worker_email;
@@ -194,14 +222,13 @@ export class ReportDetailComponent implements OnInit {
           subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
           html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
           <br>
-          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a> `
+          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a> `,
         };
 
         this.sendMailToWorker2(mailPacket);
         this.toastrService.success('kullanıcıya e posta gönderildi');
       });
-    }
-    else {
+    } else {
       this.toastrService.info('mail gönderimi iptal edilmiştir');
     }
   }

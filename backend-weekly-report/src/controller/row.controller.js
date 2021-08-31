@@ -18,7 +18,12 @@ exports.findByReport = function (req, res) {
         .send("Error occured during fetching report for id " + id);
     console.log("report: ", report);
 
+    if (report.length <= 0) {
+      return res.send(null);
+    }
     return res.send(report);
+
+    
   });
 };
 

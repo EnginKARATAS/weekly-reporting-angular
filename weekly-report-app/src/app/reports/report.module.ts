@@ -15,6 +15,7 @@ import { EditWeeklyReportComponent } from './edit-weekly-report/edit-weekly-repo
 import { ReportFormComponent } from './report-form.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIcon, MatIconModule} from '@angular/material/icon'
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {MatIcon, MatIconModule} from '@angular/material/icon'
     MatSliderModule,
     MatTooltipModule,
     MatIconModule,
+    MatCheckboxModule,
 
     BrowserAnimationsModule,
     HttpClientModule,

@@ -34,3 +34,11 @@ span{
 .sira{
     font-size: 13.5px;
 }
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    background: rgba(131, 187, 197, 0.5);
+  }
+
+.codes{
+    font-size: 11px;
+}

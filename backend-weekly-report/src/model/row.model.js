@@ -6,6 +6,7 @@ var con = require("./../../config/db");
 
 var Row = function (row) {
   (this.report_id = row.report_id),
+    (this.checked_by_admin = row.checked_by_admin),
     (this.matter = row.matter),
     (this.start_date = row.start_date),
     (this.finish_date = row.finish_date),
@@ -20,7 +21,7 @@ var Row = function (row) {
 
 Row.findByReport = function (id, result) {
   console.log(id);
-  let sql = `SELECT r.id, wee.week_id, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments, s.id
+  let sql = `SELECT r.id,s.checked_by_admin, s.code, wee.week_id, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments, s.id
   FROM report_row_entries s
   INNER JOIN reports r ON s.report_id = r.id
   INNER JOIN workers w ON r.worker_id = w.id 

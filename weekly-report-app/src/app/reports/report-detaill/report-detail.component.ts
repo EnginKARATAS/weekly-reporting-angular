@@ -25,6 +25,8 @@ export class ReportDetailComponent implements OnInit {
   worker_surname: string = '.';
   worker_email: string = '.';
 
+  checkBoxes: any[] = [];
+
   constructor(
     private reportService: ReportService,
     private rowService: RowService,
@@ -41,15 +43,27 @@ export class ReportDetailComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       if (params['report_id']) {
+        console.log(params)
         this.getRows(params['report_id']);
         this.reportId = params['report_id'];
       }
     });
-    this.checkGmLogin();
+    this.checkLogin();
     this.createRowForm();
     this.checkReportSended();
   }
 
+  CheckAllOptions() {
+    if (this.checkBoxes.every((val) => val == true))
+      for (let i = 0; i < this.checkBoxes.length; i++) {
+        this.checkBoxes[i].checked = false;
+      }
+    else
+      for (let i = 0; i < this.checkBoxes.length; i++) {
+        this.checkBoxes[i].checked = true;
+      }
+  }
+ 
   setColor(matter: string): string {
     switch (parseInt(matter)) {
       case 1:
@@ -67,7 +81,7 @@ export class ReportDetailComponent implements OnInit {
     }
   }
 
-  checkGmLogin() {
+  checkLogin() {
     if (this.cookieService.get('gmisLoggedIn').includes('true')) {
       this.gmLoginStatus = true;
     } else this.gmLoginStatus = false;
@@ -153,6 +167,12 @@ export class ReportDetailComponent implements OnInit {
     this.rowService.get(report_id).subscribe((response) => {
       this.rows = response; //sadece rowları değil yanında week idyi de getirir
       this.week_id = response[0].week_id;
+      response.forEach((row) => {
+        this.checkBoxes.push({
+          checked :row.checked_by_admin,
+          code: row.code
+        });
+      });
     });
   }
 
@@ -196,15 +216,21 @@ export class ReportDetailComponent implements OnInit {
     window.location.reload();
   }
 
-  revisionRequest(code: number) {
+  revisionRequest(checkBoxes) {
+    let code = "" 
+     checkBoxes.forEach(item => {
+       if (item.checked == true) {
+         code += item.code + ","
+       }
+     });
     if (
       confirm(
         'Kullanıcıdan raporun ' +
           code +
-          ' kodlu satırını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!'
+          ' kodlu satırlarını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!'
       )
     ) {
-      this.workerService.getWorkerWithCode(code).subscribe((data) => {
+      this.workerService.getWorkerWithCode(checkBoxes[0].code).subscribe((data) => {
         this.reportService.sendBackReport(this.reportId).subscribe((data) => {
           console.log(
             '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
@@ -222,7 +248,7 @@ export class ReportDetailComponent implements OnInit {
           subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
           html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
           <br>
-          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a> `,
+          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}&codes=${code}">tıklayınız</a> `,
         };
 
         this.sendMailToWorker2(mailPacket);

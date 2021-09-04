@@ -1,13 +1,153 @@
 <section class="jumbotron text-center mt-4">
   <div class="container">
-    <h1 class="jumbotron-heading" *ngIf="rows">{{ rows[0].week_id + ". Hafta" }} | Haftalık Faaliyet Raporu</h1>
-
+    <h1 class="jumbotron-heading" *ngIf="rows">{{ rows[0]?.week_id + ". Hafta" }} | Haftalık Faaliyet Raporu</h1>
     <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyinizTeşekkür ederiz.<br>
       <span *ngIf="!rows" class="badge badge-danger">⛔ Boş Rapor</span>
     </p>
   </div>
 </section>
 
+<mat-accordion *ngIf="!reportSendStatus&&!gmLoginStatus">
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Yeni bir satır ekle
+      </mat-panel-title>
+      <mat-panel-description>
+        Rapora ait yeni bir satır ekleyebilirsiniz
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="">
+      <div class="addRow">
+        <form [formGroup]="rowForm">
+          <table class="table ">
+            <thead class="thead-dark">
+              <tr>
+                <th style="width:10%;"
+                  matTooltip="Talebin kim tarafından istendiği, talebin önem derecesi, ve işin hangi aşamada olduğu girilmelidir.">
+                  Talep Durumu</th>
+                <th style="width:3%;" matTooltip="Talebin tarih detayları ayrıntıları doldurulmalıdır.">Talep Tarihleri
+                </th>
+                <th style="width:24%;"
+                  matTooltip="Alınan Aksiyonlar/Yapılan İşler buraya yazılmalı. Bu kısmı boş bırakmamanız tercih edilir.">
+                  Aksiyonlar/Yapılanlar</th>
+                <th style="width:13%;"
+                  matTooltip="Haftalık ne kadar süre harcandığı, süre aşımının olup olmadığı, yorumlar ve öneriler bu kısımda verilmelidir.">
+                  Talep Süresi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="bg-light">
+                  <div class="form-group row">
+                    <label for="form-weekly-time-spent" class="col-4 ">Talep Sahibi</label>
+                    <div class="col-8">
+                      <input [(ngModel)]="pasteModel.claimants" formControlName="claimants" #claimants id="claimants" name="claimants" type="text"
+                        class="form-control">
+                    </div>
+
+                  </div>
+                  <div class="form-group row ">
+                    <label for="" class="col-4 col-form-label">Önem Derecesi</label>
+                    <div class="col-8">
+                      <select [(ngModel)]="pasteModel.matter" formControlName="matter" id="matter" name="matter" class="custom-select">
+                        <option label="-seç-"></option>
+                        <option value="1">Çok Düşük</option>
+                        <option value="2">Düşük</option>
+                        <option value="3">Normal</option>
+                        <option value="4">Yüksek</option>
+                        <option value="5">Çok Yüksek</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row ">
+                    <label for="" class="col-4 col-form-label">İş Durumu</label>
+                    <div class="col-8">
+                      <select [(ngModel)]="pasteModel.status" formControlName="status" id="status" name="status" class="custom-select">
+                        <option label="-seç-"></option>
+                        <option value="Devam Ediyor">Devam Ediyor</option>
+                        <option value="Bitti">Bitti</option>
+                        <option value="Kapandı">Kapandı</option>
+                        <option value="İptal Edildi">İptal Edildi</option>
+                      </select>
+                    </div>
+                  </div>
+                </td>
+                <td class="bg-light">
+
+                  <div class="row ml-2">
+                    <input [(ngModel)]="pasteModel.start_date" class="col-md-6" formControlName="start_date" matInput [matDatepicker]="picker1">
+                    <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker1">
+                    </mat-datepicker-toggle>
+                    <p class="rowP">Başlama T.</p>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </div>
+                  <!-- -->
+                  <div class="row ml-2">
+                    <input [(ngModel)]="pasteModel.scheduled_completion_date" class="col-md-6" formControlName="scheduled_completion_date" matInput
+                      [matDatepicker]="picker2">
+                    <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker2">
+                    </mat-datepicker-toggle>
+                    <p class="rowP">Planlanmış Bitirme T.</p>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </div>
+                  <!-- -->
+                  <div class="row ml-2">
+                    <input [(ngModel)]="pasteModel.finish_date" class="col-md-6" formControlName="finish_date" matInput [matDatepicker]="picker3">
+                    <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker3">
+                    </mat-datepicker-toggle>
+                    <p class="rowP">Bitirme T.</p>
+                    <mat-datepicker #picker3></mat-datepicker>
+                  </div>
+                  <!-- -->
+                </td>
+                <td class="bg-light">
+                  <div class="form-group row">
+                    <div class="col-12">
+                      <textarea [(ngModel)]="pasteModel.actions" formControlName="actions" placeholder="Yapılan İşler / Aksiyonlar" id="actions"
+                        name="actions" cols="40" rows="8" class="form-control"></textarea>
+                    </div>
+                  </div>
+                </td>
+                <td class="bg-light">
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <input [(ngModel)]="pasteModel.weekly_time_spent" formControlName="weekly_time_spent" id="form-time-spent" placeholder="Harcanan Süre"
+                        name="form-time-spent" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <!-- -->
+                  <div class="form-group row ">
+                    <div class="col-md-5">
+                      <select [(ngModel)]="pasteModel.is_timeout" formControlName="is_timeout" id="is_timeout" name="is_timeout" class="custom-select">
+                        <option label="-seç-"></option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                      </select>
+                    </div>
+                    <label for="" class="col-md-7 col-form-label">Süre Aşımı Var Mı</label>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <textarea [(ngModel)]="pasteModel.comments" formControlName="comments" placeholder="Yorumlar / Öneriler" id="comments"
+                        name="comments" cols="40" rows="3" class="form-control"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row float-right mt-4 mr-1">
+                    <button (click)="addRow()" name="submit" type="submit" class="btn btn-primary">Satırı Ekle</button>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+<br><br>
 <h6>HAFTALIK FAALİYETLER</h6>
 <table class="table table-striped table-bordered table-hover ">
   <thead class="thead-dark">
@@ -39,10 +179,13 @@
   <tbody>
     <tr *ngFor="let row of rows; let i = index">
       <th scope="row">
-        <mat-checkbox *ngIf="gmLoginStatus"  class="example-margin" [(ngModel)]="checkBoxes[i].checked">{{i + 1}}</mat-checkbox>
-        <ng-template #sira>
-          <p class="sira">{{i + 1}}</p>
+        <ng-template #workerEdit>
+          <button (click)="sendToAddRowCompenent(row)" class="badge badge-outline-primary">{{i+1}}. Satır Getir</button>
+          <button (click)="deleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}. Sil</button>
         </ng-template>
+        <mat-checkbox *ngIf="gmLoginStatus; else workerEdit" class="example-margin" [(ngModel)]="checkBoxes[i].checked">
+        </mat-checkbox>
+
       </th>
       <td>{{row.actions}}</td>
       <td>{{row.comments}}</td>
@@ -50,7 +193,7 @@
       <td [style.color]="setColor(row.matter+1)" class="font-weight-bolder">{{row.matter+1}}</td>
       <td>{{row.start_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.finish_date | date: 'dd/MM/yyyy'}}</td>
-      <td>{{row.is_timeout ? "evet":"hayır"}}</td>
+      <td>{{row.is_timeout ? "Var":"Yok"}}</td>
       <td>{{row.claimants}}</td>
       <td>{{row.scheduled_completion_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.weekly_time_spent}}</td>
@@ -60,136 +203,13 @@
     </tr>
     <tr *ngIf="gmLoginStatus">
       <th scope="row">
-        <mat-checkbox class="matcheck" (click)="CheckAllOptions()">Tümünü Seç</mat-checkbox>
+        <mat-checkbox class="matcheck" (click)="CheckAllOptions()">Tümünü -seç-</mat-checkbox>
       </th>
       <td *ngIf="gmLoginStatus" class="btn btn-sm btn-info m-1" (click)="revisionRequest(checkBoxes)">Revizyon İste</td>
     </tr>
   </tbody>
-
- 
-
-
 </table>
-
-<!-- && gmLoginStatus -->
-<br><br>
-<div class="mt-5" *ngIf="!reportSendStatus&&!gmLoginStatus">
-  <div class="addRow">
-    <p class="bg-light h4 pl-2">satır ekle</p>
-    <form [formGroup]="rowForm">
-      <table class="table ">
-        <thead>
-          <tr>
-            <th class="col-md-2">Talep Durumu</th>
-            <th class="col-md-3">Talep Tarihleri</th>
-            <th class="col-md-3">Talep Süresi</th>
-            <th class="col-md-4">Alınan Aksiyonlar</th>
-          </tr>
-        </thead>
-        <tbody>
-
-          <tr>
-            <td class="bg-light">
-              <div class="form-group row">
-                <label for="form-weekly-time-spent" class="col-4 ">Talep Sahibi</label>
-                <div class="col-8">
-                  <input formControlName="claimants" id="claimants" name="claimants" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label for="" class="col-4 col-form-label">Önem Derecesi</label>
-                <div class="col-8">
-                  <select formControlName="matter" id="matter" name="matter" class="custom-select">
-                    <option value="1">Çok Düşük</option>
-                    <option value="2">Düşük</option>
-                    <option value="3">Normal</option>
-                    <option value="4">Yüksek</option>
-                    <option value="5">Çok Yüksek</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label for="" class="col-4 col-form-label">İş Durumu</label>
-                <div class="col-8">
-                  <select formControlName="status" id="status" name="status" class="custom-select">
-                    <option value="Devam Ediyor">Devam Ediyor</option>
-                    <option value="Bitti">Bitti</option>
-                    <option value="Kapandı">Kapandı</option>
-                    <option value="İptal Edildi">İptal Edildi</option>
-                  </select>
-                </div>
-              </div>
-            </td>
-            <td class="bg-light">
-
-              <div class="row ml-2">
-                <input class="col-md-6" formControlName="start_date" matInput [matDatepicker]="picker1">
-                <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <p class="col-md-12 ">Başlama T.</p>
-                <mat-datepicker #picker1></mat-datepicker>
-              </div>
-              <!-- -->
-              <div class="row ml-2">
-                <input class="col-md-6" formControlName="scheduled_completion_date" matInput [matDatepicker]="picker2">
-                <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <p class="col-md-12 ">Planlanmış Bitirme T.</p>
-                <mat-datepicker #picker2></mat-datepicker>
-              </div>
-              <!-- -->
-              <div class="row ml-2">
-                <input class="col-md-6" formControlName="finish_date" matInput [matDatepicker]="picker3">
-                <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker3"></mat-datepicker-toggle>
-                <p class="col-md-12 ">Bitirme T.</p>
-                <mat-datepicker #picker3></mat-datepicker>
-              </div>
-              <!-- -->
-            </td>
-            <td class="bg-light">
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <input formControlName="weekly_time_spent" id="form-time-spent" placeholder="Haftalık Harcanan Süre"
-                    name="form-time-spent" type="text" class="form-control">
-                </div>
-              </div>
-              <!-- -->
-              <div class="form-group row ">
-                <div class="col-md-5">
-                  <select formControlName="is_timeout" id="is_timeout" name="is_timeout" class="custom-select">
-                    <option value="Var">Var</option>
-                    <option value="Yok">Yok</option>
-                  </select>
-                </div>
-                <label for="" class="col-md-7 col-form-label">Süre Aşımı Var Mı</label>
-              </div>
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <textarea formControlName="comments" placeholder="Yorumlar / Öneriler" id="comments" name="comments"
-                    cols="40" rows="3" class="form-control"></textarea>
-                </div>
-              </div>
-            </td>
-            <td class="bg-light">
-              <div class="form-group row">
-                <div class="col-12">
-                  <textarea formControlName="actions" placeholder="Yapılan İşler / Aksiyonlar" id="actions"
-                    name="actions" cols="40" rows="8" class="form-control"></textarea>
-                </div>
-              </div>
-              <div class="form-group row float-right mt-4 mr-1">
-                <button (click)="addRow()" name="submit" type="submit" class="btn btn-primary">Satırı Ekle</button>
-              </div>
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-
-    </form>
-  </div>
-  <div class="rowSendButton">
-    <button (click)="sendWorkerWeeklyReport()" class="btn btn-success">Haftalık Raporumu Gönder</button>
-  </div>
+<div class="rowSendButton">
+  <button (click)="sendWorkerWeeklyReport()" class="btn btn-success mb-2">Haftalık Raporumu Gönder</button>
 </div>
+<!-- && gmLoginStatus -->

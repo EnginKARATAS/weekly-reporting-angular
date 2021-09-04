@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkerService } from '../services/worker.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-set-password',
@@ -16,7 +17,8 @@ export class SetPasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private workerService: WorkerService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   setPasswordForm: FormGroup;
@@ -30,7 +32,7 @@ export class SetPasswordComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       if (params['token'].length == this.tokenLength) {
         this.token = params['token'];
-      } 
+      }
     });
 
     this.createRowForm();
@@ -42,11 +44,17 @@ export class SetPasswordComponent implements OnInit {
     if (password != repassword) {
       this.message = 'Şifreler uyuşmuyor.';
     } else {
-      const data = {token: this.token,password: password};
-      console.log(data);
-      this.workerService.updatePassword(data).subscribe(data => {
-        console.log(data);
-        this.router.navigate(['/login']);
+      const data = {
+        token: this.token,
+        password: password,
+        repassword: repassword,
+      };
+      this.workerService.updatePassword(data).subscribe((data) => {
+        if (data.resCode == 200) {
+          this.router.navigate(['/login']);
+          this.toastr.success(data.message);
+        }
+        if (data.resCode == 400) this.toastr.error(data.message);
       });
     }
   }

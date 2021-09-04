@@ -55,24 +55,24 @@ const validatePayloadMiddleware = (req, res, next) => {
   }
 };
 
-app.delete("/deletereportbyid", (req,res)=> {
-  sql = ""
+app.delete("/deletereportbyid", (req, res) => {
+  sql = "";
 });
 
-app.get('/api/workers/getbycode/:code', (req,res) => {
+app.get("/api/workers/getbycode/:code", (req, res) => {
   let code = req.params.code;
   sql = `SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
          reports ro ON w.id = ro.worker_id INNER JOIN
          report_row_entries rre ON rre.report_id = ro.id
          WHERE code = ?
-  `
-  con.query(sql,code,(err,result) => {
+  `;
+  con.query(sql, code, (err, result) => {
     if (err) {
-      res.send(err)
+      res.send(err);
     }
     res.send(result);
-  })
-})
+  });
+});
 
 app.post("/sendmailtogm", (req, res) => {
   let mailSended = mailer.sendMailToGeneralManager(
@@ -89,8 +89,11 @@ app.post("/sendmailtogm", (req, res) => {
   }
 });
 app.post("/sendmailtoworker", (req, res) => {
-  
-  let mailSended = mailer.sendMailToWorker(req.body.worker_email, req.body.subject, req.body.html);
+  let mailSended = mailer.sendMailToWorker(
+    req.body.worker_email,
+    req.body.subject,
+    req.body.html
+  );
   if (mailSended) {
     res.status(200).send("email general manager epostasına gönderildi");
     res.end();
@@ -103,19 +106,38 @@ app.post("/sendmailtoworker", (req, res) => {
 app.put("/setpassword", (req, res) => {
   let token = req.body.token;
   let password = req.body.password;
+  let repassword = req.body.repassword;
+
+  let responseModel = {
+    token: token,
+    password: password,
+    repassword: repassword,
+
+    message: "",
+    resCode: 0,
+  };
 
   let datenow = Date();
-  data = [password, token, datenow];
-  // token.length == 254
-  if (true) {
+  let data = [password, token, datenow];
+
+  if (password == repassword) {
     let sql = `UPDATE workers SET password = ? WHERE token = ? AND ? < token_expire `;
     con.query(sql, data, (err, rows, fields) => {
       if (err) {
-        res.send(err);
+        responseModel.resCode = 400
+        responseModel.message = err.message
+        res.send(responseModel);
       }
-      res.sendStatus(200).send();
+      responseModel.message =
+        "Şifre değiştirme başarılı. Lütfen giriş yapınız.";
+      responseModel.resCode = 200;
+      res.send(responseModel);
     });
-  } else res.send("no");
+  } else {
+    responseModel.message = "Şifreler uyuşmamaktadır.";
+    responseModel.resCode = 400;
+    res.json(responseModel);
+  }
 });
 
 //create a worker via GM
@@ -155,7 +177,7 @@ app.post("/api/workers", function (req, res) {
       let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username, token, token_expire) VALUES (?, ? , ?, ?, ?, ?, ?)`;
       con.query(sql, data, function (error, results, fields) {
         res.send(results);
-        mailer.sendMailToWorker(worker_email, subject, html );
+        mailer.sendMailToWorker(worker_email, subject, html);
         res.end();
       });
     } else {
@@ -192,18 +214,18 @@ app.post("/gmauth", function (request, response) {
   if (username && password) {
     let sql =
       "SELECT username, claimant_name, claimant_surname, id FROM claimants where username = ? AND password=?";
-      con.query(sql, [username, password], function (err, results, fields) {
-        if (results.length > 0) {
-          response.send(results);
-        } else {
-          response.send(err);
-        }
-        response.end();
-      });
-    } else {
-      response.send("Please enter Username and Password!");
+    con.query(sql, [username, password], function (err, results, fields) {
+      if (results.length > 0) {
+        response.send(results);
+      } else {
+        response.send(err);
+      }
       response.end();
-    }
+    });
+  } else {
+    response.send("Please enter Username and Password!");
+    response.end();
+  }
 });
 
 app.get("/api/claimants", (req, res) => {
@@ -252,7 +274,7 @@ app.get("/api/sendreport/:id", function (request, response) {
 
 app.get("/api/sendbackreport/:id", function (request, response) {
   let report_id = request.params.id;
-  console.log("🚀 ~ file: app.js ~ line 252 ~ report_id", report_id)
+  console.log("🚀 ~ file: app.js ~ line 252 ~ report_id", report_id);
   if (report_id > 0) {
     let sql = `UPDATE reports SET is_report_sended = 0 WHERE id = ?; `;
     con.query(sql, report_id, function (error, results, fields) {

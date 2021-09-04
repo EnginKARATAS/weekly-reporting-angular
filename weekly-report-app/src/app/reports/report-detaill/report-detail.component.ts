@@ -25,7 +25,22 @@ export class ReportDetailComponent implements OnInit {
   worker_surname: string = '.';
   worker_email: string = '.';
 
+  pasteModel = {
+    claimants: 'test',
+    matter: '',
+    report_id: '',
+    status: '',
+    is_timeout: '',
+    weekly_time_spent: '',
+    scheduled_completion_date: '',
+    finish_date: '',
+    actions: '',
+    comments: '',
+    start_date: '',
+  };
+
   checkBoxes: any[] = [];
+  rowForm: FormGroup;
 
   constructor(
     private reportService: ReportService,
@@ -43,7 +58,7 @@ export class ReportDetailComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       if (params['report_id']) {
-        console.log(params)
+        console.log(params);
         this.getRows(params['report_id']);
         this.reportId = params['report_id'];
       }
@@ -51,6 +66,37 @@ export class ReportDetailComponent implements OnInit {
     this.checkLogin();
     this.createRowForm();
     this.checkReportSended();
+  }
+
+  createRowForm() {
+    this.rowForm = this.formBuilder.group({
+      report_id: ['', Validators.required],
+      matter: ['', Validators.required],
+      status: ['', Validators.required],
+      is_timeout: ['', Validators.required],
+      weekly_time_spent: ['', Validators.required],
+      scheduled_completion_date: ['', Validators.required],
+      finish_date: ['', Validators.required],
+      actions: ['', Validators.required],
+      comments: ['', Validators.required],
+      claimants: ['', Validators.required],
+      start_date: ['', Validators.required],
+    });
+  }
+
+  sendToAddRowCompenent(row) {
+    console.log(row)
+    this.pasteModel.claimants = row.claimants;
+    this.pasteModel.matter = row.matter;
+    this.pasteModel.status = row.status;
+    this.pasteModel.start_date = row.start_date;
+    this.pasteModel.scheduled_completion_date = row.scheduled_completion_date;
+    this.pasteModel.finish_date = row.finish_date;
+    this.pasteModel.actions = row.actions;
+    this.pasteModel.weekly_time_spent = row.weekly_time_spent;
+    
+    this.pasteModel.is_timeout = row.is_timeout? "Var":"Yok";
+    this.pasteModel.comments = row.comments;
   }
 
   CheckAllOptions() {
@@ -63,7 +109,7 @@ export class ReportDetailComponent implements OnInit {
         this.checkBoxes[i].checked = true;
       }
   }
- 
+
   setColor(matter: string): string {
     switch (parseInt(matter)) {
       case 1:
@@ -169,8 +215,8 @@ export class ReportDetailComponent implements OnInit {
       this.week_id = response[0].week_id;
       response.forEach((row) => {
         this.checkBoxes.push({
-          checked :row.checked_by_admin,
-          code: row.code
+          checked: row.checked_by_admin,
+          code: row.code,
         });
       });
     });
@@ -178,51 +224,44 @@ export class ReportDetailComponent implements OnInit {
 
   // claimants: Claimants[] = [];
 
-  rowForm: FormGroup;
-
-  createRowForm() {
-    this.rowForm = this.formBuilder.group({
-      report_id: ['', Validators.required],
-      matter: ['', Validators.required],
-      status: ['', Validators.required],
-      is_timeout: ['', Validators.required],
-      weekly_time_spent: ['', Validators.required],
-      scheduled_completion_date: ['', Validators.required],
-      finish_date: ['', Validators.required],
-      actions: ['', Validators.required],
-      comments: ['', Validators.required],
-      claimants: ['', Validators.required],
-      start_date: ['', Validators.required],
-    });
-  }
-
   // getClaimants(): void {
   //   this.claimantService.getAll().subscribe((data) => {
   //     this.claimants = data;
   //   });
   // }
 
+  deleteRowByCode(row):void{
+    this.rowService.deleteRowByCode(row.code).subscribe(data => {
+      debugger
+      if (data.resCode == 200) 
+        this.toastrService.success(data.message);
+      else
+        this.toastrService.error(data.message);
+    })
+  }
   addRow(): void {
     this.toastrService.info('Satır başarılı bir şekilde eklendi');
 
     this.rowForm.value.report_id = this.reportId;
 
-    this.rowService.addRow(this.rowForm.value).subscribe((data) => {});
+    this.rowService.addRow(this.rowForm.value).subscribe((data) => {
+      debugger
+      this.rows.push(data);
+
+    });
 
     // if (this.rowForm.valid) {
     //   console.log("valid")
     // }
-
-    window.location.reload();
   }
 
   revisionRequest(checkBoxes) {
-    let code = "" 
-     checkBoxes.forEach(item => {
-       if (item.checked == true) {
-         code += item.code + ","
-       }
-     });
+    let code = '';
+    checkBoxes.forEach((item) => {
+      if (item.checked == true) {
+        code += item.code + ',';
+      }
+    });
     if (
       confirm(
         'Kullanıcıdan raporun ' +
@@ -230,30 +269,32 @@ export class ReportDetailComponent implements OnInit {
           ' kodlu satırlarını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!'
       )
     ) {
-      this.workerService.getWorkerWithCode(checkBoxes[0].code).subscribe((data) => {
-        this.reportService.sendBackReport(this.reportId).subscribe((data) => {
-          console.log(
-            '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
-            data
-          );
-          this.toastrService.info(
-            `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
-          );
-        });
-        this.worker_name = data[0].worker_name;
-        this.worker_surname = data[0].worker_surname;
-        this.worker_email = data[0].worker_email;
-        let mailPacket = {
-          worker_email: this.worker_email,
-          subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
-          html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
+      this.workerService
+        .getWorkerWithCode(checkBoxes[0].code)
+        .subscribe((data) => {
+          this.reportService.sendBackReport(this.reportId).subscribe((data) => {
+            console.log(
+              '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
+              data
+            );
+            this.toastrService.info(
+              `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
+            );
+          });
+          this.worker_name = data[0].worker_name;
+          this.worker_surname = data[0].worker_surname;
+          this.worker_email = data[0].worker_email;
+          let mailPacket = {
+            worker_email: this.worker_email,
+            subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
+            html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
           <br>
           <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}&codes=${code}">tıklayınız</a> `,
-        };
+          };
 
-        this.sendMailToWorker2(mailPacket);
-        this.toastrService.success('kullanıcıya e posta gönderildi');
-      });
+          this.sendMailToWorker2(mailPacket);
+          this.toastrService.success('kullanıcıya e posta gönderildi');
+        });
     } else {
       this.toastrService.info('mail gönderimi iptal edilmiştir');
     }

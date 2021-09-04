@@ -25,6 +25,7 @@ import { GmadminComponent } from './reports/gmadmin/gmadmin.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/worker-login/login.component';
+import { ConfirmationDialogComponent } from './report/confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -43,6 +44,7 @@ import { LoginComponent } from './login/worker-login/login.component';
 
     AddNewWorkerComponent,
     SetPasswordComponent,
+    ConfirmationDialogComponent,
   ],
   exports: [
     MatNativeDateModule,

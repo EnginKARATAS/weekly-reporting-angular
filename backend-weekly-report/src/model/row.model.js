@@ -126,8 +126,7 @@ Row.create = function (newRow, result) {
     console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row.insertId);
-    result(null, row.insertId);
+    result(null, data);
   });
 };
 
@@ -153,15 +152,15 @@ Row.update = function (report, result) {
   });
 };
 
-Row.delete = function (id, result) {
-  let sql = "DELETE FROM reports WHERE report_id = ?";
+Row.delete = function (code, result) {
+  let sql = "DELETE FROM report_row_entries WHERE code = ?";
 
-  con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
+  con.query(sql, code, (err, row, fields) => {
     if (err) result(err, null);
 
-    console.log(row.affectedRows);
-    result(null, row.affectedRows);
+     
+      result(null, code);
+      
   });
 };
 

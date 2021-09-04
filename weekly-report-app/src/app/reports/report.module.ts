@@ -16,6 +16,7 @@ import { ReportFormComponent } from './report-form.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIcon, MatIconModule} from '@angular/material/icon'
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -35,6 +36,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTooltipModule,
     MatIconModule,
     MatCheckboxModule,
+    MatExpansionModule,
+    
 
     BrowserAnimationsModule,
     HttpClientModule,

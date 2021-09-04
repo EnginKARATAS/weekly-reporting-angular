@@ -28,8 +28,8 @@ constructor(private http: HttpClient) { }
     return this.http.put(`${this.baseUrl}/${id}`, data);
   }
 
-  delete(id): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  deleteRowByCode(code): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${code}`);
   }
 
   deleteAll(): Observable<any> {

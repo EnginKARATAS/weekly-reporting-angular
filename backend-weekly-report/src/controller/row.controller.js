@@ -73,7 +73,7 @@ exports.create = function (req, res) {
       if (err || report_id <= 0)
         return res.status(500).send("Error occured during saving report");
 
-      return res.sendStatus(200);
+      return res.send(newRow);
     });
   }
 };
@@ -105,17 +105,19 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-  const id = req.params.id;
+  const row_id = req.params.row_id;
+  console.log("🚀 ~ file: row.controller.js ~ line 109 ~ exports.delete ~ row_id", row_id)
 
-  if (!id) {
+  if (!row_id) {
     // 400 = bad request
-    return res.status(400).send("The required path variable id is missing");
+    return res.status(400).send("The required path variable row_id is missing");
   }
 
-  Row.delete(id, function (err, employee) {
+  Row.delete(row_id, function (err, code) {
+    console.log("🚀 ~ file: row.controller.js ~ line 117 ~ code", code)
     if (err)
-      return res.status(500).send("Error occured during deleting report");
+      return res.json({message: "Aksiyon silinirken hata oluştu", resCode: 400});
 
-    return res.sendStatus(200);
+    return res.json({message: `${code} Kodlu Aksiyon Silindi`, resCode: 200});
   });
 };

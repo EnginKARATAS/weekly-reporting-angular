@@ -101,7 +101,7 @@ Row.create = function (newRow, result) {
   // today = mm + "/" + dd + "/" + yyyy;
   //-----------
 
-  let code = Math.floor(100000 + Math.random() * 900000);
+  let code = Math.floor(100000 + Math.random() * 10000000);
   let data = [
     code,
     newRow.matter,

@@ -25,7 +25,7 @@ import { GmadminComponent } from './reports/gmadmin/gmadmin.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/worker-login/login.component';
-import { ConfirmationDialogComponent } from './report/confirmation-dialog/confirmation-dialog.component';
+import { SharedModule } from './shared/shared.module';
 
 
 
@@ -44,7 +44,6 @@ import { ConfirmationDialogComponent } from './report/confirmation-dialog/confir
 
     AddNewWorkerComponent,
     SetPasswordComponent,
-    ConfirmationDialogComponent,
   ],
   exports: [
     MatNativeDateModule,
@@ -62,6 +61,9 @@ import { ConfirmationDialogComponent } from './report/confirmation-dialog/confir
     
     AppRoutingModule,
     ReportModule,
+
+    SharedModule,
+    
 
     ToastrModule.forRoot({
       positionClass :'toast-bottom-right'

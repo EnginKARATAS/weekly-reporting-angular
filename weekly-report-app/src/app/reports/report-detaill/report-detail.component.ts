@@ -9,7 +9,11 @@ import { MailService } from 'src/app/services/mail.service';
 import { ReportService } from 'src/app/services/report.service';
 import { RowService } from 'src/app/services/row.service';
 import { WorkerService } from 'src/app/services/worker.service';
-
+import { PopupConfirmationComponent } from 'src/app/shared/popup-confirmation/popup-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
+export interface DialogData {
+  test: 'tested';
+}
 @Component({
   selector: 'app-report-detail',
   templateUrl: './report-detail.component.html',
@@ -52,7 +56,8 @@ export class ReportDetailComponent implements OnInit {
     private cookieService: CookieService,
     private router: Router,
     private mailService: MailService,
-    private workerService: WorkerService
+    private workerService: WorkerService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +73,17 @@ export class ReportDetailComponent implements OnInit {
     this.checkReportSended();
   }
 
+  openDialogAndDeleteRowByCode(row) {
+    const dialogRef = this.dialog.open(PopupConfirmationComponent, {
+      data: { header: 'Aksiyonu silmek istediğinize emin misiniz?', message: 'Seçtiğiniz aksiyon sistem tarafından silinecektir.' },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      if (result == true) {
+        this.deleteRowByCode(row);
+      } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
+    });
+  }
   createRowForm() {
     this.rowForm = this.formBuilder.group({
       report_id: ['', Validators.required],
@@ -85,7 +101,7 @@ export class ReportDetailComponent implements OnInit {
   }
 
   sendToAddRowCompenent(row) {
-    console.log(row)
+    console.log(row);
     this.pasteModel.claimants = row.claimants;
     this.pasteModel.matter = row.matter;
     this.pasteModel.status = row.status;
@@ -94,8 +110,7 @@ export class ReportDetailComponent implements OnInit {
     this.pasteModel.finish_date = row.finish_date;
     this.pasteModel.actions = row.actions;
     this.pasteModel.weekly_time_spent = row.weekly_time_spent;
-    
-    this.pasteModel.is_timeout = row.is_timeout? "Var":"Yok";
+    this.pasteModel.is_timeout = row.is_timeout ? 'Var' : 'Yok';
     this.pasteModel.comments = row.comments;
   }
 
@@ -230,14 +245,16 @@ export class ReportDetailComponent implements OnInit {
   //   });
   // }
 
-  deleteRowByCode(row):void{
-    this.rowService.deleteRowByCode(row.code).subscribe(data => {
-      debugger
-      if (data.resCode == 200) 
+  deleteRowByCode(row): void {
+    this.rowService.deleteRowByCode(row.code).subscribe((data) => {
+      if (data.resCode == 200) {
         this.toastrService.success(data.message);
-      else
-        this.toastrService.error(data.message);
-    })
+        this.rows = this.rows.filter(function (r) {
+          if (r.code == row.code) return false;
+          return true;
+        });
+      } else this.toastrService.error(data.message);
+    });
   }
   addRow(): void {
     this.toastrService.info('Satır başarılı bir şekilde eklendi');
@@ -245,9 +262,7 @@ export class ReportDetailComponent implements OnInit {
     this.rowForm.value.report_id = this.reportId;
 
     this.rowService.addRow(this.rowForm.value).subscribe((data) => {
-      debugger
       this.rows.push(data);
-
     });
 
     // if (this.rowForm.valid) {

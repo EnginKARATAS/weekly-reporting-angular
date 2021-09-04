@@ -1,3 +1,4 @@
+
 <section class="jumbotron text-center mt-4">
   <div class="container">
     <h1 class="jumbotron-heading" *ngIf="rows">{{ rows[0]?.week_id + ". Hafta" }} | Haftalık Faaliyet Raporu</h1>
@@ -181,7 +182,7 @@
       <th scope="row">
         <ng-template #workerEdit>
           <button (click)="sendToAddRowCompenent(row)" class="badge badge-outline-primary">{{i+1}}. Satır Getir</button>
-          <button (click)="deleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}. Sil</button>
+           <button mat-button (click)="openDialogAndDeleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}. Sil</button>
         </ng-template>
         <mat-checkbox *ngIf="gmLoginStatus; else workerEdit" class="example-margin" [(ngModel)]="checkBoxes[i].checked">
         </mat-checkbox>

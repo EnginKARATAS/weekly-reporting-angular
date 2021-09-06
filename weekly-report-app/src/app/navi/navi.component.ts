@@ -12,12 +12,12 @@ import { PopupConfirmationComponent } from '../shared/popup-confirmation/popup-c
   styleUrls: ['./navi.component.css'],
 })
 export class NaviComponent implements OnInit {
-  // gmisLoggedIn: boolean;
+  gmisLoggedIn: boolean;
+  isLoggedIn: boolean;
   worker_id: number;
 
   @Input() isWorkerAuth: boolean;
   @Input() isGmAuth: boolean;
-isLoggedIn
   constructor(
     private cookieService: CookieService,
     private router: Router,

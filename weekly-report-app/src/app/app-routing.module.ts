@@ -16,10 +16,10 @@ import { GmadminComponent } from './reports/gmadmin/gmadmin.component';
 
 const routes = ([
   { path: 'gmlogin', component: GmloginComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate:[LoginGuard] },
   { path: 'add-worker', component: AddNewWorkerComponent },
   { path: 'set-password/:token', component: SetPasswordComponent, canActivate:[SetPasswordGuard] },
-  { path: '', component: LoginComponent },
+  { path: '', component: LoginComponent  },
   { path: 'gmadmin', component: GmadminComponent },
   { path: 'report-form', component: ReportFormComponent },
   { path: '', component: WelcomeComponent, pathMatch: 'full' }, //anasayfa

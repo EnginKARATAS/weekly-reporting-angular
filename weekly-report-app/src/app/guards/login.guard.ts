@@ -24,6 +24,7 @@ export class LoginGuard implements CanActivate {
     | boolean
     | UrlTree {
     if (this.cookieService.get('isLoggedIn') || this.cookieService.get('gmisLoggedIn')) {
+      
       return true;
     } else {
       this.router.navigate(['login']);

@@ -12,7 +12,12 @@ export class ReportService {
   thirdUrl: string = 'http://localhost:4000/api/sendreport';
   fourthUrl: string = 'http://localhost:4000/api/sendbackreport';
   deleteUrl: string = 'http://localhost:4000/deletereportbyid'
+  sixthUrl: string = 'http://localhost:4000/api/reports/getByCode';
   constructor(private http: HttpClient) {}
+
+  getByCode(code: number): Observable<any>{
+    return this.http.post<any>(`${this.sixthUrl}`,code);
+  }
 
   getAll(): Observable<any> {
     return this.http.get<Report>(this.baseUrl);

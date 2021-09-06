@@ -13,8 +13,11 @@ reportRouter.get('/:id', controller.findByWorkerId);
 // Retrieve all items
 reportRouter.get('/', controller.findAll);
 
+
 // Create a new item
 reportRouter.post('/', controller.create);
+
+reportRouter.post('/getByCode', controller.getByCode);
 
 // Update an item
 reportRouter.put('/', controller.update);

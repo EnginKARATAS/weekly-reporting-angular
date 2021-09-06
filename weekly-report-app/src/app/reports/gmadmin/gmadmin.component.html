@@ -1,15 +1,24 @@
-<div class="row alert alert-warning">
-  <div class="col-md-7 pt-2">
-    <h1>Çalışan Raporları {{showMessage}}</h1>
-  </div>
-</div>
+<p class="badge badge-outline float-right">
+  Çalışan Raporları {{ showMessage }}
+</p>
 
 <!-- <div class="form-group">
     <label for="filterText">Email address</label>
     <input type="text" [(ngModel)]="_listFilter" class="form-control" id="_listFilter" placeholder="arama">
   </div>
   {{_listFilter}} -->
-
+<form [formGroup]="searchForm" class="form-inline my-2 my-lg-0">
+  <input
+    class="form-control mr-sm-2"
+    type="search"
+    placeholder="Koda Göre Ara"
+    aria-label="Search"
+    formControlName="searchBarValue"
+  />
+  <button class="btn btn-outline-success my-2 my-sm-0" (click)="searchByCode()">
+    Ara
+  </button>
+</form>
 <table class="table">
   <thead>
     <tr>
@@ -19,24 +28,46 @@
     </tr>
   </thead>
   <tbody>
-    <tr [class]="overColor(report.id)" (mouseover)="setCurrentCategory(report.id)"
-      (mouseout)="setCurrentCategory(report.id)" *ngFor="let report of reports; let i = index">
+    <tr
+      [class]="overColor(report.id)"
+      (mouseover)="setCurrentCategory(report.id)"
+      (mouseout)="setCurrentCategory(report.id)"
+      *ngFor="let report of reports; let i = index"
+    >
       <ng-container *ngIf="report.is_report_sended; else elseTemplate">
-        <th scope="row">{{i + 1}}</th>
-        <td>{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
+          {{
+            report.week_id + " " + report.worker + " Haftalık Çalışma Raporu"
+          }}
+        </td>
         <div class="row">
-          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-1 pb-2" routerLink="/report-detail/{{ report.id }}">Gör</button>
+          <button
+            class="btn btn-dark btn-sm text-xs-right col-md-4 m-1 pb-2"
+            routerLink="/report-detail/{{ report.id }}"
+          >
+            Gör
+          </button>
           <!-- <button class="btn btn-danger btn-sm col-md-1 mt-1 mb-1 p-1" (click)="deleteReport(report.id)">Sil</button> -->
-          <p class=" text-success m-1 col-md-2" >✔gönderildi</p>
+          <p class="text-success m-1 col-md-2">✔gönderildi</p>
         </div>
       </ng-container>
       <ng-template #elseTemplate>
-        <th scope="">{{i + 1}}</th>
-        <td>{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
+        <th scope="">{{ i + 1 }}</th>
+        <td>
+          {{
+            report.week_id + " " + report.worker + " Haftalık Çalışma Raporu"
+          }}
+        </td>
         <div class="row">
-          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-1 pb-2" routerLink="/report-detail/{{ report.id }}">Gör</button>
+          <button
+            class="btn btn-dark btn-sm text-xs-right col-md-4 m-1 pb-2"
+            routerLink="/report-detail/{{ report.id }}"
+          >
+            Gör
+          </button>
           <!-- <button class="btn btn-danger btn-sm col-md-1 mt-1 mb-1 p-1" routerLink="/report-detail/{{ report.id }}">Sil</button> -->
-          <p class=" text-danger m-1 col-md-2" >✖gönderilmedi</p>
+          <p class="text-danger m-1 col-md-2">✖gönderilmedi</p>
         </div>
       </ng-template>
     </tr>

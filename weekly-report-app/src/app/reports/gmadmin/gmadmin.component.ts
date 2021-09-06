@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Report } from 'src/app/models/reports';
@@ -17,9 +18,16 @@ export class GmadminComponent implements OnInit {
   _listFilter = '';
   showMessage = '';
 
-  ngOnInit(): void {
+  searchForm = new FormGroup({
+    searchBarValue: new FormControl('')
+    });
+
+  ngOnInit(): void {  
     this.retrieveReports();
     // this.showMessage = this.cookieService.get('Test');
+ 
+  
+
   }
   constructor(
     private reportService: ReportService,
@@ -45,6 +53,15 @@ export class GmadminComponent implements OnInit {
 
   public get filterText(): string {
     return this.filterText;
+  }
+
+
+  searchByCode(){
+    let searchBarValue = this.searchForm.value
+    if (Number.isInteger(searchBarValue) ) {
+      this.reportService.getByCode(searchBarValue);
+    }
+    this.toastrService.info("Aksiyonun kodu sadece sayı içermelidir!")
   }
 
   //think

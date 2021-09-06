@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.createLoginForm();
+    this.cookieService.deleteAll();
+
     // this.id = this.cookieService.get('Test');
   }
 
@@ -51,11 +53,11 @@ export class LoginComponent implements OnInit {
             this.cookieService.set('surname', data[0].worker_surname);
             this.cookieService.set('id', data[0].id);
             this.cookieService.set('isLoggedIn', 'true');
-            this.router.navigate(['/all-reports']);
+            this.router.navigate(['/all-reports']).then(d => {
+              window.location.reload();
+            });
             this.toastrService.success('Başarıyla Giriş Yapıldı');
-          }
-          else this.toastrService.error("Kullanıcı Adı Veya Şifre Hatalı")
-          
+          } else this.toastrService.error('Kullanıcı Adı Veya Şifre Hatalı');
         });
     }
   }

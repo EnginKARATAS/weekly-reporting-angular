@@ -153,22 +153,22 @@
 <table class="table table-striped table-bordered table-hover ">
   <thead class="thead-dark">
     <tr>
-      <th style="width: 3%" matTooltip="Cool">No</th>
-      <th class="bg-secondary" style="width: 20%" matTooltip="Yapılan işin tanımı">Aksiyonlar</th>
-      <th style="width: 20%" matTooltip="Cool">Yorum</th>
+      <th style="width: 3%" >No</th>
+      <th class="bg-secondary" style="width: 20%" matTooltip="Yapılan işin tanımı, alınan aksiyonlar ve yapılmış işlerin tamamı bu bölüme yazılmalıdır. Aksiyon, yöneticinizin raporu sağlıklı inceleyebilmesi için elzemdir. Lütfen eksiksizce doldurunuz.">Aksiyonlar</th>
+      <th style="width: 20%" matTooltip="Çalışmanın nasıl ilerlediği, çalışmanın hangi aşamada olduğu ve sonucunda oluşabilecekler hakkında detaylı bilgiler edinebilmeniz için lütfen #yorumlar alanını eksiksiz bir şekilde doldurunuz.">Yorum</th>
       <!-- <th matTooltip="Cool">Pipe Kod</th> -->
-      <th matTooltip="Cool">
+      <th matTooltip="Önem derecesi, her bir aksiyon için belirlenmelidir. Dikkatlice seçim yapınız.">
         Önem
       </th>
-      <th matTooltip="Cool">Başlama T.
+      <th matTooltip="Talep tarihi, ne zaman atandığı veya hangi tarihte başladığınızdır.">Başlama T.
       </th>
-      <th style="width: 12%" matTooltip="Cool">Bitirme T.</th>
-      <th matTooltip="Cool">Aşım</th>
-      <th matTooltip="Cool">İsteyen</th>
-      <th style="width: 12%" matTooltip="Cool">Planlanan T.</th>
-      <th matTooltip="Ne kadar süre geçtiğini belirtir">Süre</th>
-      <th matTooltip="İşin tamamlanıp tamamlanmağıdını gösterir.">Durumu</th>
-      <th matTooltip="Cool">Kod</th>
+      <th style="width: 12%" matTooltip="Talebin veya aksiyonun ne zaman son bulduğudur.">Bitirme T.</th>
+      <th matTooltip="Aksiyonunuzun zaman aşımına uğrayıp uğramadığını belirtiniz">Aşım</th>
+      <th matTooltip="Aksiyonu isteyen/talep eden kişidir">İsteyen</th>
+      <th style="width: 12%" matTooltip="Planlanmış bitirme tarihi, işin hangi tarihte bitirilmesi gerektiğini belirttiğiniz yerdir.">Planlanan T.</th>
+      <th matTooltip="Haftalık olarak bu aksiyonda ne kadar süre harcadığınız bu kısımda verilmelidir.">Süre</th>
+      <th matTooltip="İşin tamamlanıp tamamlanmağıdını veya hangi aşamada olduğunu gösterir.">Durumu</th>
+      <th matTooltip="Satırın benzersiz değerini ifade eder.">Kod</th>
     </tr>
   </thead>
   <div *ngIf="gmLoginStatus" class="d-inline row container">

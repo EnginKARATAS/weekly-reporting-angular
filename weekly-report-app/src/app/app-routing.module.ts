@@ -16,7 +16,7 @@ import { GmadminComponent } from './reports/gmadmin/gmadmin.component';
 
 const routes = ([
   { path: 'gmlogin', component: GmloginComponent },
-  { path: 'login', component: LoginComponent, canActivate:[LoginGuard] },
+  { path: 'login', component: LoginComponent  },
   { path: 'add-worker', component: AddNewWorkerComponent },
   { path: 'set-password/:token', component: SetPasswordComponent, canActivate:[SetPasswordGuard] },
   { path: '', component: LoginComponent  },
@@ -26,8 +26,8 @@ const routes = ([
 ])
 
 const childRoutes = ([
-  { path: 'all-reports', component: AllReportsComponent, canActivate:[LoginGuard] },
-  { path: 'report-detail/:report_id', component: ReportDetailComponent, canActivate:[LoginGuard] },
+  { path: 'all-reports', component: AllReportsComponent  },
+  { path: 'report-detail/:report_id', component: ReportDetailComponent  },
   { path: '**', component: Page404Component, pathMatch: 'full' }, //404
 
 ])

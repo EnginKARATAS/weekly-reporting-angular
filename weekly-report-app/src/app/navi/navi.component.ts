@@ -27,9 +27,10 @@ export class NaviComponent implements OnInit {
     private toastrService: ToastrService
   ) {}
 
+  
   ngOnInit(): void {
-    // this.isLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
-    // this.gmisLoggedIn = this.cookieService.get('gmisLoggedIn').includes('true');
+    this.isLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
+    this.gmisLoggedIn = this.cookieService.get('gmisLoggedIn').includes('true');
     this.worker_id = parseInt(this.cookieService.get('id'));
   }
 
@@ -90,7 +91,9 @@ export class NaviComponent implements OnInit {
     this.isWorkerAuth = false
     this.cookieService.deleteAll();
     this.toast.info('Çıkış Başarılı');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(b =>{
+      window.location.reload();
+    });;
 
   }
 }

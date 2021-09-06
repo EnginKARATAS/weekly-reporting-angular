@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/worker-login/login.component';
 import { SharedModule } from './shared/shared.module';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -44,6 +45,7 @@ import { SharedModule } from './shared/shared.module';
 
     AddNewWorkerComponent,
     SetPasswordComponent,
+    FooterComponent,
   ],
   exports: [
     MatNativeDateModule,

@@ -161,7 +161,9 @@ export class ReportDetailComponent implements OnInit {
 
     // window.location.reload();
     this.toastrService.success('Rapor başarıyla gönderildi.');
-    this.router.navigate(['/all-reports']);
+    this.router.navigate(['/all-reports']).then(b =>{
+      window.location.reload();
+    });;
   }
 
   sendMailToGm() {

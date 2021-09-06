@@ -31,6 +31,7 @@ export class GmloginComponent implements OnInit {
 
   ngOnInit(): void {
     this.createLoginForm();
+    this.cookieService.deleteAll();
     // this.id = this.cookieService.get('Test');
   }
 
@@ -52,7 +53,9 @@ export class GmloginComponent implements OnInit {
             this.cookieService.set('gmsurname', data[0].claimnats_surname);
             this.cookieService.set('gmid', data[0].id);
             this.cookieService.set('gmisLoggedIn', 'true');
-            this.router.navigate(['/gmadmin']);
+            this.router.navigate(['/gmadmin']).then(b =>{
+              window.location.reload();
+            });;
           }
           else this.toastrService.error("Kullanıcı Adı Veya Şifre Hatalı")
 

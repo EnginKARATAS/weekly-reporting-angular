@@ -22,7 +22,7 @@
 
       <ng-container *ngIf="report.is_report_sended; else elseTemplate">
         <th scope="row">{{i + 1}}</th>
-        <td class="text-dark">{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
+        <td class="text-dark">{{report.week_id + ". Hafta" + report.worker + " Haftalık Çalışma Raporu"}}</td>
         <div class="row">
           <button class="btn btn-dark btn-sm text-xs-right  col-md-3" routerLink="/report-detail/{{ report.id }}">Gör</button>
           <p class=" text-success  col-md-2" >✔gönderildi</p>
@@ -31,7 +31,7 @@
 
       <ng-template #elseTemplate>
         <th scope="">{{i + 1}}</th>
-        <td class="text-dark">{{report.week_name + " " + report.worker + " Haftalık Çalışma Raporu"}}</td>
+        <td class="text-dark">{{report.week_id + ". Hafta" + report.worker + " Haftalık Çalışma Raporu"}}</td>
         <div class="row">
           <button class="btn btn-dark btn-sm text-xs-right  col-md-3" routerLink="/report-detail/{{ report.id }}">Düzenle</button>
           <p class=" text-danger  col-md-2" for="">✖gönderilmedi</p>

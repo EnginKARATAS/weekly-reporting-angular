@@ -5,8 +5,8 @@ var con = require("./../../config/db");
 // Report Object
 
 var Report = function (report) {
-  this.is_report_sended = report.is_report_sended;
   this.week_id = report.week_id;
+  this.is_report_sended = report.is_report_sended;
   this.worker_id = report.worker_id;
   this.claimant_id = report.claimant_id;
   this.report_commit_date = report.report_commit_date;
@@ -15,8 +15,8 @@ var Report = function (report) {
 
 // Define CRUD Operations Functions
 Report.findByWorkerId = function (id, result) {
-  let sql = `SELECT r.id, w.week_name, r.is_report_sended, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
-  weeks w ON r.week_id = w.id INNER JOIN 
+  let sql = `SELECT r.id, w.week_name, w.week_id, r.is_report_sended, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  weeks w ON r.week_id = w.week_id INNER JOIN 
   workers wo ON r.worker_id = wo.id
   WHERE worker_id = ?`;
 
@@ -74,19 +74,38 @@ Report.findAll = function (result) {
     result(null, rows);
   });
 };
-
+let ResponseModel = function () {
+  (this.message = ""), (this.resCode = 0);
+};
 Report.create = function (newReport, result) {
-	let data = [newReport.is_report_sended, newReport.week_id, newReport.worker_id, newReport.claimant_id, newReport.report_commit_date, newReport.report_edit_date];
-	
+  let rspc = { ...ResponseModel }
+	let checkData = [newReport.worker_id, newReport.week_id];
+  let data = [newReport.is_report_sended, newReport.week_id, newReport.worker_id, newReport.claimant_id, newReport.report_commit_date, newReport.report_edit_date];
+
+  let checkSql = "select * from reports where worker_id = ? AND week_id = ?"
   let sql =
   "INSERT INTO `reports` (`is_report_sended`, `week_id`, `worker_id`, `claimant_id`, `report_commit_date`, `report_edit_date`) VALUES (?, ?, ?, ?, ?, ?)";
 	
-	con.query(sql, data, (err, row, fields) => {
-    console.log("error: ", err);
-		if (err) result(err, null);
-		
-		result(null, row);
-	});
+  con.query(checkSql, checkData, (err,rows, fields) => {
+    console.log("🚀 ~ file: report.model.js ~ line 90 ~ con.query ~ rows", rows.length)
+    console.log(newReport.worker_id," ", newReport.week_id)
+    
+    if(rows.length > 0){
+      rspc.message = "Haftalık raporunuz sistemde mevcuttur. Haftalık rapor, haftada bir kere oluşturulabilir"
+      rspc.resCode = 300
+      result(null, rspc)
+    }
+    else{
+      con.query(sql, data, (err, row, fields) => {
+        console.log("error: ", err);
+        if (err) result(err, null);
+        
+        result(null, row);
+      });
+    }
+
+  })
+	
 };
 
 Report.update = function (report, result) {

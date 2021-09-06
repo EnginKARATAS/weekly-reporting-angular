@@ -246,8 +246,9 @@ app.get("/api/reports/isreportsended/:id", (req, res) => {
   let sql = "SELECT is_report_sended from reports where id = ?";
 
   con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
-    if (err) result(err, null);
+  console.log("🚀 ~ file: app.js ~ line 249 ~ con.query ~ row", row)
+    
+     if (err) result(err, null);
 
     console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
     res.send(row);

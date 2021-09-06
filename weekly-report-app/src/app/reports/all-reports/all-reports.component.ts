@@ -70,16 +70,11 @@ export class AllReportsComponent implements OnInit {
   }
 
   retrieveReports(): void {
-    this.reportService.get(this.id).subscribe(
-      (data) => {
-        this.reports = data;
-        console.log(this.reports);
-        this.dataLoaded = true;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.reportService.get(this.id).subscribe(data => {
+      console.log("🚀 ~ file: all-reports.component.ts ~ line 74 ~ AllReportsComponent ~ this.reportService.get ~ data", data)
+      this.reports = data;
+      this.dataLoaded = true;
+    });
   }
 
   // change(): string{

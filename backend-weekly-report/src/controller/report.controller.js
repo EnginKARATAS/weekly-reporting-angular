@@ -24,14 +24,11 @@ exports.findById = function (req, res) {
 };
 
 exports.findByWorkerId = function (req, res) {
-  console.log("findByWorkerId");
   const id = req.params.id;
-  console.log("🚀 ~ file: report.controller.js ~ line 29 ~ id", id);
   if (!id) {
     // 400 = bad request
     return res.status(400).send("The required path variable id is missing");
   }
-
   Report.findByWorkerId(id, function (err, report) {
     if (err)
       return res
@@ -58,23 +55,43 @@ exports.findAll = function (req, res) {
   });
 };
 
+let getSystemWeekOfYear = function () {
+  let currentdate = new Date();
+  let cc = new Date().getFullYear();
+  var oneJan = new Date(cc, 0, 1);
+  let d = currentdate.getTime() - oneJan.getTime();
+  var numberOfDays = Math.floor(d / (24 * 60 * 60 * 1000));
+  var week_of_year = Math.ceil((currentdate.getDay() + 1 + numberOfDays) / 7);
+  return week_of_year;
+};
+let ResponseModel = function () {
+  (this.message = ""), (this.resCode = 0);
+};
 exports.create = function (req, res) {
-  console.log("🚀 ~ file: report.controller.js ~ line 62 ~ req", req.body);
-
   const newReport = new Report(req.body);
-
+  let rpmc = { ...ResponseModel };
+  if (newReport.week_id != getSystemWeekOfYear()) {
+    rpmc.message =
+      "Tarayıcınız ile sistemimizin tarih aralıkları aynı değildir. Lütfen tekrar deneyiniz.";
+    rpmc.resCode = 401;
+    res.json(rpmc);
+  }
   // 400 = bad request
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    return res.status(400).send("One or more required fields are missing");
+    rpmc.message = "Kabul edilmeyen bir istekte bulunuldu"
+    rpmc.resCode = 402;
+    return res.json(rpmc)
   }
   if (!newReport.week_id || !newReport.worker_id) {
-    return res.status(400).send("One or more required fields are missing");
+    rpmc.message = "Sistem yeni rapor eklerken hata verdi"
+    rpmc.resCode = 400;
+    return res.json(rpmc)
   } else {
-    Report.create(newReport, function (err, fields) {
- 
+    Report.create(newReport, function (err, row) {
       if (err) return res.status(500).send("Error occured during saving item");
-
-      return res.sendStatus(200).send();
+      
+      console.log("🚀 ~ file: report.controller.js ~ line 91 ~ row", row)
+      return res.json(row);
     });
   }
 };

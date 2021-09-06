@@ -11,25 +11,24 @@ exports.findByReport = function (req, res) {
     return res.status(400).send("The required path variable id is missing");
   }
 
-  Row.findByReport(id, function (err, report) {
+  Row.findByReport(id, function (err, rows) {
+    
     if (err)
       return res
         .status(500)
-        .send("Error occured during fetching report for id " + id);
-    console.log("report: ", report);
+        .send("Error occured during fetching rows for id " + id);
+    console.log("rows: ", rows);
 
-    if (report.length <= 0) {
+    if (rows.length <= 0) {
       return res.send(null);
     }
-    return res.send(report);
-
+    return res.send(rows);
     
   });
 };
 
 exports.findByWorkerId = function (req, res) {
   const worker_id = req.params.worker_id;
-  console.log("🚀 ~ file: report.controller.js ~ line 29 ~ id", worker_id);
 
   if (!worker_id) {
     // 400 = bad request
@@ -37,6 +36,7 @@ exports.findByWorkerId = function (req, res) {
   }
 
   Row.findByWorkerId(worker_id, function (err, report) {
+    
     if (err)
       return res
         .status(500)
@@ -59,7 +59,6 @@ exports.findAll = function (req, res) {
 
 exports.create = function (req, res) {
   const newRow = new Row(req.body);
-  console.log("🚀 ~ file: row.controller.js ~ line 63 ~ req.body", req.body);
   console.log(newRow);
   // 400 = bad request
 
@@ -106,7 +105,6 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
   const row_id = req.params.row_id;
-  console.log("🚀 ~ file: row.controller.js ~ line 109 ~ exports.delete ~ row_id", row_id)
 
   if (!row_id) {
     // 400 = bad request
@@ -114,7 +112,6 @@ exports.delete = function (req, res) {
   }
 
   Row.delete(row_id, function (err, code) {
-    console.log("🚀 ~ file: row.controller.js ~ line 117 ~ code", code)
     if (err)
       return res.json({message: "Aksiyon silinirken hata oluştu", resCode: 400});
 

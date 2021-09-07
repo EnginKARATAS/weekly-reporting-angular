@@ -64,18 +64,28 @@ export class GmadminComponent implements OnInit {
 
     if (searchVal > 100) {
       this.reportService.getByCode(searchVal).subscribe((data) => {
-        console.log("🚀 ~ file: gmadmin.component.ts ~ line 67 ~ GmadminComponent ~ this.reportService.getByCode ~ data", data)
-        if (data.action) {
-          let action = data.action[0];
-          this.filteredReports = this.reports;
-          this.reports = [];
-          this.reports.push(action);
+        if (data.resCode == 200) {
+          if (data.action) {
+            let action = data.action[0];
+            console.log(
+              '🚀 ~ file: gmadmin.component.ts ~ line 73 ~ GmadminComponent ~ this.reportService.getByCode ~ action',
+              action
+            );
+            if (action) {
+              this.filteredReports = this.reports;
+              this.reports = [];
+              this.reports.push(action);
+              this.toastrService.success(data.message);
+            }
+          }
         }
-
+        if (data.resCode == 400) {
+          this.toastrService.info(data.message);
+        }
       });
     } else {
       this.toastrService.info('Aksiyonun kodu sadece sayı içermelidir!');
-      this.reports = this.filteredReports
+      this.reports = this.filteredReports;
     }
   }
 

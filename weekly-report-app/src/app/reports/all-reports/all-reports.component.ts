@@ -18,6 +18,7 @@ export class AllReportsComponent implements OnInit {
   worker_surname: string = '';
   id: number;
   message: string = '';
+  gmId: number = 0;
 
   constructor(
     private reportService: ReportService,
@@ -55,7 +56,9 @@ export class AllReportsComponent implements OnInit {
     this.worker_name = this.cookieService.get('name');
     this.worker_surname = this.cookieService.get('surname');
     this.id = parseInt(this.cookieService.get('id'));
-    if (this.id) {
+    this.gmId = parseInt(this.cookieService.get('gmid'));
+
+    if (this.id || this.gmId) {
       this.retrieveReports();
     } else this.message = 'İlk Önce Giriş Yapmalısınız!';
   }

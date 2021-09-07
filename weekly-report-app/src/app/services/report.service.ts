@@ -11,12 +11,12 @@ export class ReportService {
   secondUrl: string = 'http://localhost:4000/api/reports/isreportsended';
   thirdUrl: string = 'http://localhost:4000/api/sendreport';
   fourthUrl: string = 'http://localhost:4000/api/sendbackreport';
-  deleteUrl: string = 'http://localhost:4000/deletereportbyid'
+  deleteUrl: string = 'http://localhost:4000/deletereportbyid';
   sixthUrl: string = 'http://localhost:4000/api/reports/getByCode';
   constructor(private http: HttpClient) {}
 
-  getByCode(code: number): Observable<any>{
-    return this.http.post<any>(`${this.sixthUrl}`,code);
+  getByCode(code): Observable<any> {
+    return this.http.post(`${this.sixthUrl}`, {code});//need to send in json format!
   }
 
   getAll(): Observable<any> {

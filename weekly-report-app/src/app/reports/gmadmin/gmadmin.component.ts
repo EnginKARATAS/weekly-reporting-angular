@@ -13,21 +13,21 @@ import { ReportService } from 'src/app/services/report.service';
 })
 export class GmadminComponent implements OnInit {
   reports: Report[] = [];
+  filteredReports: Report[] = [];
+
+  report: Report;
   dataLoaded: boolean = false;
   currentReportId: number = 0;
   _listFilter = '';
   showMessage = '';
 
   searchForm = new FormGroup({
-    searchBarValue: new FormControl('')
-    });
+    searchVal: new FormControl(''),
+  });
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.retrieveReports();
     // this.showMessage = this.cookieService.get('Test');
- 
-  
-
   }
   constructor(
     private reportService: ReportService,
@@ -55,13 +55,28 @@ export class GmadminComponent implements OnInit {
     return this.filterText;
   }
 
+  searchByCode() {
+    let searchVal = this.searchForm.value.searchVal;
+    console.log(
+      '🚀 ~ file: gmadmin.component.ts ~ line 61 ~ GmadminComponent ~ searchByCode ~ searchVal',
+      searchVal
+    );
 
-  searchByCode(){
-    let searchBarValue = this.searchForm.value
-    if (Number.isInteger(searchBarValue) ) {
-      this.reportService.getByCode(searchBarValue);
+    if (searchVal > 100) {
+      this.reportService.getByCode(searchVal).subscribe((data) => {
+        console.log("🚀 ~ file: gmadmin.component.ts ~ line 67 ~ GmadminComponent ~ this.reportService.getByCode ~ data", data)
+        if (data.action) {
+          let action = data.action[0];
+          this.filteredReports = this.reports;
+          this.reports = [];
+          this.reports.push(action);
+        }
+
+      });
+    } else {
+      this.toastrService.info('Aksiyonun kodu sadece sayı içermelidir!');
+      this.reports = this.filteredReports
     }
-    this.toastrService.info("Aksiyonun kodu sadece sayı içermelidir!")
   }
 
   //think
@@ -70,7 +85,6 @@ export class GmadminComponent implements OnInit {
     message: '',
     success: true,
   };
- 
 
   setCurrentCategory(currentReportId: number) {
     this.currentReportId = currentReportId;

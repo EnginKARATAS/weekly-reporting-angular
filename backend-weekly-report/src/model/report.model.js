@@ -118,14 +118,24 @@ Report.create = function (newReport, result) {
 };
 
 Report.getByCode = function (code, result) {
+  console.log("🚀 ~ file: report.model.js ~ line 121 ~ code", code);
   let rspc = { ...ResponseModel };
 
-  let sql = `select * from reports r INNER JOIN report_row_entries rre ON rre.report_id = r.id where rre.code = ?;`;
-  
-  con.query(sql, code, (err, rows, fields) => {
-    if (rows.length > 0) {
+  let sql = `SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  weeks w ON r.week_id = w.id INNER JOIN 
+  workers wo ON r.worker_id = wo.id INNER JOIN
+  report_row_entries rre ON rre.report_id = r.id
+  where rre.code = ?;
+  `;
+
+  // let sql = `select * from reports r INNER JOIN report_row_entries rre ON rre.report_id = r.id where rre.code = ?;`;
+
+  con.query(sql, code, (err, row, fields) => {
+    console.log("🚀 ~ file: report.model.js ~ line 130 ~ con.query ~ row", row);
+    if (row) {
       rspc.message = "Aradığınız koda ait veri getirilmiştir.";
       rspc.resCode = 200;
+      rspc.action = row;
       result(null, rspc);
     } else {
       rspc.message = "Aradığınız veri bulunamamaktadır.";

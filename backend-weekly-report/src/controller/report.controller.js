@@ -99,11 +99,11 @@ exports.create = function (req, res) {
 exports.getByCode = function (req, res) {
  
       let code = req.body.code;
-      if (Number.isInteger(code)) {
+      if (code) {
       Report.getByCode(code, function (err, row) {
-        if (err) return res.status(500).send("Error occured during saving item");
+        if (err)
+         return res.status(500).send("Error occured during saving item");
         
-        console.log("🚀 ~ file: report.controller.js ~ line 91 ~ row", row)
         return res.json(row);
       });
     }

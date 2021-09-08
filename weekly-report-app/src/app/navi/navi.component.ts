@@ -86,6 +86,7 @@ export class NaviComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
       if (result == true) {
         this.addReport();
+        window.location.reload();
       } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
     });
   }

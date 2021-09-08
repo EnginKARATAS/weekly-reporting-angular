@@ -31,11 +31,9 @@ const reportWorkerRouter = require("./src/route/reportWorker.route");
 const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
 const { EDESTADDRREQ } = require("constants");
-// const authRouter = require('./src/route/auth.route')
 
 app.use("/api/reports", reportRouter);
 app.use("/api/rows", rowRouter);
-// app.use('/auth', authRouter)
 
 app.use("/item", routes);
 app.use("/api/reports/worker", reportWorkerRouter);
@@ -116,7 +114,6 @@ app.post("/sendResetEmail", (req, res) => {
   con.query(sql, [email], (err, worker) => {
     console.log("🚀 ~ file: app.js ~ line 102 ~ con.query ~ worker", worker);
 
-
     if (worker.length > 0) {
       crypto.randomBytes(127, (err, buf) => {
         let worker_name = worker[0].worker_name;
@@ -138,14 +135,13 @@ app.post("/sendResetEmail", (req, res) => {
             );
 
             res.json({
-              message:"Şifre sıfırlamanız için email gönderildi",
-              resCode:200
-          })
+              message: "Şifre sıfırlamanız için email gönderildi",
+              resCode: 200,
+            });
           }
         });
       });
-    }
-    else{
+    } else {
       res.json({
         message: "E mailiniz sistemimizde kayıtlı değildir",
         resCode: 400,
@@ -184,9 +180,11 @@ app.put("/setpassword", (req, res) => {
   };
 
   let datenow = Date();
-  let data = [password, token, datenow];
-
+  
   if (password == repassword) {
+    password = crypto.createHash("md5").update(password).digest("hex");
+    let data = [password, token, datenow];
+    console.log("🚀 ~ file: app.js ~ line 15 ~ hash", password);
     let sql = `UPDATE workers SET password = ? WHERE token = ? AND ? < token_expire `;
     con.query(sql, data, (err, rows, fields) => {
       if (err) {
@@ -228,7 +226,7 @@ app.post("/api/workers", function (req, res) {
 
     let subject = "Katana Reporting Kaydı!";
     let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost:4200/set-password/${token}">tıklayınız</a>`;
+    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost:4200/#/set-password/${token}">tıklayınız</a>`;
     // ${req.headers.host}
     let data = [
       worker_name,
@@ -255,7 +253,11 @@ app.post("/api/workers", function (req, res) {
 
 app.post("/auth", function (request, response) {
   var username = request.body.username;
-  var password = request.body.password;
+  let password = request.body.password;
+  password = crypto.createHash("md5").update(password).digest("hex");
+  password = password.substring(0, 16)
+  console.log("🚀 ~ file: app.js ~ line 259 ~ password", password)
+
   if (username && password) {
     let sql =
       "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password=?";
@@ -353,7 +355,7 @@ app.get("/api/sendreport/:id", function (request, response) {
       response.end();
     });
   } else {
-    response.send("Güncellenecek id hatalı");
+    response.send("Güncellenecek id ptalı");
     response.end();
   }
 });

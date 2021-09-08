@@ -132,7 +132,7 @@ Report.getByCode = function (code, result) {
 
   con.query(sql, code, (err, row, fields) => {
     console.log("🚀 ~ file: report.model.js ~ line 130 ~ con.query ~ row", row);
-    if (row) {
+    if (row.length > 0) {
       rspc.message = "Aradığınız koda ait veri getirilmiştir.";
       rspc.resCode = 200;
       rspc.action = row;
@@ -160,7 +160,7 @@ Report.getByAction = function (action, result) {
 
   con.query(sql, (err, row, fields) => {
     console.log("🚀 ~ file: report.model.js ~ line 130 ~ con.query ~ row", row);
-    if (row) {
+    if (row.length > 0) {
       rspc.message = "Aradığınız koda ait veri getirilmiştir.";
       rspc.resCode = 200;
       rspc.action = row;

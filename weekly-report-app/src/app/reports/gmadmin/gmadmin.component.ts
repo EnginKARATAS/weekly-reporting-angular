@@ -60,7 +60,7 @@ export class GmadminComponent implements OnInit {
 
   searchByAction() {
     let searchVal = this.search2Form.value.search2Val;
-    if (searchVal.length > 0 && searchVal.length<500) {
+    if (searchVal.length > 0 && searchVal.length < 500) {
       this.reportService.getByAction(searchVal).subscribe((data) => {
         if (data.resCode == 200) {
           if (data.action) {
@@ -82,7 +82,7 @@ export class GmadminComponent implements OnInit {
         }
       });
     } else {
-      this.toastrService.info('Aksiyonun kodu sadece sayı içermelidir!');
+      this.toastrService.info('Aksiyonun kodu Boş bırakılmamalıdır!');
       this.reports = this.filteredReports;
     }
   }
@@ -99,15 +99,15 @@ export class GmadminComponent implements OnInit {
         if (data.resCode == 200) {
           if (data.action) {
             let action = data.action[0];
-            console.log(
-              '🚀 ~ file: gmadmin.component.ts ~ line 73 ~ GmadminComponent ~ this.reportService.getByCode ~ action',
-              action
-            );
-            if (action) {
-              this.filteredReports = this.reports;
-              this.reports = [];
-              this.reports.push(action);
-              this.toastrService.success(data.message);
+            if (action == undefined) {
+
+            } else {
+              if (action) {
+                this.filteredReports = this.reports;
+                this.reports = [];
+                this.reports.push(action);
+                this.toastrService.success(data.message);
+              }
             }
           }
         }
@@ -116,7 +116,7 @@ export class GmadminComponent implements OnInit {
         }
       });
     } else {
-      this.toastrService.info('Aksiyonun kodu sadece sayı içermelidir!');
+      this.toastrService.info('Kodlar sadece sayı içermektedir. Lütfen ');
       this.reports = this.filteredReports;
     }
   }

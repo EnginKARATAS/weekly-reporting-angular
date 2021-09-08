@@ -279,6 +279,7 @@ export class ReportDetailComponent implements OnInit {
   }
 
   revisionRequest(checkBoxes) {
+    
     let code = '';
     if (checkBoxes.length > 0) {
       checkBoxes.forEach((item) => {

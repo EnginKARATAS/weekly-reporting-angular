@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
+
 import {
   FormGroup,
   FormControl,
@@ -18,7 +20,6 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   id: number;
-
   loginForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -33,8 +34,9 @@ export class LoginComponent implements OnInit {
     this.cookieService.deleteAll();
 
     // this.id = this.cookieService.get('Test');
-  }
 
+  }
+ 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],

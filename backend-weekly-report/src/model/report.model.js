@@ -21,13 +21,24 @@ Report.findByWorkerId = function (id, result) {
   workers wo ON r.worker_id = wo.id
   WHERE worker_id = ?`;
 
-  con.query(sql, id, (err, row, fields) => {
+  con.query(sql, id, (err, rows, fields) => {
     console.log("error", err);
     if (err) result(err, null);
-    result(null, row);
+    result(null, rows);
   });
 };
 
+Report.findAll = function (result) {
+  let sql = `SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  weeks w ON r.week_id = w.week_id INNER JOIN 
+  workers wo ON r.worker_id = wo.id`;
+  con.query(sql, (err, rows, fields) => {
+    console.log("error: ", err);
+    if (err) result(err, null);
+
+    result(null, rows);
+  });
+};
 Report.findById = function (id, result) {
   let sql = `SELECT r.id, w.week_name, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
   weeks w ON r.week_id = w.id INNER JOIN 
@@ -64,17 +75,6 @@ Report.findByCategoryId = function (id, result) {
 // 	});
 // };
 
-Report.findAll = function (result) {
-  let sql = `SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
-  weeks w ON r.week_id = w.id INNER JOIN 
-  workers wo ON r.worker_id = wo.id`;
-  con.query(sql, (err, rows, fields) => {
-    console.log("error: ", err);
-    if (err) result(err, null);
-
-    result(null, rows);
-  });
-};
 let ResponseModel = function () {
   (this.message = ""), (this.resCode = 0);
 };
@@ -144,6 +144,35 @@ Report.getByCode = function (code, result) {
     }
   });
 };
+
+Report.getByAction = function (action, result) {
+  console.log("🚀 ~ file: report.model.js ~ line 121 ~ code", action);
+  let rspc = { ...ResponseModel };
+
+  let sql = `SELECT r.id, rre.actions , r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  weeks w ON r.week_id = w.id INNER JOIN 
+  workers wo ON r.worker_id = wo.id INNER JOIN
+  report_row_entries rre ON rre.report_id = r.id
+  WHERE rre.actions LIKE '%${action}%'
+  `;
+
+  // let sql = `select * from reports r INNER JOIN report_row_entries rre ON rre.report_id = r.id where rre.code = ?;`;
+
+  con.query(sql, (err, row, fields) => {
+    console.log("🚀 ~ file: report.model.js ~ line 130 ~ con.query ~ row", row);
+    if (row) {
+      rspc.message = "Aradığınız koda ait veri getirilmiştir.";
+      rspc.resCode = 200;
+      rspc.action = row;
+      result(null, rspc);
+    } else {
+      rspc.message = "Aradığınız veri bulunamamaktadır.";
+      rspc.resCode = 400;
+      result(null, rspc);
+    }
+  });
+};
+
 
 Report.update = function (report, result) {
   let data = [

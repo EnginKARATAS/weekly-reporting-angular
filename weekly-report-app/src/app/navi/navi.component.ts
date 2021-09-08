@@ -16,6 +16,8 @@ export class NaviComponent implements OnInit {
   isLoggedIn: boolean;
   worker_id: number;
 
+  logged: boolean = false;
+
   @Input() isWorkerAuth: boolean;
   @Input() isGmAuth: boolean;
   constructor(
@@ -31,6 +33,7 @@ export class NaviComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
     this.gmisLoggedIn = this.cookieService.get('gmisLoggedIn').includes('true');
+    this.logged=  this.isLoggedIn ||  this.gmisLoggedIn;
     this.worker_id = parseInt(this.cookieService.get('id'));
   }
 
@@ -61,12 +64,13 @@ export class NaviComponent implements OnInit {
       report_edit_date: report_edit_date,
     };
     this.reportService.create(report).subscribe((data) => {
-      console.log(data);
       if (data.resCode == 300) {
         this.toastrService.info(data.message);
       }
       if (data.resCode == 200) {
         this.toastrService.success(data.message);
+        window.location.reload();
+
       }
     });
   }

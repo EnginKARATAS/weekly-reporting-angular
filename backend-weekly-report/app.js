@@ -74,6 +74,21 @@ app.get("/api/workers/getbycode/:code", (req, res) => {
   });
 });
 
+app.get("/api/workers/getbyaction/:action", (req, res) => {
+  let code = req.params.action;
+  sql = `SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
+         reports ro ON w.id = ro.worker_id INNER JOIN
+         report_row_entries rre ON rre.report_id = ro.id
+         WHERE code = ?
+  `;
+  con.query(sql, code, (err, result) => {
+    if (err) {
+      res.send(err);
+    }
+    res.send(result);
+  });
+});
+
 app.post("/sendmailtogm", (req, res) => {
   let mailSended = mailer.sendMailToGeneralManager(
     req.body.general_manager_email,
@@ -88,6 +103,57 @@ app.post("/sendmailtogm", (req, res) => {
     res.end();
   }
 });
+
+app.post("/sendResetEmail", (req, res) => {
+  let date = new Date();
+  date.setHours(date.getHours() + 3);
+  let token_expire = date;
+
+  let email = req.body.email;
+  console.log("🚀 ~ file: app.js ~ line 2222228 ~ app.post ~ email", email);
+  let sql = "select * from workers where worker_email = ? ";
+
+  con.query(sql, [email], (err, worker) => {
+    console.log("🚀 ~ file: app.js ~ line 102 ~ con.query ~ worker", worker);
+
+
+    if (worker.length > 0) {
+      crypto.randomBytes(127, (err, buf) => {
+        let worker_name = worker[0].worker_name;
+        let worker_surname = worker[0].worker_surname;
+        let token = buf.toString("hex");
+
+        let data = [token, token_expire, email];
+        let update =
+          "UPDATE workers SET token = ?, token_expire = ? WHERE worker_email = ?";
+
+        con.query(update, data, (err, row) => {
+          if (err) {
+            res.json(err);
+          } else {
+            let mailSended = mailer.sendMailToWorker(
+              email,
+              `${worker_name} ${worker_surname} Şifre sıfırlama talebi`,
+              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://localhost:4200/#/set-password/${token}"> TIKLAYINIZ</a>`
+            );
+
+            res.json({
+              message:"Şifre sıfırlamanız için email gönderildi",
+              resCode:200
+          })
+          }
+        });
+      });
+    }
+    else{
+      res.json({
+        message: "E mailiniz sistemimizde kayıtlı değildir",
+        resCode: 400,
+      });
+    }
+  });
+});
+
 app.post("/sendmailtoworker", (req, res) => {
   let mailSended = mailer.sendMailToWorker(
     req.body.worker_email,
@@ -124,8 +190,8 @@ app.put("/setpassword", (req, res) => {
     let sql = `UPDATE workers SET password = ? WHERE token = ? AND ? < token_expire `;
     con.query(sql, data, (err, rows, fields) => {
       if (err) {
-        responseModel.resCode = 400
-        responseModel.message = err.message
+        responseModel.resCode = 400;
+        responseModel.message = err.message;
         res.send(responseModel);
       }
       responseModel.message =
@@ -208,7 +274,6 @@ app.post("/auth", function (request, response) {
 });
 
 app.post("/gmauth", function (request, response) {
-  request.session.test = "asdsadsa";
   var username = request.body.username;
   var password = request.body.password;
   if (username && password) {
@@ -240,15 +305,35 @@ app.get("/api/claimants", (req, res) => {
   });
 });
 
+app.get("/getWorkerByReport/:report_id", (req, res) => {
+  let report_id = parseInt(req.params.report_id);
+  console.log("🚀 ~ file: app.js ~ line 245 ~ app.get ~ report_id", report_id);
+
+  let sql = `
+  select r.id, wee.week_id, w.worker_name, w.worker_surname, w.worker_email from workers w 
+  inner JOIN reports r ON r.worker_id = w.id 
+  Left join weeks wee ON r.week_id = wee.id
+  left JOIN report_row_entries rre ON rre.report_id = r.id where r.id = ?
+  `;
+
+  con.query(sql, [report_id], (err, row, fields) => {
+    console.log("🚀 ~ file: app.js ~ line 254 ~ con.query ~ row", row);
+    console.log("error: ", err);
+    if (err) result(err, null);
+
+    res.send(row);
+  });
+});
+
 app.get("/api/reports/isreportsended/:id", (req, res) => {
   let id = req.params.id;
   console.log("**********************");
   let sql = "SELECT is_report_sended from reports where id = ?";
 
   con.query(sql, id, (err, row, fields) => {
-  console.log("🚀 ~ file: app.js ~ line 249 ~ con.query ~ row", row)
-    
-     if (err) result(err, null);
+    console.log("🚀 ~ file: app.js ~ line 249 ~ con.query ~ row", row);
+
+    if (err) result(err, null);
 
     console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
     res.send(row);

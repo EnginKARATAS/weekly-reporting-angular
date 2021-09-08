@@ -75,7 +75,10 @@ export class ReportDetailComponent implements OnInit {
 
   openDialogAndDeleteRowByCode(row) {
     const dialogRef = this.dialog.open(PopupConfirmationComponent, {
-      data: { header: 'Aksiyonu silmek istediğinize emin misiniz?', message: 'Seçtiğiniz aksiyon sistem tarafından silinecektir.' },
+      data: {
+        header: 'Aksiyonu silmek istediğinize emin misiniz?',
+        message: 'Seçtiğiniz aksiyon sistem tarafından silinecektir.',
+      },
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
@@ -161,9 +164,9 @@ export class ReportDetailComponent implements OnInit {
 
     // window.location.reload();
     this.toastrService.success('Rapor başarıyla gönderildi.');
-    this.router.navigate(['/all-reports']).then(b =>{
+    this.router.navigate(['/all-reports']).then((b) => {
       window.location.reload();
-    });;
+    });
   }
 
   sendMailToGm() {
@@ -228,14 +231,17 @@ export class ReportDetailComponent implements OnInit {
 
   getRows(report_id: any) {
     this.rowService.get(report_id).subscribe((response) => {
-      this.rows = response; //sadece rowları değil yanında week idyi de getirir
-      this.week_id = response[0].week_id;
-      response.forEach((row) => {
-        this.checkBoxes.push({
-          checked: row.checked_by_admin,
-          code: row.code,
+      if (response) {
+        // console.log("🚀 ~ file: report-detail.component.ts ~ line 231 ~ ReportDetailComponent ~ this.rowService.get ~ response", response)
+        this.rows = response; //sadece rowları değil yanında week idyi de getirir
+        this.week_id = response[0].week_id;
+        response.forEach((row) => {
+          this.checkBoxes.push({
+            checked: row.checked_by_admin,
+            code: row.code,
+          });
         });
-      });
+      }
     });
   }
 
@@ -274,46 +280,72 @@ export class ReportDetailComponent implements OnInit {
 
   revisionRequest(checkBoxes) {
     let code = '';
-    checkBoxes.forEach((item) => {
-      if (item.checked == true) {
-        code += item.code + ',';
-      }
-    });
-    if (
-      confirm(
-        'Kullanıcıdan raporun ' +
-          code +
-          ' kodlu satırlarını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!'
-      )
-    ) {
-      this.workerService
-        .getWorkerWithCode(checkBoxes[0].code)
-        .subscribe((data) => {
-          this.reportService.sendBackReport(this.reportId).subscribe((data) => {
-            console.log(
-              '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
-              data
-            );
-            this.toastrService.info(
-              `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
-            );
-          });
-          this.worker_name = data[0].worker_name;
-          this.worker_surname = data[0].worker_surname;
-          this.worker_email = data[0].worker_email;
-          let mailPacket = {
-            worker_email: this.worker_email,
-            subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
-            html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
+    if (checkBoxes.length > 0) {
+      checkBoxes.forEach((item) => {
+        if (item.checked == true) {
+          code += item.code + ',';
+        }
+      });
+      if (
+        confirm(
+          'Kullanıcıdan raporun ' +
+            code +
+            ' kodlu satırlarını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!'
+        )
+      ) {
+        this.workerService
+          .getWorkerWithCode(checkBoxes[0].code)
+          .subscribe((data) => {
+            this.reportService
+              .sendBackReport(this.reportId)
+              .subscribe((data) => {  
+                console.log(
+                  '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
+                  data
+                );
+                this.toastrService.info(  
+                  `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
+                );
+              });
+            this.worker_name = data[0].worker_name;
+            this.worker_surname = data[0].worker_surname;
+            this.worker_email = data[0].worker_email;
+            let mailPacket = {
+              worker_email: this.worker_email,
+              subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
+              html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
           <br>
           <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}&codes=${code}">tıklayınız</a> `,
-          };
+            };
 
-          this.sendMailToWorker2(mailPacket);
-          this.toastrService.success('kullanıcıya e posta gönderildi');
-        });
+            this.sendMailToWorker2(mailPacket);
+            this.toastrService.success('kullanıcıya e posta gönderildi');
+          });
+      }
     } else {
-      this.toastrService.info('mail gönderimi iptal edilmiştir');
+      this.workerService.getByReport(this.reportId).subscribe((worker) => {
+        this.worker_name = worker[0].worker_name;
+        this.worker_surname = worker[0].worker_surname;
+        this.worker_email = worker[0].worker_email;
+        this.week_id = worker[0].week_id;
+
+        this.reportService.sendBackReport(this.reportId).subscribe((data) => {
+          this.toastrService.info(
+            `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
+          );
+        });
+        let mailPacket = {
+          worker_email: this.worker_email,
+          subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
+          html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. haftalık raporunuzu boş olarak gönderdiniz. Tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
+          <br>
+          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a> `,
+        };
+        debugger
+
+        this.sendMailToWorker2(mailPacket);
+        this.toastrService.success('kullanıcıya e posta gönderildi');
+      });
     }
   }
 }

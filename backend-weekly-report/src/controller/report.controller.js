@@ -42,11 +42,6 @@ exports.findByWorkerId = function (req, res) {
 
 exports.findAll = function (req, res) {
   Report.findAll(function (err, reports) {
-    if (req.session.page_views) {
-      req.session.page_views++;
-    } else {
-      req.session.page_views = 1;
-    }
     if (err)
       return res.status(500).send("Error occured during fetching reports");
     // console.log("reports: ", reports);
@@ -107,9 +102,20 @@ exports.getByCode = function (req, res) {
         return res.json(row);
       });
     }
-  
- 
 }
+
+exports.getByAction = function (req, res) {
+  let action = req.body.action;
+  if (action) {
+  Report.getByAction(action, function (err, row) {
+    if (err)
+     return res.status(500).send("Error occured during saving item");
+    
+    return res.json(row);
+  });
+}
+}
+
 exports.update = function (req, res) {
   const report = new Report(req.body);
 

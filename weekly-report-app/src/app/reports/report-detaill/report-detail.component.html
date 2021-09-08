@@ -1,9 +1,8 @@
-
 <section class="jumbotron text-center mt-4">
   <div class="container">
-    <h1 class="jumbotron-heading" *ngIf="rows">{{ rows[0]?.week_id + ". Hafta" }} | Haftalık Faaliyet Raporu</h1>
-    <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyinizTeşekkür ederiz.<br>
-      <span *ngIf="!rows" class="badge badge-danger">⛔ Boş Rapor</span>
+    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows? rows[0]?.week_id: " .Hafta" }}&nbsp;   | Haftalık Faaliyet Raporu |</h1>
+    <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyiniz Teşekkür ederiz.<br>
+      <span *ngIf="rows.length == 0 " class="badge badge-danger">⛔ Boş Rapor</span>
     </p>
   </div>
 </section>
@@ -43,15 +42,16 @@
                   <div class="form-group row">
                     <label for="form-weekly-time-spent" class="col-4 ">Talep Sahibi</label>
                     <div class="col-8">
-                      <input [(ngModel)]="pasteModel.claimants" formControlName="claimants" #claimants id="claimants" name="claimants" type="text"
-                        class="form-control">
+                      <input [(ngModel)]="pasteModel.claimants" formControlName="claimants" #claimants id="claimants"
+                        name="claimants" type="text" class="form-control">
                     </div>
 
                   </div>
                   <div class="form-group row ">
                     <label for="" class="col-4 col-form-label">Önem Derecesi</label>
                     <div class="col-8">
-                      <select [(ngModel)]="pasteModel.matter" formControlName="matter" id="matter" name="matter" class="custom-select">
+                      <select [(ngModel)]="pasteModel.matter" formControlName="matter" id="matter" name="matter"
+                        class="custom-select">
                         <option label="-seç-"></option>
                         <option value="1">Çok Düşük</option>
                         <option value="2">Düşük</option>
@@ -64,7 +64,8 @@
                   <div class="form-group row ">
                     <label for="" class="col-4 col-form-label">İş Durumu</label>
                     <div class="col-8">
-                      <select [(ngModel)]="pasteModel.status" formControlName="status" id="status" name="status" class="custom-select">
+                      <select [(ngModel)]="pasteModel.status" formControlName="status" id="status" name="status"
+                        class="custom-select">
                         <option label="-seç-"></option>
                         <option value="Devam Ediyor">Devam Ediyor</option>
                         <option value="Bitti">Bitti</option>
@@ -77,7 +78,8 @@
                 <td class="bg-light">
 
                   <div class="row ml-2">
-                    <input [(ngModel)]="pasteModel.start_date" class="col-md-6" formControlName="start_date" matInput [matDatepicker]="picker1">
+                    <input [(ngModel)]="pasteModel.start_date" class="col-md-6" formControlName="start_date" matInput
+                      [matDatepicker]="picker1">
                     <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker1">
                     </mat-datepicker-toggle>
                     <p class="rowP">Başlama T.</p>
@@ -85,8 +87,8 @@
                   </div>
                   <!-- -->
                   <div class="row ml-2">
-                    <input [(ngModel)]="pasteModel.scheduled_completion_date" class="col-md-6" formControlName="scheduled_completion_date" matInput
-                      [matDatepicker]="picker2">
+                    <input [(ngModel)]="pasteModel.scheduled_completion_date" class="col-md-6"
+                      formControlName="scheduled_completion_date" matInput [matDatepicker]="picker2">
                     <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker2">
                     </mat-datepicker-toggle>
                     <p class="rowP">Planlanmış Bitirme T.</p>
@@ -94,7 +96,8 @@
                   </div>
                   <!-- -->
                   <div class="row ml-2">
-                    <input [(ngModel)]="pasteModel.finish_date" class="col-md-6" formControlName="finish_date" matInput [matDatepicker]="picker3">
+                    <input [(ngModel)]="pasteModel.finish_date" class="col-md-6" formControlName="finish_date" matInput
+                      [matDatepicker]="picker3">
                     <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker3">
                     </mat-datepicker-toggle>
                     <p class="rowP">Bitirme T.</p>
@@ -105,22 +108,25 @@
                 <td class="bg-light">
                   <div class="form-group row">
                     <div class="col-12">
-                      <textarea [(ngModel)]="pasteModel.actions" formControlName="actions" placeholder="Yapılan İşler / Aksiyonlar" id="actions"
-                        name="actions" cols="40" rows="8" class="form-control"></textarea>
+                      <textarea [(ngModel)]="pasteModel.actions" formControlName="actions"
+                        placeholder="Yapılan İşler / Aksiyonlar" id="actions" name="actions" cols="40" rows="8"
+                        class="form-control"></textarea>
                     </div>
                   </div>
                 </td>
                 <td class="bg-light">
                   <div class="form-group row">
                     <div class="col-md-12">
-                      <input [(ngModel)]="pasteModel.weekly_time_spent" formControlName="weekly_time_spent" id="form-time-spent" placeholder="Harcanan Süre"
-                        name="form-time-spent" type="text" class="form-control">
+                      <input [(ngModel)]="pasteModel.weekly_time_spent" formControlName="weekly_time_spent"
+                        id="form-time-spent" placeholder="Harcanan Süre" name="form-time-spent" type="text"
+                        class="form-control">
                     </div>
                   </div>
                   <!-- -->
                   <div class="form-group row ">
                     <div class="col-md-5">
-                      <select [(ngModel)]="pasteModel.is_timeout" formControlName="is_timeout" id="is_timeout" name="is_timeout" class="custom-select">
+                      <select [(ngModel)]="pasteModel.is_timeout" formControlName="is_timeout" id="is_timeout"
+                        name="is_timeout" class="custom-select">
                         <option label="-seç-"></option>
                         <option value="Var">Var</option>
                         <option value="Yok">Yok</option>
@@ -130,8 +136,9 @@
                   </div>
                   <div class="form-group row">
                     <div class="col-md-12">
-                      <textarea [(ngModel)]="pasteModel.comments" formControlName="comments" placeholder="Yorumlar / Öneriler" id="comments"
-                        name="comments" cols="40" rows="3" class="form-control"></textarea>
+                      <textarea [(ngModel)]="pasteModel.comments" formControlName="comments"
+                        placeholder="Yorumlar / Öneriler" id="comments" name="comments" cols="40" rows="3"
+                        class="form-control"></textarea>
                     </div>
                   </div>
                   <div class="form-group row float-right mt-4 mr-1">
@@ -153,9 +160,13 @@
 <table class="table table-striped table-bordered table-hover ">
   <thead class="thead-dark">
     <tr>
-      <th style="width: 3%" >No</th>
-      <th class="bg-secondary" style="width: 20%" matTooltip="Yapılan işin tanımı, alınan aksiyonlar ve yapılmış işlerin tamamı bu bölüme yazılmalıdır. Aksiyon, yöneticinizin raporu sağlıklı inceleyebilmesi için elzemdir. Lütfen eksiksizce doldurunuz.">Aksiyonlar</th>
-      <th style="width: 20%" matTooltip="Çalışmanın nasıl ilerlediği, çalışmanın hangi aşamada olduğu ve sonucunda oluşabilecekler hakkında detaylı bilgiler edinebilmeniz için lütfen #yorumlar alanını eksiksiz bir şekilde doldurunuz.">Yorum</th>
+      <th style="width: 3%">No</th>
+      <th class="bg-secondary" style="width: 20%"
+        matTooltip="Yapılan işin tanımı, alınan aksiyonlar ve yapılmış işlerin tamamı bu bölüme yazılmalıdır. Aksiyon, yöneticinizin raporu sağlıklı inceleyebilmesi için elzemdir. Lütfen eksiksizce doldurunuz.">
+        Aksiyonlar</th>
+      <th style="width: 20%"
+        matTooltip="Çalışmanın nasıl ilerlediği, çalışmanın hangi aşamada olduğu ve sonucunda oluşabilecekler hakkında detaylı bilgiler edinebilmeniz için lütfen #yorumlar alanını eksiksiz bir şekilde doldurunuz.">
+        Yorum</th>
       <!-- <th matTooltip="Cool">Pipe Kod</th> -->
       <th matTooltip="Önem derecesi, her bir aksiyon için belirlenmelidir. Dikkatlice seçim yapınız.">
         Önem
@@ -165,7 +176,9 @@
       <th style="width: 12%" matTooltip="Talebin veya aksiyonun ne zaman son bulduğudur.">Bitirme T.</th>
       <th matTooltip="Aksiyonunuzun zaman aşımına uğrayıp uğramadığını belirtiniz">Aşım</th>
       <th matTooltip="Aksiyonu isteyen/talep eden kişidir">İsteyen</th>
-      <th style="width: 12%" matTooltip="Planlanmış bitirme tarihi, işin hangi tarihte bitirilmesi gerektiğini belirttiğiniz yerdir.">Planlanan T.</th>
+      <th style="width: 12%"
+        matTooltip="Planlanmış bitirme tarihi, işin hangi tarihte bitirilmesi gerektiğini belirttiğiniz yerdir.">
+        Planlanan T.</th>
       <th matTooltip="Haftalık olarak bu aksiyonda ne kadar süre harcadığınız bu kısımda verilmelidir.">Süre</th>
       <th matTooltip="İşin tamamlanıp tamamlanmağıdını veya hangi aşamada olduğunu gösterir.">Durumu</th>
       <th matTooltip="Satırın benzersiz değerini ifade eder.">Kod</th>
@@ -181,8 +194,9 @@
     <tr *ngFor="let row of rows; let i = index">
       <th scope="row">
         <ng-template #workerEdit>
-          <button (click)="sendToAddRowCompenent(row)" class="badge badge-outline-primary">{{i+1}}. Satır Getir</button>
-           <button mat-button (click)="openDialogAndDeleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}. Sil</button>
+          <button *ngIf="!reportSendStatus && !gmLoginStatus" (click)="sendToAddRowCompenent(row)" class="badge badge-outline-primary">{{i+1}}. Satır Getir</button>
+          <button mat-button (click)="openDialogAndDeleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}.
+            Sil</button>
         </ng-template>
         <mat-checkbox *ngIf="gmLoginStatus; else workerEdit" class="example-margin" [(ngModel)]="checkBoxes[i].checked">
         </mat-checkbox>
@@ -210,7 +224,7 @@
     </tr>
   </tbody>
 </table>
-<div *ngIf="!reportSendStatus && !gmLoginStatus"class="rowSendButton">
+<div *ngIf="!reportSendStatus && !gmLoginStatus" class="rowSendButton">
   <button (click)="sendWorkerWeeklyReport()" class="btn btn-success mb-2">Haftalık Raporumu Gönder</button>
 </div>
 <!-- && gmLoginStatus -->

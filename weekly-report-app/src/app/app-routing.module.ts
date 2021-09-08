@@ -13,12 +13,14 @@ import { ReportDetailComponent } from './reports/report-detaill/report-detail.co
 import { LoginComponent } from './login/worker-login/login.component';
 import { GmloginComponent } from './login/gm-login/gmlogin.component';
 import { GmadminComponent } from './reports/gmadmin/gmadmin.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes = ([
   { path: 'gmlogin', component: GmloginComponent },
   { path: 'login', component: LoginComponent  },
   { path: 'add-worker', component: AddNewWorkerComponent },
   { path: 'set-password/:token', component: SetPasswordComponent, canActivate:[SetPasswordGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent},
   { path: '', component: LoginComponent  },
   { path: 'gmadmin', component: GmadminComponent },
   { path: 'report-form', component: ReportFormComponent },
@@ -38,7 +40,7 @@ const childRoutes = ([
   ],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {useHash: true}),
     RouterModule.forChild(childRoutes)
   ],
   exports: [RouterModule]

@@ -8,7 +8,18 @@ import { Observable } from 'rxjs';
 export class WorkerService {
   baseUrl: string = 'http://localhost:4000/api/workers';
   passwordUrl: string = 'http://localhost:4000/setpassword';
+  thirdUrl: string = 'http://localhost:4000/getWorkerByReport';
+  fourthUrl: string = 'http://localhost:4000/sendResetEmail'
+  
   constructor(private http: HttpClient) {}
+  
+  sendResetEmail(email): Observable<any> {
+    return this.http.post(this.fourthUrl, {email});
+  }
+
+  getByReport(report_id): Observable<any>{
+    return this.http.get(`${this.thirdUrl}/${report_id}`)
+  } 
 
   get(id): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);

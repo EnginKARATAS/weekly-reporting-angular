@@ -74,7 +74,6 @@ export class AllReportsComponent implements OnInit {
 
   retrieveReports(): void {
     this.reportService.get(this.id).subscribe(data => {
-      console.log("🚀 ~ file: all-reports.component.ts ~ line 74 ~ AllReportsComponent ~ this.reportService.get ~ data", data)
       this.reports = data;
       this.dataLoaded = true;
     });

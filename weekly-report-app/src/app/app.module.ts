@@ -27,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/worker-login/login.component';
 import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
@@ -46,6 +47,7 @@ import { FooterComponent } from './footer/footer.component';
     AddNewWorkerComponent,
     SetPasswordComponent,
     FooterComponent,
+    ResetPasswordComponent,
   ],
   exports: [
     MatNativeDateModule,

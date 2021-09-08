@@ -14,6 +14,8 @@ reportRouter.get('/', controller.findAll);
 reportRouter.post('/', controller.create);
 
 reportRouter.post('/getByCode', controller.getByCode);
+reportRouter.post('/getByAction', controller.getByAction);
+
 
 // Update an item
 reportRouter.put('/', controller.update);

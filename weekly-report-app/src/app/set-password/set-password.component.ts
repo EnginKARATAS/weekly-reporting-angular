@@ -51,10 +51,10 @@ export class SetPasswordComponent implements OnInit {
       };
       this.workerService.updatePassword(data).subscribe((data) => {
         if (data.resCode == 200) {
-          this.router.navigate(['/login']).then(b =>{
+          this.router.navigate(['/login']).then((b) => {
             window.location.reload();
-          });;
-          this.toastr.success(data.message);
+            this.toastr.success(data.message);
+          });
         }
         if (data.resCode == 400) this.toastr.error(data.message);
       });

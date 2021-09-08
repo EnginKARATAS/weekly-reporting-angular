@@ -48,9 +48,8 @@ export class GmloginComponent implements OnInit {
         .gmlogin(this.gmloginForm.value.username, this.gmloginForm.value.password)
         .subscribe((data) => {
           if (data) {
-            console.log(data);
             this.cookieService.set('gmname', data[0].claimant_name);
-            this.cookieService.set('gmsurname', data[0].claimnats_surname);
+            this.cookieService.set('gmsurname', data[0].claimant_surname);
             this.cookieService.set('gmid', data[0].id);
             this.cookieService.set('gmisLoggedIn', 'true');
             this.router.navigate(['/gmadmin']).then(b =>{

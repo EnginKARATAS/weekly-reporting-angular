@@ -24,6 +24,9 @@ export class GmadminComponent implements OnInit {
   searchForm = new FormGroup({
     searchVal: new FormControl(''),
   });
+  search2Form = new FormGroup({
+    search2Val: new FormControl(''),
+  });
 
   ngOnInit(): void {
     this.retrieveReports();
@@ -53,6 +56,35 @@ export class GmadminComponent implements OnInit {
 
   public get filterText(): string {
     return this.filterText;
+  }
+
+  searchByAction() {
+    let searchVal = this.search2Form.value.search2Val;
+    if (searchVal.length > 0 && searchVal.length<500) {
+      this.reportService.getByAction(searchVal).subscribe((data) => {
+        if (data.resCode == 200) {
+          if (data.action) {
+            let action = data.action[0];
+            console.log(
+              '🚀 ~ file: gmadmin.component.ts ~ line 73 ~ GmadminComponent ~ this.reportService.getByCode ~ action',
+              action
+            );
+            if (action) {
+              this.filteredReports = this.reports;
+              this.reports = [];
+              this.reports.push(action);
+              this.toastrService.success(data.message);
+            }
+          }
+        }
+        if (data.resCode == 400) {
+          this.toastrService.info(data.message);
+        }
+      });
+    } else {
+      this.toastrService.info('Aksiyonun kodu sadece sayı içermelidir!');
+      this.reports = this.filteredReports;
+    }
   }
 
   searchByCode() {

@@ -11,6 +11,7 @@ import { RowService } from 'src/app/services/row.service';
 import { WorkerService } from 'src/app/services/worker.service';
 import { PopupConfirmationComponent } from 'src/app/shared/popup-confirmation/popup-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PopupEditComponent } from 'src/app/shared/popup-edit/popup-edit.component';
 export interface DialogData {
   test: 'tested';
 }
@@ -28,6 +29,9 @@ export class ReportDetailComponent implements OnInit {
   worker_name: string = '.';
   worker_surname: string = '.';
   worker_email: string = '.';
+
+  claimant_comment: string;
+  name: string;
 
   pasteModel = {
     claimants: 'test',
@@ -278,8 +282,14 @@ export class ReportDetailComponent implements OnInit {
     // }
   }
 
+  openDialog(): void {}
+
   revisionRequest(checkBoxes) {
-    
+    const dialogRef = this.dialog.open(PopupEditComponent, {
+      width: '500px',
+      data: { name: this.name, claimant_comment: this.claimant_comment },
+    });
+
     let code = '';
     if (checkBoxes.length > 0) {
       checkBoxes.forEach((item) => {
@@ -287,42 +297,59 @@ export class ReportDetailComponent implements OnInit {
           code += item.code + ',';
         }
       });
-      if (
-        confirm(
-          'Kullanıcıdan raporun ' +
-            code +
-            ' kodlu satırlarını tekrardan düzenlemesi için e-posta gönderilecektir. Kullanıcının raporu gönderilmedi olarak işaretlenecektir. Onaylıyor musunuz?!'
-        )
-      ) {
-        this.workerService
-          .getWorkerWithCode(checkBoxes[0].code)
-          .subscribe((data) => {
-            this.reportService
-              .sendBackReport(this.reportId)
-              .subscribe((data) => {  
-                console.log(
-                  '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
-                  data
-                );
-                this.toastrService.info(  
-                  `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
-                );
-              });
-            this.worker_name = data[0].worker_name;
-            this.worker_surname = data[0].worker_surname;
-            this.worker_email = data[0].worker_email;
-            let mailPacket = {
-              worker_email: this.worker_email,
-              subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
-              html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
-          <br>
-          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}&codes=${code}">tıklayınız</a> `,
-            };
 
-            this.sendMailToWorker2(mailPacket);
-            this.toastrService.success('kullanıcıya e posta gönderildi');
-          });
-      }
+      dialogRef.afterClosed().subscribe((result) => {
+        this.claimant_comment = result;
+        console.log(this.claimant_comment);
+        if (this.claimant_comment) {
+          this.workerService
+            .getWorkerWithCode(checkBoxes[0].code)
+            .subscribe((data) => {
+              this.reportService
+                .sendBackReport(this.reportId)
+                .subscribe((data) => {
+                  console.log(
+                    '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
+                    data
+                  );
+                  this.toastrService.info(
+                    `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
+                  );
+                });
+              this.worker_name = data[0].worker_name;
+              this.worker_surname = data[0].worker_surname;
+              this.worker_email = data[0].worker_email;
+              let mailPacket = {
+                worker_email: this.worker_email,
+                subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
+                html: `
+                <table>
+                <tr>
+                    <td>Başlık</td>
+                    <td>Açıklama</td>
+                    <td>Yönetici Yorumu</td>
+                </tr>
+                <tr>
+                    <td>${this.worker_name} ${this.worker_surname} Rapor düzenleme talebi</td>
+                    <td><br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını
+                        tekrar <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi 
+                        <br>
+                        <b>raporu düzenlemek için</b><a
+                            href="http://localhost:4200/report-detail/${this.reportId}&codes=${code}">tıklayınız</a><br>
+                    </td>
+                    <td>${this.claimant_comment}</td>
+                </tr>
+                
+                </table>`,
+              };
+
+              this.sendMailToWorker2(mailPacket);
+              this.toastrService.success('kullanıcıya e posta gönderildi');
+            });
+        } else {
+          this.toastrService.info('Rapor gönderim işlemi iptal edildi');
+        }
+      });
     } else {
       this.workerService.getByReport(this.reportId).subscribe((worker) => {
         this.worker_name = worker[0].worker_name;
@@ -338,11 +365,29 @@ export class ReportDetailComponent implements OnInit {
         let mailPacket = {
           worker_email: this.worker_email,
           subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
-          html: `Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. haftalık raporunuzu boş olarak gönderdiniz. Tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
-          <br>
-          <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a> `,
+          html: `
+          <table>
+              <tr>
+                  <td>Başlık</td>
+                  <td>Açıklama</td>
+                  <td>Yönetici Yorumu</td>
+              </tr>
+              <tr>
+                  <td>${this.worker_name} ${this.worker_surname} Rapor düzenleme talebi</td>
+                  <td>
+                  
+                  Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. haftalık raporunuzu boş olarak gönderdiniz. Tekrar   <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi
+              <br>
+              <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>
+                  
+                  </td>
+                  <td>${this.claimant_comment}</td>
+              </tr>
+              
+              </table>
+          `,
         };
-        debugger
+        debugger;
 
         this.sendMailToWorker2(mailPacket);
         this.toastrService.success('kullanıcıya e posta gönderildi');

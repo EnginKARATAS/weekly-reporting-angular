@@ -29,11 +29,10 @@ export class NaviComponent implements OnInit {
     private toastrService: ToastrService
   ) {}
 
-  
   ngOnInit(): void {
     this.isLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
     this.gmisLoggedIn = this.cookieService.get('gmisLoggedIn').includes('true');
-    this.logged=  this.isLoggedIn ||  this.gmisLoggedIn;
+    this.logged = this.isLoggedIn || this.gmisLoggedIn;
     this.worker_id = parseInt(this.cookieService.get('id'));
   }
 
@@ -64,13 +63,12 @@ export class NaviComponent implements OnInit {
       report_edit_date: report_edit_date,
     };
     this.reportService.create(report).subscribe((data) => {
+
       if (data.resCode == 300) {
         this.toastrService.info(data.message);
       }
       if (data.resCode == 200) {
         this.toastrService.success(data.message);
-        window.location.reload();
-
       }
     });
   }
@@ -86,19 +84,19 @@ export class NaviComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
       if (result == true) {
         this.addReport();
-        window.location.reload();
       } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
+      
     });
+
   }
 
   logout(): void {
     this.isWorkerAuth = false;
-    this.isWorkerAuth = false
+    this.isWorkerAuth = false;
     this.cookieService.deleteAll();
     this.toast.info('Çıkış Başarılı');
-    this.router.navigate(['/login']).then(b =>{
+    this.router.navigate(['/login']).then((b) => {
       window.location.reload();
-    });;
-
+    });
   }
 }

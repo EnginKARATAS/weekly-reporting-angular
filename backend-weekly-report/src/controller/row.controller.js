@@ -12,7 +12,6 @@ exports.findByReport = function (req, res) {
   }
 
   Row.findByReport(id, function (err, rows) {
-    
     if (err)
       return res
         .status(500)

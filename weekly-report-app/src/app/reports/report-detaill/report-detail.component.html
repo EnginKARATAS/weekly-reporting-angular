@@ -1,6 +1,7 @@
 <section class="jumbotron text-center mt-4">
   <div class="container">
-    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows? rows[0]?.week_id: " .Hafta" }}&nbsp;   | Haftalık Faaliyet Raporu |</h1>
+    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows? rows[0]?.week_id: " .Hafta" }}&nbsp; | Haftalık Faaliyet Raporu
+      |</h1>
     <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyiniz Teşekkür ederiz.<br>
       <span *ngIf="rows.length == 0 " class="badge badge-danger">⛔ Boş Rapor</span>
     </p>
@@ -194,7 +195,8 @@
     <tr *ngFor="let row of rows; let i = index">
       <th scope="row">
         <ng-template #workerEdit>
-          <button *ngIf="!reportSendStatus && !gmLoginStatus" (click)="sendToAddRowCompenent(row)" class="badge badge-outline-primary">{{i+1}}. Satır Getir</button>
+          <button *ngIf="!reportSendStatus && !gmLoginStatus" (click)="sendToAddRowCompenent(row)"
+            class="badge badge-outline-primary">{{i+1}}. Satır Getir</button>
           <button mat-button (click)="openDialogAndDeleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}.
             Sil</button>
         </ng-template>
@@ -224,6 +226,11 @@
     </tr>
   </tbody>
 </table>
+
+
+
+
+
 <div *ngIf="!reportSendStatus && !gmLoginStatus" class="rowSendButton">
   <button (click)="sendWorkerWeeklyReport()" class="btn btn-success mb-2">Haftalık Raporumu Gönder</button>
 </div>

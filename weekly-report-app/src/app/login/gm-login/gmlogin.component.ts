@@ -57,7 +57,6 @@ export class GmloginComponent implements OnInit {
             });;
           }
           else this.toastrService.error("Kullanıcı Adı Veya Şifre Hatalı")
-
         });
     }
   }

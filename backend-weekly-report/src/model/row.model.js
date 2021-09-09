@@ -25,7 +25,7 @@ Row.findByReport = function (id, result) {
   INNER JOIN reports r ON s.report_id = r.id
   INNER JOIN workers w ON r.worker_id = w.id 
   INNER JOIN claimants c ON r.claimant_id = c.id
-  INNER JOIN weeks wee ON r.week_id = wee.id
+  INNER JOIN weeks wee ON r.week_id = wee.week_id
   WHERE r.id = ?;`;
   
   con.query(sql, id, (err, row, fields) => {

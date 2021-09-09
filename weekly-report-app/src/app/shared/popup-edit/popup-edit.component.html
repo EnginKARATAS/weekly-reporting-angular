@@ -1,0 +1,29 @@
+<div mat-dialog-content>
+    <p>Revizyon iste</p>
+    <mat-label>Revizyon talebinize yorumunuzu ekleyebilirsiniz</mat-label>
+    <textarea [(ngModel)]="data.animal" matInput placeholder="Yorum.."></textarea>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close (click)="onNoClick()">İptal</button>
+    <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div>
+ <!-- 
+                     <table>
+                <tr>
+                    <td>Başlık</td>
+                    <td>Açıklama</td>
+                    <td>Yönetici Yorumu</td>
+                </tr>
+                <tr>
+                    <td>${this.worker_name} ${this.worker_surname} Rapor düzenleme talebi</td>
+                    <td><br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını
+                        tekrar düzenlemelisiniz. <br> <b>raporunuz gönderilmedi olarak işaretlendi</b>
+                        <br>
+                        <b>raporu düzenlemek için</b><a
+                            href="http://localhost:4200/report-detail/${this.reportId}&codes=${code}">tıklayınız</a><br>
+                    </td>
+                    <td>${this.animal}</td>
+                </tr>
+                
+                </table>
+  -->

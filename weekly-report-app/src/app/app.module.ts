@@ -4,15 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { NaviComponent } from './navi/navi.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GmloginComponent } from './login/gm-login/gmlogin.component';
 import { VatAddedPipe } from './pipes/vat-added.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSliderModule } from '@angular/material/slider';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -28,8 +28,7 @@ import { LoginComponent } from './login/worker-login/login.component';
 import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-
-
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -49,9 +48,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FooterComponent,
     ResetPasswordComponent,
   ],
-  exports: [
-    MatNativeDateModule,
-  ],
+  exports: [MatNativeDateModule],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -59,21 +56,27 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FormsModule,
 
     HttpClientModule,
-    
+
     MatDatepickerModule,
     MatSliderModule,
-    
+
     AppRoutingModule,
     ReportModule,
 
     SharedModule,
-    
 
     ToastrModule.forRoot({
-      positionClass :'toast-bottom-right'
+      positionClass: 'toast-bottom-right',
     }),
   ],
-  providers: [CookieService],
+  providers: [
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

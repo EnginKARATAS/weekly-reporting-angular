@@ -100,7 +100,6 @@ export class GmadminComponent implements OnInit {
           if (data.action) {
             let action = data.action[0];
             if (action == undefined) {
-
             } else {
               if (action) {
                 this.filteredReports = this.reports;

@@ -10,6 +10,8 @@ const port = process.env.PORT || 4000;
 const con = require("./config/db");
 const mailer = require("./src/mailSender/sender");
 const crypto = require("crypto");
+var jwt = require("jsonwebtoken");
+const checkAuth = require("./src/middleware/checkAuth")
 
 let host = "req.headers.host";
 
@@ -32,11 +34,11 @@ const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
 const { EDESTADDRREQ } = require("constants");
 
-app.use("/api/reports", reportRouter);
-app.use("/api/rows", rowRouter);
+app.use("/api/reports", checkAuth, reportRouter);
+app.use("/api/rows", checkAuth, rowRouter);
 
-app.use("/item", routes);
-app.use("/api/reports/worker", reportWorkerRouter);
+app.use("/item", checkAuth, routes);
+app.use("/api/reports/worker",checkAuth, reportWorkerRouter);
 
 server.listen(port, () => {
   console.log("Listening on port: " + port);
@@ -53,11 +55,11 @@ const validatePayloadMiddleware = (req, res, next) => {
   }
 };
 
-app.delete("/deletereportbyid", (req, res) => {
+app.delete("/deletereportbyid", checkAuth, (req, res) => {
   sql = "";
 });
 
-app.get("/api/workers/getbycode/:code", (req, res) => {
+app.get("/api/workers/getbycode/:code", checkAuth, (req, res) => {
   let code = req.params.code;
   sql = `SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
          reports ro ON w.id = ro.worker_id INNER JOIN
@@ -72,7 +74,7 @@ app.get("/api/workers/getbycode/:code", (req, res) => {
   });
 });
 
-app.get("/api/workers/getbyaction/:action", (req, res) => {
+app.get("/api/workers/getbyaction/:action", checkAuth, (req, res) => {
   let code = req.params.action;
   sql = `SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
          reports ro ON w.id = ro.worker_id INNER JOIN
@@ -87,7 +89,7 @@ app.get("/api/workers/getbyaction/:action", (req, res) => {
   });
 });
 
-app.post("/sendmailtogm", (req, res) => {
+app.post("/sendmailtogm", checkAuth, (req, res) => {
   let mailSended = mailer.sendMailToGeneralManager(
     req.body.general_manager_email,
     req.body.subject,
@@ -102,7 +104,7 @@ app.post("/sendmailtogm", (req, res) => {
   }
 });
 
-app.post("/sendResetEmail", (req, res) => {
+app.post("/sendResetEmail", checkAuth, (req, res) => {
   let date = new Date();
   date.setHours(date.getHours() + 3);
   let token_expire = date;
@@ -180,7 +182,7 @@ app.put("/setpassword", (req, res) => {
   };
 
   let datenow = Date();
-  
+
   if (password == repassword) {
     password = crypto.createHash("md5").update(password).digest("hex");
     let data = [password, token, datenow];
@@ -205,7 +207,7 @@ app.put("/setpassword", (req, res) => {
 });
 
 //create a worker via GM
-app.post("/api/workers", function (req, res) {
+app.post("/api/workers", checkAuth, function (req, res) {
   crypto.randomBytes(127, (err, buf) => {
     if (err) {
       // Prints error
@@ -253,17 +255,34 @@ app.post("/api/workers", function (req, res) {
 
 app.post("/auth", function (request, response) {
   var username = request.body.username;
+  console.log("🚀 ~ file: app.js ~ line 257 ~ username", username);
   let password = request.body.password;
+  console.log("🚀 ~ file: app.js ~ line 259 ~ password", password);
   password = crypto.createHash("md5").update(password).digest("hex");
-  password = password.substring(0, 16)
-  console.log("🚀 ~ file: app.js ~ line 259 ~ password", password)
-
+  password = password.substring(0, 16);
   if (username && password) {
     let sql =
-      "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password=?";
-    con.query(sql, [username, password], function (err, results, fields) {
-      if (results.length > 0) {
-        response.send(results);
+      "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password = ?";
+    con.query(sql, [username, password], function (err, worker, fields) {
+      if (worker.length > 0) {
+        const token = jwt.sign(
+          {
+            muuid: worker.worker_name,
+            memail: worker.worker_email,
+            cid: worker.id,
+          },
+          "secret_key",
+          {
+            expiresIn: "2h",
+          }
+        );
+        console.log("🚀 ~ file: app.js ~ line 280 ~ token", token);
+        response.send({
+          data: worker,
+          message: "success",
+          resCode: 200,
+          token: token,
+        });
       } else {
         response.send(err);
       }
@@ -281,9 +300,20 @@ app.post("/gmauth", function (request, response) {
   if (username && password) {
     let sql =
       "SELECT username, claimant_name, claimant_surname, id FROM claimants where username = ? AND password=?";
-    con.query(sql, [username, password], function (err, results, fields) {
-      if (results.length > 0) {
-        response.send(results);
+    con.query(sql, [username, password], function (err, gm, fields) {
+      if (gm.length > 0) {
+        const token = jwt.sign(
+          {
+            muuid: gm.worker_name,
+            memail: gm.worker_email,
+            cid: gm.id,
+          },
+          "secret_key",
+          {
+            expiresIn: "2h",
+          }
+        );
+        response.send({data: gm, message: "Giriş başarılı", resCode:200, token: token});
       } else {
         response.send(err);
       }
@@ -295,7 +325,7 @@ app.post("/gmauth", function (request, response) {
   }
 });
 
-app.get("/api/claimants", (req, res) => {
+app.get("/api/claimants", checkAuth, (req, res) => {
   let sql = "SELECT claimant_name, claimant_surname FROM claimants";
 
   con.query(sql, (err, row, fields) => {
@@ -327,7 +357,7 @@ app.get("/getWorkerByReport/:report_id", (req, res) => {
   });
 });
 
-app.get("/api/reports/isreportsended/:id", (req, res) => {
+app.get("/api/reports/isreportsended/:id", checkAuth,(req, res) => {
   let id = req.params.id;
   console.log("**********************");
   let sql = "SELECT is_report_sended from reports where id = ?";
@@ -342,7 +372,7 @@ app.get("/api/reports/isreportsended/:id", (req, res) => {
   });
 });
 
-app.get("/api/sendreport/:id", function (request, response) {
+app.get("/api/sendreport/:id", checkAuth,function (request, response) {
   let report_id = request.params.id;
   if (report_id > 0) {
     let sql = `UPDATE reports SET is_report_sended = 1 WHERE id = ?; `;
@@ -360,7 +390,7 @@ app.get("/api/sendreport/:id", function (request, response) {
   }
 });
 
-app.get("/api/sendbackreport/:id", function (request, response) {
+app.get("/api/sendbackreport/:id",checkAuth, function (request, response) {
   let report_id = request.params.id;
   console.log("🚀 ~ file: app.js ~ line 252 ~ report_id", report_id);
   if (report_id > 0) {
@@ -378,17 +408,4 @@ app.get("/api/sendbackreport/:id", function (request, response) {
     response.end();
   }
 });
-
-app.get("/sec", (req, res) => {
-  console.log(
-    "🚀 ~ file: app.js ~ line 85 ~ app.get ~ req.session.test2",
-    req.session.test2
-  );
-  req.session.test2++;
-  res.send("sec " + req.session.test2);
-});
-
-app.get("/first", (req, res) => {
-  req.session.test2 = 1;
-  res.send("req.session.test2  " + req.session.test2);
-});
+ 

@@ -34,9 +34,8 @@ export class LoginComponent implements OnInit {
     this.cookieService.deleteAll();
 
     // this.id = this.cookieService.get('Test');
-
   }
- 
+
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -48,14 +47,17 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService
         .login(this.loginForm.value.username, this.loginForm.value.password)
-        .subscribe((data) => {
-          if (data) {
-            console.log(data);
-            this.cookieService.set('name', data[0].worker_name);
-            this.cookieService.set('surname', data[0].worker_surname);
-            this.cookieService.set('id', data[0].id);
+        .subscribe((respond) => {
+          if (respond.data) {
+            this.cookieService.set('name', respond.data[0].worker_name);
+            this.cookieService.set('surname', respond.data[0].worker_surname);
+            this.cookieService.set('id', respond.data[0].id);
             this.cookieService.set('isLoggedIn', 'true');
-            this.router.navigate(['/all-reports']).then(d => {
+
+            let token = respond.token;
+            localStorage.setItem('token', token);
+            
+            this.router.navigate(['/all-reports']).then((d) => {
               window.location.reload();
             });
             this.toastrService.success('Başarıyla Giriş Yapıldı');

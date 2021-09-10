@@ -7,7 +7,7 @@ import { Report } from '../models/reports';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export  class AuthService {
 baseUrl: string = 'http://localhost:4000/auth';
 gmbaseUrl: string = 'http://localhost:4000/gmauth';
 constructor(private http: HttpClient) { }
@@ -19,28 +19,8 @@ constructor(private http: HttpClient) { }
     return this.http.post<any>(this.gmbaseUrl,{username, password});
   }
 
-  get(id): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  getToken(): string {
+    return localStorage.getItem('token')
   }
-
-  create(data): Observable<any> {
-    return this.http.post(this.baseUrl, data);
-  }
-
-  update(id, data): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, data);
-  }
-
-  delete(id): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
-  }
-
-  deleteAll(): Observable<any> {
-    return this.http.delete(this.baseUrl);
-  }
-
-  // findByCode(code): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}?code=${code}`);
-  // }
- 
+    
 }

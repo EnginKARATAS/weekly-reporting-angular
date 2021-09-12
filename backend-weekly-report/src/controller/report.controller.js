@@ -27,7 +27,7 @@ exports.findByWorkerId = function (req, res) {
   const id = req.params.id;
   if (!id) {
     // 400 = bad request
-    return res.status(400).send("The required path variable id is missing");
+    return res.status(400).send("id eksik gelmiştir.");
   }
   Report.findByWorkerId(id, function (err, report) {
     if (err)

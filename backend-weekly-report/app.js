@@ -272,7 +272,7 @@ app.post("/auth", function (request, response) {
             cid: worker.id,
             admin:false
           },
-          "secret_key",
+          "dvurising",
           {
             expiresIn: "2h",
           }
@@ -297,7 +297,9 @@ app.post("/auth", function (request, response) {
 
 app.post("/gmauth", function (request, response) {
   var username = request.body.username;
-  var password = request.body.password;
+  let password = request.body.password;
+  password = crypto.createHash("md5").update(password).digest("hex");
+  password = password.substring(0, 16);
   if (username && password) {
     let sql =
       "SELECT username, claimant_name, claimant_surname, id FROM claimants where username = ? AND password=?";
@@ -309,7 +311,7 @@ app.post("/gmauth", function (request, response) {
             memail: gm.worker_email,
             cid: gm.id,
           },
-          "secret_key",
+          "dvurising",
           {
             expiresIn: "2h",
           }

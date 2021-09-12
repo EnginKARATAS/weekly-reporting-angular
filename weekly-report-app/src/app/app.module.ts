@@ -24,7 +24,6 @@ import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { TestComponent } from './test/test.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +37,6 @@ import { TestComponent } from './test/test.component';
     SetPasswordComponent,
     FooterComponent,
     ResetPasswordComponent,
-    TestComponent,
   ],
   exports: [MatNativeDateModule],
   imports: [

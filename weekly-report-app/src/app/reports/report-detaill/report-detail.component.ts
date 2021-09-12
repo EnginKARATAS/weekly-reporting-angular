@@ -175,20 +175,23 @@ export class ReportDetailComponent implements OnInit {
 
   sendMailToGm() {
     let general_manager_email = 'enginkaratas99@gmail.com';
+
     let worker_name =
       this.cookieService.get('name') + this.cookieService.get('surname');
+
     let week_id = this.week_id
       ? this.week_id
       : 'yapılan işler eklenmeden gönderildi. ';
     let subject = `<${week_id}>.Hafta<${worker_name}>`;
-    let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>
-    ${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
+
+    let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
 
     let mailPacket = {
       general_manager_email: general_manager_email,
       subject: subject,
       html: html,
     };
+
     this.mailService.sentToGm(mailPacket).subscribe((data) => {
       console.log(data);
       console.log(
@@ -285,13 +288,13 @@ export class ReportDetailComponent implements OnInit {
   openDialog(): void {}
 
   revisionRequest(checkBoxes) {
-    const dialogRef = this.dialog.open(PopupEditComponent, {
-      width: '500px',
-      data: { name: this.name, claimant_comment: this.claimant_comment },
-    });
-
     let code = '';
+    //checkbox selected
     if (checkBoxes.length > 0) {
+      const dialogRef = this.dialog.open(PopupEditComponent, {
+        width: '400px',
+        data: { name: this.name, claimant_comment: this.claimant_comment },
+      });
       checkBoxes.forEach((item) => {
         if (item.checked == true) {
           code += item.code + ',';
@@ -351,22 +354,30 @@ export class ReportDetailComponent implements OnInit {
         }
       });
     }
+    //no checked checkbox
     else {
-      this.workerService.getByReport(this.reportId).subscribe((worker) => {
-        this.worker_name = worker[0].worker_name;
-        this.worker_surname = worker[0].worker_surname;
-        this.worker_email = worker[0].worker_email;
-        this.week_id = worker[0].week_id;
+      const dialogRef = this.dialog.open(PopupEditComponent, {
+        width: '400px',
+        data: { name: this.name, claimant_comment: this.claimant_comment },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        this.claimant_comment = result;
 
-        this.reportService.sendBackReport(this.reportId).subscribe((data) => {
-          this.toastrService.info(
-            `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
-          );
-        });
-        let mailPacket = {
-          worker_email: this.worker_email,
-          subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
-          html: `
+        this.workerService.getByReport(this.reportId).subscribe((worker) => {
+          this.worker_name = worker[0].worker_name;
+          this.worker_surname = worker[0].worker_surname;
+          this.worker_email = worker[0].worker_email;
+          this.week_id = worker[0].week_id;
+
+          this.reportService.sendBackReport(this.reportId).subscribe((data) => {
+            this.toastrService.info(
+              `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
+            );
+          });
+          let mailPacket = {
+            worker_email: this.worker_email,
+            subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
+            html: `
           <table>
               <tr>
                   <td>Başlık</td>
@@ -380,17 +391,17 @@ export class ReportDetailComponent implements OnInit {
                   Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. haftalık raporunuzu boş olarak gönderdiniz. Tekrar   <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi
               <br>
               <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>
-                  
                   </td>
                   <td>${this.claimant_comment}</td>
               </tr>
               
               </table>
           `,
-        };
+          };
 
-        this.sendMailToWorker2(mailPacket);
-        this.toastrService.success('kullanıcıya e posta gönderildi');
+          this.sendMailToWorker2(mailPacket);
+          this.toastrService.success('kullanıcıya e posta gönderildi');
+        });
       });
     }
   }

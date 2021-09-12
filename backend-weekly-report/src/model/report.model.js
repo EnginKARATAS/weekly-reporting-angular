@@ -17,7 +17,7 @@ var Report = function (report) {
 // Define CRUD Operations Functions
 Report.findByWorkerId = function (id, result) {
   let sql = `SELECT r.id, w.week_name, w.week_id, r.is_report_sended, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
-  weeks w ON r.week_id = w.week_id INNER JOIN 
+  weeks w ON r.week_id = w.id INNER JOIN 
   workers wo ON r.worker_id = wo.id
   WHERE worker_id = ?`;
 
@@ -30,7 +30,7 @@ Report.findByWorkerId = function (id, result) {
 
 Report.findAll = function (result) {
   let sql = `SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
-  weeks w ON r.week_id = w.week_id INNER JOIN 
+  weeks w ON r.week_id = w.id INNER JOIN 
   workers wo ON r.worker_id = wo.id`;
   con.query(sql, (err, rows, fields) => {
     console.log("error: ", err);

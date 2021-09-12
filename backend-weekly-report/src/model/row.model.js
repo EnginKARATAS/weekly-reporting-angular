@@ -20,17 +20,15 @@ var Row = function (row) {
 };
 
 Row.findByReport = function (id, result) {
-   let sql = `SELECT r.id,s.checked_by_admin, s.code, wee.week_id, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments, s.id
+  let sql = `SELECT r.id,s.checked_by_admin, s.code, wee.week_id, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments, s.id
   FROM report_row_entries s
   INNER JOIN reports r ON s.report_id = r.id
   INNER JOIN workers w ON r.worker_id = w.id 
   INNER JOIN claimants c ON r.claimant_id = c.id
-  INNER JOIN weeks wee ON r.week_id = wee.week_id
+  INNER JOIN weeks wee ON r.week_id = wee.id
   WHERE r.id = ?;`;
-  
-  
+
   con.query(sql, id, (err, row, fields) => {
-    
     console.log("error: ", err);
     if (err) result(err, null);
 
@@ -42,7 +40,7 @@ Row.findByReport = function (id, result) {
 // Define CRUD Operations Functions
 Row.findByWorkerId = function (id, result) {
   let sql = "SELECT * FROM reports where worker_id = ?";
-  console.log("🚀 ~ file: row.model.js ~ line 44 ~ sql", sql)
+  console.log("🚀 ~ file: row.model.js ~ line 44 ~ sql", sql);
 
   con.query(sql, id, (err, row, fields) => {
     console.log("error", err);
@@ -159,9 +157,7 @@ Row.delete = function (code, result) {
   con.query(sql, code, (err, row, fields) => {
     if (err) result(err, null);
 
-     
-      result(null, code);
-      
+    result(null, code);
   });
 };
 

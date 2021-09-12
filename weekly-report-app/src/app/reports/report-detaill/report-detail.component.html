@@ -197,7 +197,7 @@
         <ng-template #workerEdit>
           <button *ngIf="!reportSendStatus && !gmLoginStatus" (click)="sendToAddRowCompenent(row)"
             class="badge badge-outline-primary">{{i+1}}. Satır Getir</button>
-          <button mat-button (click)="openDialogAndDeleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}.
+          <button *ngIf="!reportSendStatus && !gmLoginStatus" mat-button (click)="openDialogAndDeleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}.
             Sil</button>
         </ng-template>
         <mat-checkbox *ngIf="gmLoginStatus; else workerEdit" class="example-margin" [(ngModel)]="checkBoxes[i].checked">

@@ -350,7 +350,8 @@ export class ReportDetailComponent implements OnInit {
           this.toastrService.info('Rapor gönderim işlemi iptal edildi');
         }
       });
-    } else {
+    }
+    else {
       this.workerService.getByReport(this.reportId).subscribe((worker) => {
         this.worker_name = worker[0].worker_name;
         this.worker_surname = worker[0].worker_surname;
@@ -387,7 +388,6 @@ export class ReportDetailComponent implements OnInit {
               </table>
           `,
         };
-        debugger;
 
         this.sendMailToWorker2(mailPacket);
         this.toastrService.success('kullanıcıya e posta gönderildi');

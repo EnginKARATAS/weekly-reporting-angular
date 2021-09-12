@@ -28,6 +28,7 @@ Row.findByReport = function (id, result) {
   INNER JOIN weeks wee ON r.week_id = wee.week_id
   WHERE r.id = ?;`;
   
+  
   con.query(sql, id, (err, row, fields) => {
     
     console.log("error: ", err);

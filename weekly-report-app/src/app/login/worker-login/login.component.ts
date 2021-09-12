@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       this.authService
         .login(this.loginForm.value.username, this.loginForm.value.password)
         .subscribe((respond) => {
-          if (respond.data) {
+          if (respond.data[0]) {
             this.cookieService.set('name', respond.data[0].worker_name);
             this.cookieService.set('surname', respond.data[0].worker_surname);
             this.cookieService.set('id', respond.data[0].id);
@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
               window.location.reload();
             });
             this.toastrService.success('Başarıyla Giriş Yapıldı');
+            // this.toastrService.success(data.message);
           } else this.toastrService.error('Kullanıcı Adı Veya Şifre Hatalı');
         });
     }

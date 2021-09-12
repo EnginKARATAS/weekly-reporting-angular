@@ -25,22 +25,6 @@ export class AllReportsComponent implements OnInit {
     private cookieService: CookieService
   ) {}
 
-  // get listFilter(): string {
-  //   return this._listFilter;
-  // }
-  // set listFilter(value: string) {
-  //   this._listFilter = value;
-  //   this.filteredProducts = this.performFilter(value);
-  // }
-  // filteredProducts: Report[] = [];
-  // products: Report[] = [];
-
-  // performFilter(filterBy: string): Report[] {
-  //   filterBy = filterBy.toLocaleLowerCase();
-  //   return this.products.filter((product: Report) =>
-  //     product.worker_surname.toLocaleLowerCase().includes(filterBy));
-  // }
-
   public get filterText(): string {
     return this.filterText;
   }
@@ -79,42 +63,4 @@ export class AllReportsComponent implements OnInit {
     });
   }
 
-  // change(): string{
-  //   return "btn btn-dark"
-  // }
-
-  // refreshList(): void {
-  //   this.retrieveReports();
-  //   this.currentReport = null;
-  //   this.currentIndex = -1;
-  // }
-
-  // setActiveReport(report, index): void {
-  //   this.currentReport = report;
-  //   this.currentIndex = index;
-  // }
-
-  // removeAllReports(): void {
-  //   this.reportService.deleteAll().subscribe(
-  //     (response) => {
-  //       console.log(response);
-  //       this.refreshList();
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
-
-  // searchTitle(): void {
-  //   this.reportService.findByTitle(this.title).subscribe(
-  //     (data) => {
-  //       this.reports = data;
-  //       console.log(data);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
 }

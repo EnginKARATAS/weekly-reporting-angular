@@ -270,6 +270,7 @@ app.post("/auth", function (request, response) {
             muuid: worker.worker_name,
             memail: worker.worker_email,
             cid: worker.id,
+            admin:false
           },
           "secret_key",
           {

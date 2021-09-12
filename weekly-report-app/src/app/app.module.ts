@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { NaviComponent } from './navi/navi.component';
@@ -8,14 +7,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GmloginComponent } from './login/gm-login/gmlogin.component';
 import { VatAddedPipe } from './pipes/vat-added.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatSliderModule } from '@angular/material/slider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-
 import { ToastrModule } from 'ngx-toastr';
-
 import { CookieService } from 'ngx-cookie-service';
 import { AppRoutingModule } from './app-routing.module';
 import { AddNewWorkerComponent } from './add-new-worker/add-new-worker.component';
@@ -29,24 +24,21 @@ import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-
+import { TestComponent } from './test/test.component';
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
-
     NaviComponent,
     VatAddedPipe,
-
     GmadminComponent,
-
     LoginComponent,
     GmloginComponent,
-
     AddNewWorkerComponent,
     SetPasswordComponent,
     FooterComponent,
     ResetPasswordComponent,
+    TestComponent,
   ],
   exports: [MatNativeDateModule],
   imports: [
@@ -54,17 +46,12 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-
     HttpClientModule,
-
     MatDatepickerModule,
     MatSliderModule,
-
     AppRoutingModule,
     ReportModule,
-
     SharedModule,
-
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),

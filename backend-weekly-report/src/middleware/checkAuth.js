@@ -7,7 +7,8 @@ module.exports = (req, res, next) => {
         */
         const token = req.headers.authorization;
         const decodedToken = jwt.verify(token, 'secret_key');
-        req.userData = decodedToken;
+        req.userData = decodedToken;    
+        console.log("🚀 ~ file: checkAuth.js ~ line 11 ~ req.userData", req.userData)
         next();
     }catch(error) {
         return res.status(401).send({

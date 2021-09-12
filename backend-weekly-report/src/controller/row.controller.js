@@ -5,6 +5,7 @@ const Row = require("../model/row.model");
 
 exports.findByReport = function (req, res) {
   const id = req.params.id;
+  console.log("🚀 ~ file: checkAuth.js ~ line 🧨🧨🧨 ~ req.userData", req.userData)
  
   if (!id) {
     // 400 = bad request

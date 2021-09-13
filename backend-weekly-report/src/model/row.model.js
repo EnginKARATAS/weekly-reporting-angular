@@ -88,9 +88,6 @@ Row.findAll = function (result) {
 };
 
 Row.create = function (newRow, result) {
-  console.log("gelen create istenen data");
-  console.log(newRow);
-
   //-----------
   // var commit_date = new Date();
   // var dd = String(today.getDate()).padStart(2, "0");
@@ -116,6 +113,8 @@ Row.create = function (newRow, result) {
     newRow.report_id,
   ];
   console.log("🚀 ~ file: row.model.js ~ line 118 ~ data", data);
+
+  checkSql = `SELECT * FROM report_row_entries WHERE  code`
 
   let sql = `INSERT INTO report_row_entries
  (code, matter, start_date, finish_date, is_timeout, scheduled_completion_date, weekly_time_spent, status, comments, actions, claimants, report_id) VALUES 

@@ -11,7 +11,7 @@ const con = require("./config/db");
 const mailer = require("./src/mailSender/sender");
 const crypto = require("crypto");
 var jwt = require("jsonwebtoken");
-const checkAuth = require("./src/middleware/checkAuth")
+const checkAuth = require("./src/middleware/checkAuth");
 
 let host = "req.headers.host";
 
@@ -38,7 +38,7 @@ app.use("/api/reports", checkAuth, reportRouter);
 app.use("/api/rows", checkAuth, rowRouter);
 
 app.use("/item", checkAuth, routes);
-app.use("/api/reports/worker",checkAuth, reportWorkerRouter);
+app.use("/api/reports/worker", checkAuth, reportWorkerRouter);
 
 server.listen(port, () => {
   console.log("Listening on port: " + port);
@@ -133,7 +133,7 @@ app.post("/sendResetEmail", checkAuth, (req, res) => {
             let mailSended = mailer.sendMailToWorker(
               email,
               `${worker_name} ${worker_surname} Şifre sıfırlama talebi`,
-              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://localhost:4200/#/set-password/${token}"> TIKLAYINIZ</a>`
+              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://10.41.150.67:4200/#/set-password/${token}"> TIKLAYINIZ</a>`
             );
 
             res.json({
@@ -228,7 +228,7 @@ app.post("/api/workers", checkAuth, function (req, res) {
 
     let subject = "Katana Reporting Kaydı!";
     let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost:4200/#/set-password/${token}">tıklayınız</a>`;
+    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://10.41.150.67:4200/#/set-password/${token}">tıklayınız</a>`;
     // ${req.headers.host}
     let data = [
       worker_name,
@@ -270,27 +270,36 @@ app.post("/auth", function (request, response) {
             muuid: worker.worker_name,
             memail: worker.worker_email,
             cid: worker.id,
-            admin:false
+            admin: false,
           },
           "dvurising",
           {
             expiresIn: "2h",
           }
         );
-        console.log("🚀 ~ file: app.js ~ line 280 ~ token", token);
-        response.send({
+        response.json({
           data: worker,
           message: "success",
           resCode: 200,
           token: token,
         });
       } else {
-        response.send(err);
+        response.json({
+          data: null,
+          message: "Kullanıcı adı veya şifre hatalı",
+          resCode: 400,
+          token: "oluşturulmadı",
+        });
       }
       response.end();
     });
   } else {
-    response.send("Please enter Username and Password!");
+    response.json({
+      data: null,
+      message: "Kullanıcı adı veya şifre hatalı",
+      resCode: 403,
+      token: "oluşturulmadı",
+    });
     response.end();
   }
 });
@@ -316,7 +325,12 @@ app.post("/gmauth", function (request, response) {
             expiresIn: "2h",
           }
         );
-        response.send({data: gm, message: "Giriş başarılı", resCode:200, token: token});
+        response.send({
+          data: gm,
+          message: "Giriş başarılı",
+          resCode: 200,
+          token: token,
+        });
       } else {
         response.send(err);
       }
@@ -360,7 +374,7 @@ app.get("/getWorkerByReport/:report_id", (req, res) => {
   });
 });
 
-app.get("/api/reports/isreportsended/:id", checkAuth,(req, res) => {
+app.get("/api/reports/isreportsended/:id", checkAuth, (req, res) => {
   let id = req.params.id;
   console.log("**********************");
   let sql = "SELECT is_report_sended from reports where id = ?";
@@ -375,7 +389,7 @@ app.get("/api/reports/isreportsended/:id", checkAuth,(req, res) => {
   });
 });
 
-app.get("/api/sendreport/:id", checkAuth,function (request, response) {
+app.get("/api/sendreport/:id", checkAuth, function (request, response) {
   let report_id = request.params.id;
   if (report_id > 0) {
     let sql = `UPDATE reports SET is_report_sended = 1 WHERE id = ?; `;
@@ -393,7 +407,7 @@ app.get("/api/sendreport/:id", checkAuth,function (request, response) {
   }
 });
 
-app.get("/api/sendbackreport/:id",checkAuth, function (request, response) {
+app.get("/api/sendbackreport/:id", checkAuth, function (request, response) {
   let report_id = request.params.id;
   console.log("🚀 ~ file: app.js ~ line 252 ~ report_id", report_id);
   if (report_id > 0) {
@@ -411,4 +425,3 @@ app.get("/api/sendbackreport/:id",checkAuth, function (request, response) {
     response.end();
   }
 });
- 

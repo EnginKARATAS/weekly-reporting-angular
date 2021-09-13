@@ -34,7 +34,7 @@ export class ReportDetailComponent implements OnInit {
   name: string;
 
   pasteModel = {
-    claimants: 'test',
+    claimants: '',
     matter: '',
     report_id: '',
     status: '',

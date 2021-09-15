@@ -133,7 +133,7 @@ app.post("/sendResetEmail", checkAuth, (req, res) => {
             let mailSended = mailer.sendMailToWorker(
               email,
               `${worker_name} ${worker_surname} Şifre sıfırlama talebi`,
-              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://10.41.150.67:4200/#/set-password/${token}"> TIKLAYINIZ</a>`
+              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://localhost:4200/#/set-password/${token}"> TIKLAYINIZ</a>`
             );
 
             res.json({
@@ -228,7 +228,7 @@ app.post("/api/workers", checkAuth, function (req, res) {
 
     let subject = "Katana Reporting Kaydı!";
     let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://10.41.150.67:4200/#/set-password/${token}">tıklayınız</a>`;
+    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost:4200/#/set-password/${token}">tıklayınız</a>`;
     // ${req.headers.host}
     let data = [
       worker_name,

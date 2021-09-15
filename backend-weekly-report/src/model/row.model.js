@@ -111,7 +111,7 @@ Row.create = function (newRow, result) {
     newRow.actions,
     newRow.claimants,
     newRow.report_id,
-  ];
+  ]
   console.log("🚀 ~ file: row.model.js ~ line 118 ~ data", data);
 
   checkSql = `SELECT * FROM report_row_entries WHERE  code`

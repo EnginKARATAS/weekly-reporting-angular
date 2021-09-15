@@ -91,6 +91,7 @@ export class ReportDetailComponent implements OnInit {
       } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
     });
   }
+  
   createRowForm() {
     this.rowForm = this.formBuilder.group({
       report_id: ['', Validators.required],

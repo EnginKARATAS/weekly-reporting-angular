@@ -3,29 +3,33 @@
         <form [formGroup]="loginForm">
             <img class="mb-4" src="../../assets/images/logo.png" alt="" width="175" height="175">
             <br>
-            <p class="rounded-right p-1 bg-light text-left d-inline">Kullanıcı girişi</p>
+            <p class="rounded-right p-1 text-left d-inline" style="background-color:lightblue;">Kullanıcı Girişi</p>
             <h1 class="h3 mb-3 fw-normal">Giriş Yap</h1>
 
             <div class="form-floating">
                 <!-- <label for="floatingInput">Email address</label> -->
-                <input formControlName="username" type="email" class="form-control" id="floatingInput" placeholder="mail@dvudomain.com">
+                <input formControlName="username" type="email" class="form-control" id="floatingInput"
+                    placeholder="mail@dvudomain.com">
             </div>
             <br>
-            <div  class="form-floating">
+            <div class="form-floating">
                 <!-- <label for="floatingPassword">Password</label> -->
-                <input formControlName="password" type="password" class="form-control" id="floatingPassword" placeholder="Şifre">
+                <input formControlName="password" type="password" class="form-control" id="floatingPassword"
+                    placeholder="Şifre">
             </div>
- 
-            <div class="checkbox mb-3">
- 
+
+            <div class="bottom">
+                <div class="">
+                    <a routerLink="/reset-password" class="float-right bg-light"> şifremi unuttum</a>
+                    <button class="w-35 btn btn btn-primary float-left p-2" (click)="login()">Giriş Yap</button>
+                </div>
+                <br>
+                <div class="">
+                    <a routerLink="/gmlogin" class="float-right ">yönetici girişi</a>
+
+                </div>
             </div>
-            <div class="row">
-                <a routerLink="/reset-password" class="offset-4 d-flex justify-content-center"> şifremi unuttum</a>
-            </div>
-            <div class="row">
-                <a routerLink="/gmlogin" class="offset-4 d-flex justify-content-center"> yönetici girişi</a>
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" (click)="login()" >Giriş Yap</button>
+            <br>
             <p class="mt-5 mb-3 text-muted">&copy; 2021 DVU</p>
         </form>
     </main>

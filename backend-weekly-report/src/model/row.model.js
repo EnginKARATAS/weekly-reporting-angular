@@ -19,7 +19,33 @@ var Row = function (row) {
     (this.claimants = row.claimants);
 };
 
+
 Row.findByReport = function (id, result) {
+  let sql = `SELECT r.id,s.checked_by_admin, s.code, wee.week_id, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments, s.id
+ FROM report_row_entries s
+ INNER JOIN reports r ON s.report_id = r.id
+ INNER JOIN workers w ON r.worker_id = w.id 
+ INNER JOIN claimants c ON r.claimant_id = c.id
+ INNER JOIN weeks wee ON r.week_id = wee.week_id
+ WHERE r.id = ?;`;
+ 
+ 
+ con.query(sql, id, (err, row, fields) => {
+   
+   console.log("error: ", err);
+   if (err) result(err, null);
+
+   console.log(row);
+   result(null, row);
+ });
+};
+
+Row.clientFindByReport = function (data, result) {
+  console.log("🚀 ~ file: row.model.js ~ line 23 ~ data", data);
+  let id = data.id;
+  let worker_id = data.worker_id;
+  let checkSql = `select * from reports where id = ? and worker_id = ?`;
+
   let sql = `SELECT r.id,s.checked_by_admin, s.code, wee.week_id, s.code, s.matter, s.start_date, s.finish_date, s.actions, s.claimants, s.scheduled_completion_date, s.is_timeout, s.weekly_time_spent, s.status, s.comments, s.id
   FROM report_row_entries s
   INNER JOIN reports r ON s.report_id = r.id
@@ -28,12 +54,21 @@ Row.findByReport = function (id, result) {
   INNER JOIN weeks wee ON r.week_id = wee.id
   WHERE r.id = ?;`;
 
-  con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
-    if (err) result(err, null);
-
-    console.log(row);
-    result(null, row);
+  con.query(checkSql, [id, worker_id], (err, check) => {
+    if (check.length > 0) {
+      con.query(sql, id, (err, row) => {
+        if (err) result(err, null);
+        result(null, {
+          message: "Rapor aksiyonları getirildi",
+          resCode: 200,
+          data: row,
+        });      });
+    } else
+    result(null, {
+      message: "istek başarısız yetkisiz kullanıcı",
+      resCode: 403,
+      data: [],
+    });
   });
 };
 
@@ -111,10 +146,9 @@ Row.create = function (newRow, result) {
     newRow.actions,
     newRow.claimants,
     newRow.report_id,
-  ]
+  ];
   console.log("🚀 ~ file: row.model.js ~ line 118 ~ data", data);
 
-  checkSql = `SELECT * FROM report_row_entries WHERE  code`
 
   let sql = `INSERT INTO report_row_entries
  (code, matter, start_date, finish_date, is_timeout, scheduled_completion_date, weekly_time_spent, status, comments, actions, claimants, report_id) VALUES 

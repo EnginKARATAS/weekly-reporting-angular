@@ -17,6 +17,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIcon, MatIconModule} from '@angular/material/icon'
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -37,6 +38,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatIconModule,
     MatCheckboxModule,
     MatExpansionModule,
+    MatFormFieldModule,
+
     
 
     BrowserAnimationsModule,

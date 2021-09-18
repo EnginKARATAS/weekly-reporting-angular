@@ -5,11 +5,12 @@ const rowRouter = express.Router();
 const rowController = require("../controller/row.controller");
 
 rowRouter.get("/:id", rowController.findByReport);
+rowRouter.post("/", rowController.clientFindByReport);
 
+rowRouter.post("/add", rowController.create);
 rowRouter.delete("/:row_id", rowController.delete);
 
 // Create a new item
-rowRouter.post("/", rowController.create);
 
 // // Retrieve a single item with id
 // reportWorkerRouter.get('/:worker_id', rowController.findByWorkerId);

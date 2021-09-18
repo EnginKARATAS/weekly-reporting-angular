@@ -5,6 +5,7 @@ const Row = require("../model/row.model");
 
 exports.findByReport = function (req, res) {
   const id = req.params.id;
+  
   console.log("🚀 ~ file: checkAuth.js ~ line 🧨🧨🧨 ~ req.userData", req.userData)
  
   if (!id) {
@@ -24,6 +25,27 @@ exports.findByReport = function (req, res) {
     }
     return res.send(rows);
     
+  });
+};
+
+exports.clientFindByReport = function (req, res) {
+  const id = req.body.report_id;
+  const worker_id = req.body.worker_id;
+  
+ 
+  if (!id || !worker_id) {
+    // 400 = bad request
+    return res.status(400).send("The required path variable id is missing");
+  }
+
+  Row.clientFindByReport({id, worker_id}, function (err, rows) {
+    if (err)
+      return res
+        .status(500)
+        .send("Error occured during fetching rows for id " + id);
+    console.log("rows: ", rows);
+
+    return res.json(rows);
   });
 };
 

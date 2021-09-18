@@ -30,6 +30,9 @@ export class ReportDetailComponent implements OnInit {
   worker_surname: string = '.';
   worker_email: string = '.';
 
+  id: number;
+  gm_id: number;
+
   claimant_comment: string;
   name: string;
 
@@ -67,7 +70,9 @@ export class ReportDetailComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       if (params['report_id']) {
-        console.log(params);
+        this.id = parseInt(this.cookieService.get('id'));
+        this.gm_id = parseInt(this.cookieService.get('gmid'));
+
         this.getRows(params['report_id']);
         this.reportId = params['report_id'];
       }
@@ -75,6 +80,7 @@ export class ReportDetailComponent implements OnInit {
     this.checkLogin();
     this.createRowForm();
     this.checkReportSended();
+    console.log(this.f)
   }
 
   openDialogAndDeleteRowByCode(row) {
@@ -91,22 +97,24 @@ export class ReportDetailComponent implements OnInit {
       } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
     });
   }
-  
+
   createRowForm() {
     this.rowForm = this.formBuilder.group({
-      report_id: ['', Validators.required],
-      matter: ['', Validators.required],
-      status: ['', Validators.required],
-      is_timeout: ['', Validators.required],
-      weekly_time_spent: ['', Validators.required],
-      scheduled_completion_date: ['', Validators.required],
-      finish_date: ['', Validators.required],
-      actions: ['', Validators.required],
-      comments: ['', Validators.required],
-      claimants: ['', Validators.required],
-      start_date: ['', Validators.required],
+      claimants: ['', [Validators.required, Validators.minLength(4)]],
+      report_id: [''],
+      matter: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+      weekly_time_spent: ['', [Validators.required]],
+      actions: ['', [Validators.required, Validators.minLength(30)]],
+      start_date: ['', [Validators.required]],
+      scheduled_completion_date: ['',],
+      finish_date: ['',],
+      is_timeout: ['', [Validators.required]],
+      comments: ['',],
     });
   }
+  get f() { return this.rowForm.controls; }
+
 
   sendToAddRowCompenent(row) {
     console.log(row);
@@ -238,19 +246,37 @@ export class ReportDetailComponent implements OnInit {
   }
 
   getRows(report_id: any) {
-    this.rowService.get(report_id).subscribe((response) => {
-      if (response) {
-        // console.log("🚀 ~ file: report-detail.component.ts ~ line 231 ~ ReportDetailComponent ~ this.rowService.get ~ response", response)
-        this.rows = response; //sadece rowları değil yanında week idyi de getirir
-        this.week_id = response[0].week_id;
-        response.forEach((row) => {
-          this.checkBoxes.push({
-            checked: row.checked_by_admin,
-            code: row.code,
+    if (this.id) {
+      this.rowService.clientGet(report_id, this.id).subscribe((response) => {
+        if (response.resCode == 200) {
+          this.toastrService.success(response.message);
+          // console.log("🚀 ~ file: report-detail.component.ts ~ line 231 ~ ReportDetailComponent ~ this.rowService.get ~ response", response)
+          this.rows = response.data; //sadece rowları değil yanında week idyi de getirir
+          this.week_id = response.data[0]?.week_id;
+          response.data.forEach((row) => {
+            this.checkBoxes.push({
+              checked: row.checked_by_admin,
+              code: row.code,
+            });
           });
-        });
-      }
-    });
+        } else if (response.resCode == 403)
+          this.toastrService.error(response.message);
+      });
+    } else if (this.gm_id) {
+      this.rowService.get(report_id).subscribe((response) => {
+        if (response) {
+          //sadece rowları değil yanında week idyi de getirir
+          this.rows = response;
+          this.week_id = response[0].week_id;
+          response.forEach((row) => {
+            this.checkBoxes.push({
+              checked: row.checked_by_admin,
+              code: row.code,
+            });
+          });
+        }
+      });
+    }
   }
 
   // claimants: Claimants[] = [];
@@ -278,6 +304,7 @@ export class ReportDetailComponent implements OnInit {
     this.rowForm.value.report_id = this.reportId;
 
     this.rowService.addRow(this.rowForm.value).subscribe((data) => {
+      debugger
       this.rows.push(data);
     });
 

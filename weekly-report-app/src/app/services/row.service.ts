@@ -3,14 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Row } from '../models/row';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RowService {
-baseUrl: string = 'http://localhost:4000/api/rows';
-constructor(private http: HttpClient) { }
+  baseUrl: string = 'http://localhost:4000/api/rows';
+  secondUrl: string = 'http://localhost:4000/api/rows';
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {
     return this.http.get<Row>(this.baseUrl);
@@ -20,8 +19,12 @@ constructor(private http: HttpClient) { }
     return this.http.get(`${this.baseUrl}/${report_id}`);
   }
 
+  clientGet(report_id, worker_id): Observable<any> {
+    return this.http.post(this.secondUrl, { report_id, worker_id });
+  }
+
   addRow(data): Observable<any> {
-    return this.http.post(this.baseUrl, data);
+    return this.http.post(`${this.baseUrl}/add`, data);
   }
 
   update(id, data): Observable<any> {
@@ -39,5 +42,4 @@ constructor(private http: HttpClient) { }
   // findByCode(code): Observable<any> {
   //   return this.http.get(`${this.baseUrl}?code=${code}`);
   // }
- 
 }

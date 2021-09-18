@@ -1,6 +1,6 @@
 <section class="jumbotron text-center mt-4">
   <div class="container">
-    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows? rows[0]?.week_id: " .Hafta" }}&nbsp; | Haftalık Faaliyet Raporu
+    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows? rows[0]?.week_id + ". Hafta": " .Hafta" }}&nbsp; | Haftalık Faaliyet Raporu
       |</h1>
     <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyiniz Teşekkür ederiz.<br>
       <span *ngIf="rows.length == 0 " class="badge badge-danger">⛔ Boş Rapor</span>
@@ -44,7 +44,10 @@
                     <label for="form-weekly-time-spent" class="col-4 ">Talep Sahibi</label>
                     <div class="col-8">
                       <input [(ngModel)]="pasteModel.claimants" formControlName="claimants" #claimants id="claimants"
-                        name="claimants" type="text" class="form-control">
+                        name="claimants" type="text" class="form-control"
+                        [ngClass]="{ 'is-invalid': f.claimants.errors && (f.claimants.touched || f.claimants.dirty) }">
+                      <mat-error *ngIf="f.claimants.errors && (f.claimants.touched || f.claimants.dirty)">Talep
+                        sahipleri belirtilmelidir</mat-error>
                     </div>
 
                   </div>
@@ -52,7 +55,8 @@
                     <label for="" class="col-4 col-form-label">Önem Derecesi</label>
                     <div class="col-8">
                       <select [(ngModel)]="pasteModel.matter" formControlName="matter" id="matter" name="matter"
-                        class="custom-select">
+                        class="custom-select"
+                        [ngClass]="{ 'is-invalid': f.matter.errors && (f.matter.touched || f.matter.dirty) }">
                         <option label="-seç-"></option>
                         <option value="1">Çok Düşük</option>
                         <option value="2">Düşük</option>
@@ -60,19 +64,24 @@
                         <option value="4">Yüksek</option>
                         <option value="5">Çok Yüksek</option>
                       </select>
+                      <mat-error *ngIf="f.matter.errors && (f.matter.touched || f.matter.dirty)">Talep
+                        sahipleri belirtilmelidir</mat-error>
                     </div>
                   </div>
                   <div class="form-group row ">
                     <label for="" class="col-4 col-form-label">İş Durumu</label>
                     <div class="col-8">
                       <select [(ngModel)]="pasteModel.status" formControlName="status" id="status" name="status"
-                        class="custom-select">
+                        class="custom-select"
+                        [ngClass]="{ 'is-invalid': f.status.errors && (f.status.touched || f.status.dirty) }">
                         <option label="-seç-"></option>
                         <option value="Devam Ediyor">Devam Ediyor</option>
                         <option value="Bitti">Bitti</option>
                         <option value="Kapandı">Kapandı</option>
                         <option value="İptal Edildi">İptal Edildi</option>
                       </select>
+                      <mat-error *ngIf="f.status.errors && (f.status.touched || f.status.dirty)">İş durumu
+                        belirtilmelidir.</mat-error>
                     </div>
                   </div>
                 </td>
@@ -80,7 +89,10 @@
 
                   <div class="row ml-2">
                     <input [(ngModel)]="pasteModel.start_date" class="col-md-6" formControlName="start_date" matInput
-                      [matDatepicker]="picker1">
+                      [matDatepicker]="picker1"
+                      [ngClass]="{ 'is-invalid': f.claimants.errors && (f.start_date.touched || f.start_date.dirty) }">
+                    <mat-error *ngIf="f.start_date.errors && (f.start_date.touched || f.start_date.dirty)">Başlangıç
+                      tarihi belirtilmelidir.</mat-error>
                     <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker1">
                     </mat-datepicker-toggle>
                     <p class="rowP">Başlama T.</p>
@@ -111,7 +123,10 @@
                     <div class="col-12">
                       <textarea [(ngModel)]="pasteModel.actions" formControlName="actions"
                         placeholder="Yapılan İşler / Aksiyonlar" id="actions" name="actions" cols="40" rows="8"
-                        class="form-control"></textarea>
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': f.actions.errors && (f.actions.touched || f.actions.dirty) }">
+                      </textarea>
+                      <mat-error *ngIf="f.actions.errors && (f.actions.touched || f.actions.dirty)">Alınan aksiyonlar en az 20 karakter içermelidir.</mat-error>
                     </div>
                   </div>
                 </td>
@@ -120,18 +135,26 @@
                     <div class="col-md-12">
                       <input [(ngModel)]="pasteModel.weekly_time_spent" formControlName="weekly_time_spent"
                         id="form-time-spent" placeholder="Harcanan Süre" name="form-time-spent" type="text"
-                        class="form-control">
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': f.weekly_time_spent.errors && (f.weekly_time_spent.touched || f.weekly_time_spent.dirty) }">
+                      <mat-error
+                        *ngIf="f.weekly_time_spent.errors && (f.weekly_time_spent.touched || f.weekly_time_spent.dirty)">
+                        Harcanan süre belirtilmelidir.</mat-error>
                     </div>
                   </div>
                   <!-- -->
                   <div class="form-group row ">
                     <div class="col-md-5">
                       <select [(ngModel)]="pasteModel.is_timeout" formControlName="is_timeout" id="is_timeout"
-                        name="is_timeout" class="custom-select">
+                        name="is_timeout" class="custom-select"
+                        [ngClass]="{ 'is-invalid': f.is_timeout.errors && (f.is_timeout.touched || f.is_timeout.dirty) }">
                         <option label="-seç-"></option>
                         <option value="Var">Var</option>
                         <option value="Yok">Yok</option>
                       </select>
+                      <mat-error *ngIf="f.is_timeout.errors && (f.is_timeout.touched || f.is_timeout.dirty)">Süre aşımı
+                        olup olmadığı belirtilmelidir.</mat-error>
+
                     </div>
                     <label for="" class="col-md-7 col-form-label">Süre Aşımı Var Mı</label>
                   </div>
@@ -143,7 +166,8 @@
                     </div>
                   </div>
                   <div class="form-group row float-right mt-4 mr-1">
-                    <button (click)="addRow()" name="submit" type="submit" class="btn btn-primary">Satırı Ekle</button>
+                    <button (click)="addRow()" [disabled]="!rowForm.valid" name="submit" type="submit"
+                      class="btn btn-primary">Satırı Ekle</button>
                   </div>
                 </td>
 
@@ -197,7 +221,8 @@
         <ng-template #workerEdit>
           <button *ngIf="!reportSendStatus && !gmLoginStatus" (click)="sendToAddRowCompenent(row)"
             class="badge badge-outline-primary">{{i+1}}.Getir</button>
-          <button *ngIf="!reportSendStatus && !gmLoginStatus" mat-button (click)="openDialogAndDeleteRowByCode(row)" class="badge badge-outline-danger">{{i+1}}.
+          <button *ngIf="!reportSendStatus && !gmLoginStatus" mat-button (click)="openDialogAndDeleteRowByCode(row)"
+            class="badge badge-outline-danger">{{i+1}}.
             Sil</button>
         </ng-template>
         <mat-checkbox *ngIf="gmLoginStatus; else workerEdit" class="example-margin" [(ngModel)]="checkBoxes[i].checked">

@@ -32,8 +32,7 @@ const reportWorkerRouter = require("./src/route/reportWorker.route");
 
 const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
-const { EDESTADDRREQ } = require("constants");
-
+ 
 app.use("/api/reports", checkAuth, reportRouter);
 app.use("/api/rows", checkAuth, rowRouter);
 
@@ -44,6 +43,7 @@ server.listen(port, () => {
   console.log("Listening on port: " + port);
 });
 
+//test middleware
 const validatePayloadMiddleware = (req, res, next) => {
   console.log("**********************");
   console.log(req.session.page_views);

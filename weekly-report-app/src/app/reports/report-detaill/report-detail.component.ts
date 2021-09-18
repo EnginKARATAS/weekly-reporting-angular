@@ -80,7 +80,7 @@ export class ReportDetailComponent implements OnInit {
     this.checkLogin();
     this.createRowForm();
     this.checkReportSended();
-    console.log(this.f)
+    console.log(this.f);
   }
 
   openDialogAndDeleteRowByCode(row) {
@@ -107,14 +107,15 @@ export class ReportDetailComponent implements OnInit {
       weekly_time_spent: ['', [Validators.required]],
       actions: ['', [Validators.required, Validators.minLength(30)]],
       start_date: ['', [Validators.required]],
-      scheduled_completion_date: ['',],
-      finish_date: ['',],
+      scheduled_completion_date: [''],
+      finish_date: [''],
       is_timeout: ['', [Validators.required]],
-      comments: ['',],
+      comments: [''],
     });
   }
-  get f() { return this.rowForm.controls; }
-
+  get f() {
+    return this.rowForm.controls;
+  }
 
   sendToAddRowCompenent(row) {
     console.log(row);
@@ -131,14 +132,17 @@ export class ReportDetailComponent implements OnInit {
   }
 
   CheckAllOptions() {
-    if (this.checkBoxes.every((val) => val == true))
-      for (let i = 0; i < this.checkBoxes.length; i++) {
-        this.checkBoxes[i].checked = false;
+    let boxes = this.checkBoxes
+    
+    if (boxes.every(val => val.checked == true))
+      for (let i = 0; i < boxes.length; i++) {
+        boxes[i].checked = false;
       }
     else
-      for (let i = 0; i < this.checkBoxes.length; i++) {
-        this.checkBoxes[i].checked = true;
+      for (let i = 0; i < boxes.length; i++) {
+        boxes[i].checked = true;
       }
+
   }
 
   setColor(matter: string): string {
@@ -304,7 +308,7 @@ export class ReportDetailComponent implements OnInit {
     this.rowForm.value.report_id = this.reportId;
 
     this.rowService.addRow(this.rowForm.value).subscribe((data) => {
-      debugger
+      debugger;
       this.rows.push(data);
     });
 
@@ -321,8 +325,9 @@ export class ReportDetailComponent implements OnInit {
     if (checkBoxes.length > 0) {
       const dialogRef = this.dialog.open(PopupEditComponent, {
         width: '400px',
-        data: { name: this.name, claimant_comment: this.claimant_comment },
+        data: { name: this.name, claimant_comment: this.claimant_comment},
       });
+
       checkBoxes.forEach((item) => {
         if (item.checked == true) {
           code += item.code + ',';
@@ -331,8 +336,8 @@ export class ReportDetailComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result) => {
         this.claimant_comment = result;
-        console.log(this.claimant_comment);
-        if (this.claimant_comment) {
+
+        if (this.claimant_comment.length > 0) {
           this.workerService
             .getWorkerWithCode(checkBoxes[0].code)
             .subscribe((data) => {
@@ -377,7 +382,8 @@ export class ReportDetailComponent implements OnInit {
               this.sendMailToWorker2(mailPacket);
               this.toastrService.success('kullanıcıya e posta gönderildi');
             });
-        } else {
+        } 
+        else {
           this.toastrService.info('Rapor gönderim işlemi iptal edildi');
         }
       });

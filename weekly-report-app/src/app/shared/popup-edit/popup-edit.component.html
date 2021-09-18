@@ -1,7 +1,9 @@
 <div mat-dialog-content>
     <p>Revizyon iste</p>
     <mat-label>Revizyon talebinize yorumunuzu ekleyebilirsiniz</mat-label>
-    <textarea [(ngModel)]="data.animal" matInput placeholder="Yorum.."></textarea>
+    <textarea [(ngModel)]="data.animal" matInput></textarea>
+    <br>
+    <mat-error>Kullanıcıdan raporu tekrar istemek için yorum yazmalısınız.</mat-error>
 </div>
 <div mat-dialog-actions>
     <button mat-button mat-dialog-close (click)="onNoClick()">İptal</button>

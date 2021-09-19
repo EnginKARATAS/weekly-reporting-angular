@@ -90,18 +90,12 @@ Report.create = function (newReport, result) {
     newReport.report_commit_date,
     newReport.report_edit_date,
   ];
-
+  console.log("🚀 ~ file: report.model.js ~ line 93 ~ data", data)
   let checkSql = "select * from reports where worker_id = ? AND week_id = ?";
   let sql =
     "INSERT INTO `reports` (`is_report_sended`, `week_id`, `worker_id`, `claimant_id`, `report_commit_date`, `report_edit_date`) VALUES (?, ?, ?, ?, ?, ?)";
 
   con.query(checkSql, checkData, (err, rows, fields) => {
-    console.log(
-      "🚀 ~ file: report.model.js ~ line 90 ~ con.query ~ rows",
-      rows.length
-    );
-    console.log(newReport.worker_id, " ", newReport.week_id);
-
     if (rows.length > 0) {
       rspc.message =
         "Haftalık raporunuz sistemde mevcuttur. Haftalık rapor, haftada bir kere oluşturulabilir";
@@ -109,17 +103,19 @@ Report.create = function (newReport, result) {
       result(null, rspc);
     } else {
       con.query(sql, data, (err, row, fields) => {
-        console.log("error: ", err);
         if (err) result(err, null);
 
-        result(null, row);
+        rspc.message =
+        "Haftalık raporunuz eklenmiştir.";
+        rspc.resCode = 200;
+        rspc.data = row;
+        result(null, rspc);
       });
     }
   });
 };
 
 Report.getByCode = function (code, result) {
-  console.log("🚀 ~ file: report.model.js ~ line 121 ~ code", code);
   let rspc = { ...ResponseModel };
 
   let sql = `SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
@@ -132,7 +128,6 @@ Report.getByCode = function (code, result) {
   // let sql = `select * from reports r INNER JOIN report_row_entries rre ON rre.report_id = r.id where rre.code = ?;`;
 
   con.query(sql, code, (err, row, fields) => {
-    console.log("🚀 ~ file: report.model.js ~ line 130 ~ con.query ~ row", row);
     if (row.length > 0) {
       rspc.message = "Aradığınız koda ait veri getirilmiştir.";
       rspc.resCode = 200;
@@ -147,7 +142,6 @@ Report.getByCode = function (code, result) {
 };
 
 Report.getByAction = function (action, result) {
-  console.log("🚀 ~ file: report.model.js ~ line 121 ~ code", action);
   let rspc = { ...ResponseModel };
 
   let sql = `SELECT r.id, rre.actions , r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
@@ -160,7 +154,6 @@ Report.getByAction = function (action, result) {
   // let sql = `select * from reports r INNER JOIN report_row_entries rre ON rre.report_id = r.id where rre.code = ?;`;
 
   con.query(sql, (err, row, fields) => {
-    console.log("🚀 ~ file: report.model.js ~ line 130 ~ con.query ~ row", row);
     if (row.length > 0) {
       rspc.message = "Aradığınız koda ait veri getirilmiştir.";
       rspc.resCode = 200;
@@ -187,7 +180,6 @@ Report.update = function (report, result) {
   ];
   let sql = `UPDATE reports SET code = ?, worker_id = ?, claimant_id = ?, report_row_entry_id = ?, report_commit_date = ?, report_edit_date = ? WHERE id = ?`;
   con.query(sql, data, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
     result(null, row.affectedRows);
@@ -198,7 +190,6 @@ Report.delete = function (id, result) {
   let sql = "DELETE FROM reports WHERE report_id = ?";
 
   con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
     result(null, row.affectedRows);

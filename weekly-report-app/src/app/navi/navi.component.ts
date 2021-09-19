@@ -60,12 +60,14 @@ export class NaviComponent implements OnInit {
       report_commit_date: report_commit_date,
       report_edit_date: report_edit_date,
     };
-    this.reportService.create(report).subscribe((data) => {
+      this.reportService.create(report).subscribe((data) => {
+        debugger
       if (data.resCode == 300) {
         this.toastrService.info(data.message);
       }
       if (data.resCode == 200) {
         this.toastrService.success(data.message);
+        window.location.reload();
       }
     });
   }
@@ -78,10 +80,9 @@ export class NaviComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
       if (result == true) {
         this.addReport();
-      } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
+      } else this.toastrService.info('Haftalık rapor ekleme işlemi iptal edilmiştir.');
     });
   }
 

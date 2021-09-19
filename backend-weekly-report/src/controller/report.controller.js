@@ -5,8 +5,6 @@ const Report = require("../model/report.model");
 
 exports.findById = function (req, res) {
   const id = req.params.id;
-  console.log(id);
-  console.log("id");
   if (!id) {
     // 400 = bad request
     return res.status(400).send("The required path variable id is missing");
@@ -17,7 +15,6 @@ exports.findById = function (req, res) {
       return res
         .status(500)
         .send("Error occured during fetching report for id " + id);
-    console.log("report: ", report);
 
     return res.send(report);
   });
@@ -34,7 +31,6 @@ exports.findByWorkerId = function (req, res) {
       return res
         .status(500)
         .send("Error occured during fetching report for id " + id);
-    console.log("report: ", report);
 
     return res.send(report);
   });
@@ -44,7 +40,6 @@ exports.findAll = function (req, res) {
   Report.findAll(function (err, reports) {
     if (err)
       return res.status(500).send("Error occured during fetching reports");
-    // console.log("reports: ", reports);
 
     return res.send(reports);
   });
@@ -72,49 +67,46 @@ exports.create = function (req, res) {
     res.json(rpmc);
   }
   // 400 = bad request
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    rpmc.message = "Kabul edilmeyen bir istekte bulunuldu"
+  else if (req.body.constructor === Object && Object.keys(req.body).length === 0) 
+  {
+    rpmc.message = "Kabul edilmeyen bir istekte bulunuldu";
     rpmc.resCode = 402;
-    return res.json(rpmc)
+    return res.json(rpmc);
   }
-  if (!newReport.week_id || !newReport.worker_id) {
-    rpmc.message = "Sistem yeni rapor eklerken hata verdi"
+   else if (!newReport.week_id || !newReport.worker_id) {
+    rpmc.message = "Sistem yeni rapor eklerken hata verdi";
     rpmc.resCode = 400;
-    return res.json(rpmc)
-  } else {
+    return res.json(rpmc);
+  } 
+  else {
     Report.create(newReport, function (err, row) {
-      if (err) return res.status(500).send("Error occured during saving item");
-      
-      console.log("🚀 ~ file: report.controller.js ~ line 91 ~ row", row)
+      if (err) return res.status(500).send("Kayıt ederken hata meydana geldi");
       return res.json(row);
     });
   }
 };
 
 exports.getByCode = function (req, res) {
- 
-      let code = req.body.code;
-      if (code) {
-      Report.getByCode(code, function (err, row) {
-        if (err)
-         return res.status(500).send("Error occured during saving item");
-        
-        return res.json(row);
-      });
-    }
-}
+  let code = req.body.code;
+  if (code) {
+    Report.getByCode(code, function (err, row) {
+      if (err) return res.status(500).send("Error occured during saving item");
+
+      return res.json(row);
+    });
+  }
+};
 
 exports.getByAction = function (req, res) {
   let action = req.body.action;
   if (action) {
-  Report.getByAction(action, function (err, row) {
-    if (err)
-     return res.status(500).send("Error occured during saving item");
-    
-    return res.json(row);
-  });
-}
-}
+    Report.getByAction(action, function (err, row) {
+      if (err) return res.status(500).send("Error occured during saving item");
+
+      return res.json(row);
+    });
+  }
+};
 
 exports.update = function (req, res) {
   const report = new Report(req.body);
@@ -131,13 +123,13 @@ exports.update = function (req, res) {
     !report.report_commit_date ||
     !report.report_edit_date
   ) {
-    return res.status(400).send("One or more required fields are missing");
+    return res.status(400).send("eksik bilgi gönderildi");
   } else {
     Report.update(report, function (err, result) {
       if (err || result <= 0)
-        return res.status(500).send("Error occured during updating report");
+        return res.status(500).send("rapor eklenirken hata oluştu");
 
-      return res.sendStatus(200);
+      return res.sendStatus(result);
     });
   }
 };

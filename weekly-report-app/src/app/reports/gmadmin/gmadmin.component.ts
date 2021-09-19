@@ -65,10 +65,6 @@ export class GmadminComponent implements OnInit {
         if (data.resCode == 200) {
           if (data.action) {
             let action = data.action[0];
-            console.log(
-              '🚀 ~ file: gmadmin.component.ts ~ line 73 ~ GmadminComponent ~ this.reportService.getByCode ~ action',
-              action
-            );
             if (action) {
               this.filteredReports = this.reports;
               this.reports = [];

@@ -80,7 +80,6 @@ export class ReportDetailComponent implements OnInit {
     this.checkLogin();
     this.createRowForm();
     this.checkReportSended();
-    console.log(this.f);
   }
 
   openDialogAndDeleteRowByCode(row) {
@@ -91,7 +90,6 @@ export class ReportDetailComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
       if (result == true) {
         this.deleteRowByCode(row);
       } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
@@ -118,7 +116,6 @@ export class ReportDetailComponent implements OnInit {
   }
 
   sendToAddRowCompenent(row) {
-    console.log(row);
     this.pasteModel.claimants = row.claimants;
     this.pasteModel.matter = row.matter;
     this.pasteModel.status = row.status;
@@ -206,11 +203,6 @@ export class ReportDetailComponent implements OnInit {
     };
 
     this.mailService.sentToGm(mailPacket).subscribe((data) => {
-      console.log(data);
-      console.log(
-        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',
-        data
-      );
     });
   }
 
@@ -231,21 +223,11 @@ export class ReportDetailComponent implements OnInit {
       html: html,
     };
     this.mailService.sentToGm(mailPacket).subscribe((data) => {
-      console.log(data);
-      console.log(
-        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',
-        data
-      );
     });
   }
 
   sendMailToWorker2(mailPacket) {
     this.mailService.sentToWorker(mailPacket).subscribe((data) => {
-      console.log(data);
-      console.log(
-        '🚀 ~ file: report-detail.component.ts ~ line 85 ~ ReportDetailComponent ~ this.mailService.create ~ data',
-        data
-      );
     });
   }
 
@@ -254,9 +236,8 @@ export class ReportDetailComponent implements OnInit {
       this.rowService.clientGet(report_id, this.id).subscribe((response) => {
         if (response.resCode == 200) {
           this.toastrService.success(response.message);
-          // console.log("🚀 ~ file: report-detail.component.ts ~ line 231 ~ ReportDetailComponent ~ this.rowService.get ~ response", response)
           this.rows = response.data; //sadece rowları değil yanında week idyi de getirir
-          this.week_id = response.data[0]?.week_id;
+          this.week_id = response.data[0].week_id?response.data[0].week_id:"boş";
           response.data.forEach((row) => {
             this.checkBoxes.push({
               checked: row.checked_by_admin,
@@ -311,10 +292,6 @@ export class ReportDetailComponent implements OnInit {
       debugger;
       this.rows.push(data);
     });
-
-    // if (this.rowForm.valid) {
-    //   console.log("valid")
-    // }
   }
 
   openDialog(): void {}
@@ -344,10 +321,6 @@ export class ReportDetailComponent implements OnInit {
               this.reportService
                 .sendBackReport(this.reportId)
                 .subscribe((data) => {
-                  console.log(
-                    '🚀 ~ file: report-detail.component.ts ~ line 187 ~ ReportDetailComponent ~ this.reportService.sendReport ~ data',
-                    data
-                  );
                   this.toastrService.info(
                     `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
                   );
@@ -380,6 +353,7 @@ export class ReportDetailComponent implements OnInit {
               };
 
               this.sendMailToWorker2(mailPacket);
+              debugger
               this.toastrService.success('kullanıcıya e posta gönderildi');
             });
         } 
@@ -396,12 +370,13 @@ export class ReportDetailComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((result) => {
         this.claimant_comment = result;
-
+        if (this.claimant_comment.length > 0) {
+          
         this.workerService.getByReport(this.reportId).subscribe((worker) => {
           this.worker_name = worker[0].worker_name;
           this.worker_surname = worker[0].worker_surname;
           this.worker_email = worker[0].worker_email;
-          this.week_id = worker[0].week_id;
+          this.week_id? worker[0].week_id: 0;
 
           this.reportService.sendBackReport(this.reportId).subscribe((data) => {
             this.toastrService.info(
@@ -410,7 +385,7 @@ export class ReportDetailComponent implements OnInit {
           });
           let mailPacket = {
             worker_email: this.worker_email,
-            subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
+            subject: `<${this.week_id?this.week_id : "Boş"}>.Rapor.Düzeltme Talebi`,
             html: `
           <table>
               <tr>
@@ -422,7 +397,7 @@ export class ReportDetailComponent implements OnInit {
                   <td>${this.worker_name} ${this.worker_surname} Rapor düzenleme talebi</td>
                   <td>
                   
-                  Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id}. haftalık raporunuzu boş olarak gönderdiniz. Tekrar   <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi
+                  Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id?this.week_id:""}. haftalık raporunuzu boş olarak gönderdiniz. Tekrar   <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi
               <br>
               <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>
                   </td>
@@ -434,8 +409,12 @@ export class ReportDetailComponent implements OnInit {
           };
 
           this.sendMailToWorker2(mailPacket);
+          debugger
           this.toastrService.success('kullanıcıya e posta gönderildi');
         });
+      }
+      else
+        this.toastrService.info("Rapor revizyon işlemi iptal edildi")
       });
     }
   }

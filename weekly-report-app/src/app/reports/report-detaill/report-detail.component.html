@@ -1,6 +1,6 @@
 <section class="jumbotron text-center mt-4">
   <div class="container">
-    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows? rows[0].week_id + ". Hafta": "" }}&nbsp; | Haftalık Faaliyet Raporu
+    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows[0]? rows[0].week_id + ". Hafta": "" }}&nbsp; | Haftalık Faaliyet Raporu
       |</h1>
     <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyiniz Teşekkür ederiz.<br>
       <span *ngIf="rows.length == 0 " class="badge badge-danger">⛔ Boş Rapor</span>
@@ -247,7 +247,7 @@
       <th scope="row">
         <mat-checkbox class="matcheck" (click)="CheckAllOptions()">Tümünü -seç-</mat-checkbox>
       </th>
-      <td *ngIf="gmLoginStatus" class="btn btn-sm btn-info m-1" (click)="revisionRequest(checkBoxes)">Revizyon İste</td>
+      <td class="btn btn-sm btn-info m-1" (click)="revisionRequest(checkBoxes)">Revizyon İste</td>
     </tr>
   </tbody>
 </table>

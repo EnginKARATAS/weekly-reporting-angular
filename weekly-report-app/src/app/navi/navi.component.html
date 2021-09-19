@@ -1,34 +1,40 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/all-reports">Tüm Raporlar</a>
-        </li>
+    <ul class="navbar-nav mr-auto">
+      <li  *ngIf="isLoggedIn" class="nav-item">
+        <a class="nav-link active" routerLink="/all-reports">Tüm Raporlar</a>
+      </li>
+      <li  *ngIf="gmisLoggedIn" class="nav-item">
+        <a class="nav-link active" routerLink="/gmadmin">Tüm Raporlar</a>
+      </li>
 
-        <li *ngIf="isLoggedIn" class="nav-item">
-          <a class="nav-link active" (click)="openPopupWithAddReport()">Haftalık Raporumu Ekle</a>
-        </li>
+      <li *ngIf="isLoggedIn" class="nav-item">
+        <a class="nav-link active" (click)="openPopupWithAddReport()">Haftalık Raporumu Ekle</a>
+      </li>
 
-        <li *ngIf="gmisLoggedIn" class="nav-item">
-          <a class="nav-link active" routerLink="/add-worker">Yeni Çalışan Ekle</a>
-        </li>
+      <li *ngIf="gmisLoggedIn" class="nav-item">
+        <a class="nav-link active" routerLink="/add-worker">Yeni Çalışan Ekle</a>
+      </li>
 
-      </ul>
+    </ul>
   </div>
   <div class="mx-auto order-0">
-      <a class="navbar-brand mx-auto" [routerLink]="['/all-reports']" routerLinkActive="router-link-active"> <img src="/assets/images/mini-logo.png"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-          <span class="navbar-toggler-icon"></span>
-      </button>
+    <a *ngIf="isLoggedIn" class="navbar-brand mx-auto" [routerLink]="['/all-reports']" routerLinkActive="router-link-active">
+      <img src="/assets/images/mini-logo.png">
+    </a>
+    <a *ngIf="gmisLoggedIn" class="navbar-brand mx-auto" [routerLink]="['/gmadmin']" routerLinkActive="router-link-active">
+      <img src="/assets/images/mini-logo.png">
+    </a>
+
   </div>
   <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-      <ul class="navbar-nav ml-auto">
-        <li *ngIf="!logged" class="nav-item">
-          <a class="nav-link active" routerLink="/login">Giriş Yap</a>
-        </li>
-        <li *ngIf="logged" class="nav-item">
-          <button class="btn nav-link active" (click)="logout()">Çıkış Yap</button>
-        </li>
-      </ul>
+    <ul class="navbar-nav ml-auto">
+      <li *ngIf="!logged" class="nav-item">
+        <a class="nav-link active" routerLink="/login">Giriş Yap</a>
+      </li>
+      <li *ngIf="logged" class="nav-item">
+        <button class="btn nav-link active" (click)="logout()">Çıkış Yap</button>
+      </li>
+    </ul>
   </div>
 </nav>

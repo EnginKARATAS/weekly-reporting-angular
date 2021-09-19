@@ -24,6 +24,7 @@ import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     AppRoutingModule,
     ReportModule,
     SharedModule,
+    MatFormFieldModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),

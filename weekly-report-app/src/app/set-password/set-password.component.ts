@@ -24,10 +24,11 @@ export class SetPasswordComponent implements OnInit {
   setPasswordForm: FormGroup;
   createRowForm() {
     this.setPasswordForm = this.formBuilder.group({
-      password: ['', Validators.required],
-      repassword: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      repassword: ['', Validators.required, Validators.minLength(8)],
     });
   }
+  
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       if (params['token'].length == this.tokenLength) {
@@ -37,7 +38,9 @@ export class SetPasswordComponent implements OnInit {
 
     this.createRowForm();
   }
-
+  get f(){
+    return this.setPasswordForm.controls
+  }
   setPassword(): void {
     let password = this.setPasswordForm.value.password;
     let repassword = this.setPasswordForm.value.repassword;

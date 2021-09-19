@@ -194,7 +194,7 @@ export class ReportDetailComponent implements OnInit {
       : 'yapılan işler eklenmeden gönderildi. ';
     let subject = `<${week_id}>.Hafta<${worker_name}>`;
 
-    let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
+    let html = `<h3><${week_id?week_id+".Hafta":"Rapor Numarası: "+this.reportId}><${worker_name}></h3>${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
 
     let mailPacket = {
       general_manager_email: general_manager_email,

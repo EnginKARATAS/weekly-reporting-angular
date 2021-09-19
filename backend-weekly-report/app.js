@@ -32,21 +32,17 @@ const reportWorkerRouter = require("./src/route/reportWorker.route");
 
 const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
- 
+
 app.use("/api/reports", checkAuth, reportRouter);
 app.use("/api/rows", checkAuth, rowRouter);
 
 app.use("/item", checkAuth, routes);
 app.use("/api/reports/worker", checkAuth, reportWorkerRouter);
 
-server.listen(port, () => {
-  console.log("Listening on port: " + port);
-});
+server.listen(port, () => {});
 
 //test middleware
 const validatePayloadMiddleware = (req, res, next) => {
-  console.log("**********************");
-  console.log(req.session.page_views);
   if (req.body) next();
   else {
     res.status(403).send({
@@ -104,18 +100,15 @@ app.post("/sendmailtogm", checkAuth, (req, res) => {
   }
 });
 
-app.post("/sendResetEmail", checkAuth, (req, res) => {
+app.post("/sendResetEmail", (req, res) => {
   let date = new Date();
   date.setHours(date.getHours() + 3);
   let token_expire = date;
 
   let email = req.body.email;
-  console.log("🚀 ~ file: app.js ~ line 2222228 ~ app.post ~ email", email);
   let sql = "select * from workers where worker_email = ? ";
 
   con.query(sql, [email], (err, worker) => {
-    console.log("🚀 ~ file: app.js ~ line 102 ~ con.query ~ worker", worker);
-
     if (worker.length > 0) {
       crypto.randomBytes(127, (err, buf) => {
         let worker_name = worker[0].worker_name;
@@ -186,7 +179,6 @@ app.put("/setpassword", (req, res) => {
   if (password == repassword) {
     password = crypto.createHash("md5").update(password).digest("hex");
     let data = [password, token, datenow];
-    console.log("🚀 ~ file: app.js ~ line 15 ~ hash", password);
     let sql = `UPDATE workers SET password = ? WHERE token = ? AND ? < token_expire `;
     con.query(sql, data, (err, rows, fields) => {
       if (err) {
@@ -239,25 +231,22 @@ app.post("/api/workers", checkAuth, function (req, res) {
       token,
       token_expire,
     ];
-    if (true) {
-      let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username, token, token_expire) VALUES (?, ? , ?, ?, ?, ?, ?)`;
-      con.query(sql, data, function (error, results, fields) {
-        res.send(results);
-        mailer.sendMailToWorker(worker_email, subject, html);
-        res.end();
+    let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username, token, token_expire) VALUES (?, ? , ?, ?, ?, ?, ?)`;
+    con.query(sql, data, function (error, results, fields) {
+ 
+      res.send({
+        message: "Kullanıcıya kaydolması için e-posta gönderilmiştir.",
+        resCode: 200,
+        success: false,
       });
-    } else {
-      res.send("girdiler geçersizdir.");
-      res.end();
-    }
+      mailer.sendMailToWorker(worker_email, subject, html);
+    });
   });
 });
 
 app.post("/auth", function (request, response) {
   var username = request.body.username;
-  console.log("🚀 ~ file: app.js ~ line 257 ~ username", username);
   let password = request.body.password;
-  console.log("🚀 ~ file: app.js ~ line 259 ~ password", password);
   password = crypto.createHash("md5").update(password).digest("hex");
   password = password.substring(0, 16);
   if (username && password) {
@@ -265,6 +254,7 @@ app.post("/auth", function (request, response) {
       "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password = ?";
     con.query(sql, [username, password], function (err, worker, fields) {
       if (worker.length > 0) {
+        console.log("🚀 ~ file: app.js ~ line 253 ~ results", results);
         const token = jwt.sign(
           {
             muuid: worker.worker_name,
@@ -346,17 +336,14 @@ app.get("/api/claimants", checkAuth, (req, res) => {
   let sql = "SELECT claimant_name, claimant_surname FROM claimants";
 
   con.query(sql, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
     res.send(row);
   });
 });
 
 app.get("/getWorkerByReport/:report_id", (req, res) => {
   let report_id = parseInt(req.params.report_id);
-  console.log("🚀 ~ file: app.js ~ line 245 ~ app.get ~ report_id", report_id);
 
   let sql = `
   select r.id, wee.week_id, w.worker_name, w.worker_surname, w.worker_email from workers w 
@@ -366,8 +353,6 @@ app.get("/getWorkerByReport/:report_id", (req, res) => {
   `;
 
   con.query(sql, [report_id], (err, row, fields) => {
-    console.log("🚀 ~ file: app.js ~ line 254 ~ con.query ~ row", row);
-    console.log("error: ", err);
     if (err) result(err, null);
 
     res.send(row);
@@ -376,15 +361,11 @@ app.get("/getWorkerByReport/:report_id", (req, res) => {
 
 app.get("/api/reports/isreportsended/:id", checkAuth, (req, res) => {
   let id = req.params.id;
-  console.log("**********************");
   let sql = "SELECT is_report_sended from reports where id = ?";
 
   con.query(sql, id, (err, row, fields) => {
-    console.log("🚀 ~ file: app.js ~ line 249 ~ con.query ~ row", row);
-
     if (err) result(err, null);
 
-    console.log("🚀 ~ file: auth.model.js ~ line 32 ~ con.query ~ row", row);
     res.send(row);
   });
 });
@@ -409,7 +390,6 @@ app.get("/api/sendreport/:id", checkAuth, function (request, response) {
 
 app.get("/api/sendbackreport/:id", checkAuth, function (request, response) {
   let report_id = request.params.id;
-  console.log("🚀 ~ file: app.js ~ line 252 ~ report_id", report_id);
   if (report_id > 0) {
     let sql = `UPDATE reports SET is_report_sended = 0 WHERE id = ?; `;
     con.query(sql, report_id, function (error, results, fields) {

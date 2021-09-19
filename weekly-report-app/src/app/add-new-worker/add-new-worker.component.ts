@@ -42,7 +42,13 @@ export class AddNewWorkerComponent implements OnInit {
   addNewWorker(): void {
     console.log(this.addWorkerForm.value);
     this.workerService.addWorker(this.addWorkerForm.value).subscribe(data => {
-      this.toastrService.success("Kullanıcı kaydı başarıyla eklendi. Kullanıcıya şifre belirlemesi için mail gönderildi");
+      debugger
+      if (data.resCode==200) {
+        this.toastrService.success(data.message);
+      }
+      else if (data.resCode == 409){
+        this.toastrService.error(data.message);
+      }
     });
     
   }

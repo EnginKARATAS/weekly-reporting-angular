@@ -409,7 +409,6 @@ export class ReportDetailComponent implements OnInit {
           };
 
           this.sendMailToWorker2(mailPacket);
-          debugger
           this.toastrService.success('kullanıcıya e posta gönderildi');
         });
       }

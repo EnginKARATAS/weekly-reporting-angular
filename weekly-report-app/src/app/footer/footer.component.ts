@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private cookieService: CookieService) { }
+  gmisLoggedIn: boolean;
+  isLoggedIn: boolean;
   ngOnInit(): void {
+    this.isLoggedIn = this.cookieService.get('isLoggedIn').includes('true');
+    this.gmisLoggedIn = this.cookieService.get('gmisLoggedIn').includes('true');
   }
 
 }

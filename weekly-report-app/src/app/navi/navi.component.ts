@@ -18,8 +18,6 @@ export class NaviComponent implements OnInit {
 
   logged: boolean = false;
 
-  @Input() isWorkerAuth: boolean;
-  @Input() isGmAuth: boolean;
   constructor(
     private cookieService: CookieService,
     private router: Router,
@@ -63,7 +61,6 @@ export class NaviComponent implements OnInit {
       report_edit_date: report_edit_date,
     };
     this.reportService.create(report).subscribe((data) => {
-
       if (data.resCode == 300) {
         this.toastrService.info(data.message);
       }
@@ -85,18 +82,20 @@ export class NaviComponent implements OnInit {
       if (result == true) {
         this.addReport();
       } else this.toastrService.info('Aksiyon silme işlemi iptal edilmiştir.');
-      
     });
-
   }
 
   logout(): void {
-    this.isWorkerAuth = false;
-    this.isWorkerAuth = false;
+    if (this.cookieService.get('gmisLoggedIn').includes('true')) {
+      this.router.navigate(['/gmlogin']).then((b) => {
+        window.location.reload();
+      });
+    } else if (this.cookieService.get('isLoggedIn').includes('true')) {
+      this.router.navigate(['/login']).then((b) => {
+        window.location.reload();
+      });
+    }
     this.cookieService.deleteAll();
     this.toast.info('Çıkış Başarılı');
-    this.router.navigate(['/login']).then((b) => {
-      window.location.reload();
-    });
   }
 }

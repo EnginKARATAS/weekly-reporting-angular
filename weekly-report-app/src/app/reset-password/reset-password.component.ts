@@ -33,18 +33,15 @@ export class ResetPasswordComponent implements OnInit {
 
   setPassword(): void {
     let email = this.resetPasswordForm.value.email;
-    // let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    //email.match(regexEmail)
-    if (true) {
-
+    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    
+    if (email.match(regexEmail)) {
       this.workerService.sendResetEmail(email).subscribe(data => {
         console.log(data)
         if (data.resCode = 200) {
           this.toastr.success(data.message);
         }
         if (data.resCode = 400) {
-          debugger
           // this.toastr.error(data.message);         
         }
       })
@@ -60,5 +57,6 @@ export class ResetPasswordComponent implements OnInit {
 
     
     }
+    else this.toastr.error("E posta hatalıdır.")
   }
 }

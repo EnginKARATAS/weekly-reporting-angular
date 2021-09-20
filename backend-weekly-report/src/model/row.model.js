@@ -32,16 +32,13 @@ Row.findByReport = function (id, result) {
  
  con.query(sql, id, (err, row, fields) => {
    
-   console.log("error: ", err);
    if (err) result(err, null);
 
-   console.log(row);
    result(null, row);
  });
 };
 
 Row.clientFindByReport = function (data, result) {
-  console.log("🚀 ~ file: row.model.js ~ line 23 ~ data", data);
   let id = data.id;
   let worker_id = data.worker_id;
   let checkSql = `select * from reports where id = ? and worker_id = ?`;
@@ -75,25 +72,19 @@ Row.clientFindByReport = function (data, result) {
 // Define CRUD Operations Functions
 Row.findByWorkerId = function (id, result) {
   let sql = "SELECT * FROM reports where worker_id = ?";
-  console.log("🚀 ~ file: row.model.js ~ line 44 ~ sql", sql);
 
   con.query(sql, id, (err, row, fields) => {
-    console.log("error", err);
     if (err) result(err, null);
-    console.log(row);
     result(null, row);
   });
 };
 
 Row.findByCategoryId = function (id, result) {
-  console.log("içerdeyim");
   let sql = "SELECT * FROM reports WHERE id = ?";
 
   con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row);
     result(null, row);
   });
 };
@@ -102,10 +93,8 @@ Row.findByCategoryId = function (id, result) {
 // 	let sql = 'SELECT * FROM reports WHERE item_name = ?';
 
 // 	con.query(sql, name, (err, rows, fields) => {
-// 		console.log("error: ", err);
 // 		if (err) result(err, null);
 
-// 		console.log('rows: ', rows);
 // 		result(null, rows);
 // 	});
 // };
@@ -114,10 +103,8 @@ Row.findAll = function (result) {
   let sql = "SELECT * FROM reports";
 
   con.query(sql, (err, rows, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(rows);
     result(null, rows);
   });
 };
@@ -147,7 +134,6 @@ Row.create = function (newRow, result) {
     newRow.claimants,
     newRow.report_id,
   ];
-  console.log("🚀 ~ file: row.model.js ~ line 118 ~ data", data);
 
 
   let sql = `INSERT INTO report_row_entries
@@ -155,7 +141,6 @@ Row.create = function (newRow, result) {
  (?,?,?,?,?,?,?,?,?,?,?,?);`;
 
   con.query(sql, data, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
     result(null, data);
@@ -172,14 +157,10 @@ Row.update = function (report, result) {
     report.report_edit_date,
     report.id,
   ];
-  console.log(data);
   let sql = `UPDATE reports SET code = ?, worker_id = ?, claimant_id = ?, report_row_entry_id = ?, report_commit_date = ?, report_edit_date = ? WHERE id = ?`;
-  console.log(sql);
   con.query(sql, data, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
-    console.log(row.affectedRows);
     result(null, row.affectedRows);
   });
 };

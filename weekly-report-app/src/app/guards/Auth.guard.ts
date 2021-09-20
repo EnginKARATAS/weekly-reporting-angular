@@ -4,32 +4,26 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(private cookieService: CookieService, private router: Router, private authService: AuthService) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    if (this.cookieService.get('isLoggedIn') || this.cookieService.get('gmisLoggedIn')) {
+  canActivate(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): boolean {
+    
+    if (this.cookieService.get('isLoggedIn').includes("true") || this.cookieService.get('gmisLoggedIn').includes("true")) {
+      
       return true;
     } else {
       this.router.navigate(['login']).then(b =>{
         window.location.reload();
       });
+      
       return false;
     }
   }

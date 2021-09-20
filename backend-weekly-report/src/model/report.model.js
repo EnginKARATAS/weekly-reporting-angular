@@ -23,7 +23,6 @@ Report.findByWorkerId = function (id, result) {
    WHERE r.worker_id = ?`;
 
   con.query(sql, id, (err, rows, fields) => {
-    console.log("error", err);
     if (err) result(err, null);
     result(null, rows);
   });
@@ -34,7 +33,6 @@ Report.findAll = function (result) {
   weeks w ON r.week_id = w.week_id INNER JOIN 
   workers wo ON r.worker_id = wo.id`;
   con.query(sql, (err, rows, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
     result(null, rows);
@@ -46,7 +44,6 @@ Report.findById = function (id, result) {
   workers wo ON r.worker_id = wo.id`;
 
   con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
     result(null, row);
@@ -57,7 +54,6 @@ Report.findByCategoryId = function (id, result) {
   let sql = "SELECT * FROM reports WHERE id = ?";
 
   con.query(sql, id, (err, row, fields) => {
-    console.log("error: ", err);
     if (err) result(err, null);
 
     result(null, row);
@@ -68,10 +64,8 @@ Report.findByCategoryId = function (id, result) {
 // 	let sql = 'SELECT * FROM reports WHERE item_name = ?';
 
 // 	con.query(sql, name, (err, rows, fields) => {
-// 		console.log("error: ", err);
 // 		if (err) result(err, null);
 
-// 		console.log('rows: ', rows);
 // 		result(null, rows);
 // 	});
 // };
@@ -90,7 +84,6 @@ Report.create = function (newReport, result) {
     newReport.report_commit_date,
     newReport.report_edit_date,
   ];
-  console.log("🚀 ~ file: report.model.js ~ line 93 ~ data", data)
   let checkSql = "select * from reports where worker_id = ? AND week_id = ?";
   let sql =
     "INSERT INTO `reports` (`is_report_sended`, `week_id`, `worker_id`, `claimant_id`, `report_commit_date`, `report_edit_date`) VALUES (?, ?, ?, ?, ?, ?)";

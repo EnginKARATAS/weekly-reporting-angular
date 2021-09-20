@@ -6,8 +6,6 @@ const Row = require("../model/row.model");
 exports.findByReport = function (req, res) {
   const id = req.params.id;
   
-  console.log("🚀 ~ file: checkAuth.js ~ line 🧨🧨🧨 ~ req.userData", req.userData)
- 
   if (!id) {
     // 400 = bad request
     return res.status(400).send("The required path variable id is missing");
@@ -18,8 +16,6 @@ exports.findByReport = function (req, res) {
       return res
         .status(500)
         .send("Error occured during fetching rows for id " + id);
-    console.log("rows: ", rows);
-
     if (rows.length <= 0) {
       return res.send(null);
     }
@@ -43,8 +39,6 @@ exports.clientFindByReport = function (req, res) {
       return res
         .status(500)
         .send("Error occured during fetching rows for id " + id);
-    console.log("rows: ", rows);
-
     return res.json(rows);
   });
 };
@@ -63,8 +57,6 @@ exports.findByWorkerId = function (req, res) {
       return res
         .status(500)
         .send("Error occured during fetching report for id " + worker_id);
-    console.log("report: ", report);
-
     return res.send(report);
   });
 };
@@ -73,23 +65,17 @@ exports.findAll = function (req, res) {
   Row.findAll(function (err, reports) {
     if (err)
       return res.status(500).send("Error occured during fetching reports");
-    console.log("reports: ", reports);
-
     return res.send(reports);
   });
 };
 
 exports.create = function (req, res) {
   const newRow = new Row(req.body);
-  console.log(newRow);
-  // 400 = bad request
 
   if (!newRow.report_id) {
     return res.status(400).send("One or more required fields are missing");
   } else {
     Row.create(newRow, function (err, report_id) {
-      console.log("err: ", err);
-      //if (err === Object) res.status(500).send('Row already exist with name ' + err.item_name);
 
       if (err || report_id <= 0)
         return res.status(500).send("Error occured during saving report");

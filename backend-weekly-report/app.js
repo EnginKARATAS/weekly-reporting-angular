@@ -254,7 +254,6 @@ app.post("/auth", function (request, response) {
       "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password = ?";
     con.query(sql, [username, password], function (err, worker, fields) {
       if (worker.length > 0) {
-        console.log("🚀 ~ file: app.js ~ line 253 ~ results", results);
         const token = jwt.sign(
           {
             muuid: worker.worker_name,

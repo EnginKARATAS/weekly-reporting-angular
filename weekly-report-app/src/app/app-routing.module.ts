@@ -18,7 +18,7 @@ const routes = ([
   { path: 'gmlogin', component: GmloginComponent},
   { path: 'login', component: LoginComponent},
   { path: '', component: LoginComponent  },
-  { path: 'add-worker', component: AddNewWorkerComponent, canActive:[AuthGuard] },
+  { path: 'add-worker', component: AddNewWorkerComponent,  },
   { path: 'set-password/:token', component: SetPasswordComponent, canActive:[AuthGuard]  },
   { path: 'reset-password', component: ResetPasswordComponent, canActive:[AuthGuard]},
   { path: 'gmadmin', component: GmadminComponent, canActive:[AuthGuard] },

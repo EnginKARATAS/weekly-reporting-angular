@@ -33,7 +33,7 @@ const reportWorkerRouter = require("./src/route/reportWorker.route");
 const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
 
-app.use("/api/reports", checkAuth, reportRouter);
+app.use("/api/reports", reportRouter);
 app.use("/api/rows", checkAuth, rowRouter);
 
 app.use("/item", checkAuth, routes);
@@ -308,6 +308,7 @@ app.post("/gmauth", function (request, response) {
             muuid: gm.worker_name,
             memail: gm.worker_email,
             cid: gm.id,
+            is_gm: true
           },
           "dvurising",
           {

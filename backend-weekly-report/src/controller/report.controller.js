@@ -3,6 +3,18 @@
 const con = require("../../config/db");
 const Report = require("../model/report.model");
 
+
+exports.getAllReports = function ( req, res ) {
+  //gmnin kontrolü checkGmAuth`da yapıldı
+
+
+  Report.getAllReports(function (err,reports){
+    if (err) res.send(err)
+
+    res.send(reports)
+  })
+}
+
 exports.findById = function (req, res) {
   const id = req.params.id;
   if (!id) {
@@ -39,7 +51,7 @@ exports.findByWorkerId = function (req, res) {
 exports.findAll = function (req, res) {
   Report.findAll(function (err, reports) {
     if (err)
-      return res.status(500).send("Error occured during fetching reports");
+      return res.status(500).send("bilgiler getirilirken hata oluştu");
 
     return res.send(reports);
   });

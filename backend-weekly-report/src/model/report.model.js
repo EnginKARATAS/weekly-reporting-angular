@@ -14,6 +14,17 @@ var Report = function (report) {
   this.report_edit_date = report.report_edit_date;
 };
 
+Report.getAllReports = function (result) {
+  let sql = `SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+  weeks w ON r.week_id = w.week_id INNER JOIN 
+  workers wo ON r.worker_id = wo.id`;
+  con.query(sql, (err, rows, fields) => {
+    if (err) result(err, null);
+
+    result(null, rows);
+  });
+};
+
 // Define CRUD Operations Functions
 Report.findByWorkerId = function (id, result) {
   let sql = `SELECT r.id, w.week_name, w.week_id, r.is_report_sended, concat(wo.worker_name, ' ', wo.worker_surname) as worker 
@@ -98,8 +109,7 @@ Report.create = function (newReport, result) {
       con.query(sql, data, (err, row, fields) => {
         if (err) result(err, null);
 
-        rspc.message =
-        "Haftalık raporunuz eklenmiştir.";
+        rspc.message = "Haftalık raporunuz eklenmiştir.";
         rspc.resCode = 200;
         rspc.data = row;
         result(null, rspc);
@@ -159,7 +169,6 @@ Report.getByAction = function (action, result) {
     }
   });
 };
-
 
 Report.update = function (report, result) {
   let data = [

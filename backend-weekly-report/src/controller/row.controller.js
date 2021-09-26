@@ -16,7 +16,7 @@ exports.findByReport = function (req, res) {
       return res
         .status(500)
         .send("Error occured during fetching rows for id " + id);
-    else if (rows.length <= 0) {
+    if (rows.length <= 0) {
       return res.send(null);
     }
     return res.send(rows);

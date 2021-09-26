@@ -11,13 +11,13 @@ import { WorkerService } from '../services/worker.service';
   styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent implements OnInit {
-  message = ""
+  message = '';
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private workerService: WorkerService,
     private toastr: ToastrService,
-    private emailService: MailService,
+    private emailService: MailService
   ) {}
   resetPasswordForm: FormGroup;
 
@@ -31,32 +31,19 @@ export class ResetPasswordComponent implements OnInit {
     this.createRowForm();
   }
 
-  setPassword(): void {
+  sendResetPasswordEmail(): void {
     let email = this.resetPasswordForm.value.email;
     let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    
+
     if (email.match(regexEmail)) {
-      this.workerService.sendResetEmail(email).subscribe(data => {
-        console.log(data)
-        if (data.resCode = 200) {
+      this.workerService.sendResetEmail(email).subscribe((data) => {
+        if ((data.resCode == 200)) {
           this.toastr.success(data.message);
         }
-        if (data.resCode = 400) {
-          // this.toastr.error(data.message);         
+        else if ((data.resCode == 400)) {
+          this.toastr.error(data.message);
         }
-      })
- 
-      // let mailPacket = {
-      //   worker_email: email,
-      //   subject: "Şifre sıfırlama talebi",
-      //   html: "html",
-      // };
-
-
-      // this.emailService.sentToWorker(mailPacket)
-
-    
-    }
-    else this.toastr.error("E posta hatalıdır.")
+      });
+    } else this.toastr.error('E posta hatalıdır.');
   }
 }

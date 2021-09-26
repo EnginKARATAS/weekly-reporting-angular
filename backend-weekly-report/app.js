@@ -109,7 +109,7 @@ app.post("/sendResetEmail", (req, res) => {
   let sql = "select * from workers where worker_email = ? ";
 
   con.query(sql, [email], (err, worker) => {
-    if (worker.length > 0) {
+    if (worker.length > 0) {  
       crypto.randomBytes(127, (err, buf) => {
         let worker_name = worker[0].worker_name;
         let worker_surname = worker[0].worker_surname;
@@ -121,7 +121,11 @@ app.post("/sendResetEmail", (req, res) => {
 
         con.query(update, data, (err, row) => {
           if (err) {
-            res.json(err);
+            res.json({
+              message: err,
+              resCode: 399,
+            });
+            res.end()
           } else {
             let mailSended = mailer.sendMailToWorker(
               email,
@@ -133,6 +137,7 @@ app.post("/sendResetEmail", (req, res) => {
               message: "Şifre sıfırlamanız için email gönderildi",
               resCode: 200,
             });
+            res.end();
           }
         });
       });
@@ -141,6 +146,7 @@ app.post("/sendResetEmail", (req, res) => {
         message: "E mailiniz sistemimizde kayıtlı değildir",
         resCode: 400,
       });
+      res.end();
     }
   });
 });
@@ -220,7 +226,7 @@ app.post("/api/workers", checkAuth, function (req, res) {
 
     let subject = "Katana Reporting Kaydı!";
     let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost:4200/#/set-password/${token}">tıklayınız</a>`;
+    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://10.41.150.82/#/set-password/${token}">tıklayınız</a>`;
     // ${req.headers.host}
     let data = [
       worker_name,

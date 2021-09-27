@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MailService {
-  baseUrl: string = 'http://localhost:4000/sendmailtogm';
-  secondUrl: string = 'http://localhost:4000/sendmailtoworker';
+  baseUrl: string = 'http://10.41.150.82:4000/sendmailtogm';
+  secondUrl: string = 'http://10.41.150.82:4000/sendmailtoworker';
   constructor(private http: HttpClient) {}
 
   sentToGm(data): Observable<any> {

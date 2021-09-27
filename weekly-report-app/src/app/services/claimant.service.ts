@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ClaimantService {
-  baseUrl: string = 'http://localhost:4000/api/claimants'
+  baseUrl: string = 'http://10.41.150.82:4000/api/claimants'
 
   constructor(private http : HttpClient) {
   }

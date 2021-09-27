@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class WorkerService {
-  baseUrl: string = 'http://localhost:4000/api/workers';
-  passwordUrl: string = 'http://localhost:4000/setpassword';
-  thirdUrl: string = 'http://localhost:4000/getWorkerByReport';
-  fourthUrl: string = 'http://localhost:4000/sendResetEmail'
+  baseUrl: string = 'http://10.41.150.82:4000/api/workers';
+  passwordUrl: string = 'http://10.41.150.82:4000/setpassword';
+  thirdUrl: string = 'http://10.41.150.82:4000/getWorkerByReport';
+  fourthUrl: string = 'http://10.41.150.82:4000/sendResetEmail'
   
   constructor(private http: HttpClient) {}
   

@@ -8,8 +8,8 @@ import { Report } from '../models/reports';
   providedIn: 'root'
 })
 export  class AuthService {
-baseUrl: string = 'http://localhost:4000/auth';
-gmbaseUrl: string = 'http://localhost:4000/gmauth';
+baseUrl: string = 'http://10.41.150.82:4000/auth';
+gmbaseUrl: string = 'http://10.41.150.82:4000/gmauth';
 constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<any> {

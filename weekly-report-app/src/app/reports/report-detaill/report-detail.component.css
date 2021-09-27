@@ -1,56 +1,66 @@
-th{
-    font-size: 0.90rem;
+th {
+  font-size: 0.9rem;
 }
 
-td{
-    font-size: 0.90rem;
+td {
+  font-size: 0.9rem;
 }
-h6{ 
-    font-size: 20px;
+h6 {
+  font-size: 20px;
 }
-h5{ 
-    font-size: 20px;
-}
-
-#codeButton{
-    font-size: 10px;
+h5 {
+  font-size: 20px;
 }
 
-mat-icon{
-    font-size: 15px;
-    
+#codeButton {
+  font-size: 10px;
 }
 
-span{
-    font-size: 13px;
+mat-icon {
+  font-size: 15px;
 }
 
-th{width: 0%;font-size: 14px;}
-
-span{
-    font-size: 10px;
+span {
+  font-size: 13px;
 }
 
-.sira{
-    font-size: 13.5px;
+th {
+  width: 0%;
+  font-size: 14px;
+}
+
+span {
+  font-size: 10px;
+}
+
+.sira {
+  font-size: 13.5px;
 }
 
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
-    background: rgba(131, 187, 197, 0.5);
-  }
-
-.codes{
-    font-size: 11px;
-}
-    
-.mat-expansion-panel{
-    background-color: rgb(235, 235, 235) ;
+  background: rgba(131, 187, 197, 0.5);
 }
 
-.mat-expansion-panel-header-title{
-    color: black;
+.codes {
+  font-size: 11px;
 }
 
-.mat-expansion-panel-header-description{
-    color: black;
+.mat-expansion-panel {
+  background-color: rgb(235, 235, 235);
+}
+
+.mat-expansion-panel-header-title {
+  color: black;
+}
+
+.mat-expansion-panel-header-description {
+  color: black;
+}
+ngx-timepicker-field {
+  padding: 0;
+  width: 73%;
+}
+
+  mat-accordion > mat-expansion-panel{
+    background: lavender;
 }

@@ -7,14 +7,14 @@ import { Report } from '../models/reports';
   providedIn: 'root',
 })
 export class ReportService {
-  baseUrl: string = 'http://10.41.150.82:4000/api/reports';
-  secondUrl: string = 'http://10.41.150.82:4000/api/reports/isreportsended';
-  thirdUrl: string = 'http://10.41.150.82:4000/api/sendreport';
-  fourthUrl: string = 'http://10.41.150.82:4000/api/sendbackreport';
-  deleteUrl: string = 'http://10.41.150.82:4000/deletereportbyid';
-  sixthUrl: string = 'http://10.41.150.82:4000/api/reports/getByCode';
-  seventhUrl: string = 'http://10.41.150.82:4000/api/reports/getByAction';
-  eighth: string = 'http://10.41.150.82:4000/api/reports/getAllReports';
+  baseUrl: string = 'http://localhost:4000/api/reports';
+  secondUrl: string = 'http://localhost:4000/api/reports/isreportsended';
+  thirdUrl: string = 'http://localhost:4000/api/sendreport';
+  fourthUrl: string = 'http://localhost:4000/api/sendbackreport';
+  deleteUrl: string = 'http://localhost:4000/deletereportbyid';
+  sixthUrl: string = 'http://localhost:4000/api/reports/getByCode';
+  seventhUrl: string = 'http://localhost:4000/api/reports/getByAction';
+  eighth: string = 'http://localhost:4000/api/reports/getAllReports';
   constructor(private http: HttpClient) {}
 
   getAll(gm_id): Observable<any> {

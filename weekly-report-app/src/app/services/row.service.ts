@@ -7,8 +7,8 @@ import { Row } from '../models/row';
   providedIn: 'root',
 })
 export class RowService {
-  baseUrl: string = 'http://10.41.150.82:4000/api/rows';
-  secondUrl: string = 'http://10.41.150.82:4000/api/rows';
+  baseUrl: string = 'http://localhost:4000/api/rows';
+  secondUrl: string = 'http://localhost:4000/api/rows';
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {

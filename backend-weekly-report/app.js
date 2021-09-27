@@ -126,7 +126,7 @@ app.post("/sendResetEmail", (req, res) => {
             let mailSended = mailer.sendMailToWorker(
               email,
               `${worker_name} ${worker_surname} Şifre sıfırlama talebi`,
-              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://localhost:4200/#/set-password/${token}"> TIKLAYINIZ</a>`
+              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://localhost/#/set-password/${token}"> TIKLAYINIZ</a>`
             );
 
             res.json({
@@ -174,27 +174,35 @@ app.put("/setpassword", (req, res) => {
     resCode: 0,
   };
 
-  let datenow = Date();
+  let date = (new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ');
 
   if (password == repassword) {
     password = crypto.createHash("md5").update(password).digest("hex");
-    let data = [password, token, datenow];
+    let data = [password, token, date];
     let sql = `UPDATE workers SET password = ? WHERE token = ? AND ? < token_expire `;
     con.query(sql, data, (err, rows, fields) => {
       if (err) {
+        console.log("111111111111");
         responseModel.resCode = 400;
         responseModel.message = err.message;
-        res.send(responseModel);
+        res.json(responseModel);
+        res.end();
+      } else {
+        console.log("222222222");
+
+        responseModel.message =
+          "Şifre değiştirme başarılı. Lütfen giriş yapınız.";
+        responseModel.resCode = 200;
+        res.json(responseModel);
+        res.end();
       }
-      responseModel.message =
-        "Şifre değiştirme başarılı. Lütfen giriş yapınız.";
-      responseModel.resCode = 200;
-      res.send(responseModel);
     });
   } else {
+    console.log("3333333333333");
     responseModel.message = "Şifreler uyuşmamaktadır.";
     responseModel.resCode = 400;
     res.json(responseModel);
+    res.end();
   }
 });
 
@@ -220,7 +228,7 @@ app.post("/api/workers", checkAuth, function (req, res) {
 
     let subject = "Katana Reporting Kaydı!";
     let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost:4200/#/set-password/${token}">tıklayınız</a>`;
+    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost/#/set-password/${token}">tıklayınız</a>`;
     // ${req.headers.host}
     let data = [
       worker_name,
@@ -233,7 +241,6 @@ app.post("/api/workers", checkAuth, function (req, res) {
     ];
     let sql = `INSERT INTO workers (worker_name, worker_surname, job_title, worker_email, username, token, token_expire) VALUES (?, ? , ?, ?, ?, ?, ?)`;
     con.query(sql, data, function (error, results, fields) {
- 
       res.send({
         message: "Kullanıcıya kaydolması için e-posta gönderilmiştir.",
         resCode: 200,
@@ -308,7 +315,7 @@ app.post("/gmauth", function (request, response) {
             muuid: gm.worker_name,
             memail: gm.worker_email,
             cid: gm.id,
-            is_gm: true
+            is_gm: true,
           },
           "dvurising",
           {

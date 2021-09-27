@@ -126,7 +126,7 @@
                         class="form-control"
                         [ngClass]="{ 'is-invalid': f.actions.errors && (f.actions.touched || f.actions.dirty) }">
                       </textarea>
-                      <mat-error *ngIf="f.actions.errors && (f.actions.touched || f.actions.dirty)">Alınan aksiyonlar en az 20 karakter içermelidir.</mat-error>
+                      <mat-error *ngIf="f.actions.errors && (f.actions.touched || f.actions.dirty)">Alınan aksiyonlar en az 30 karakter içermelidir.</mat-error>
                     </div>
                   </div>
                 </td>
@@ -165,7 +165,7 @@
                         class="form-control"></textarea>
                     </div>
                   </div>
-                  <div class="form-group row float-right mt-4 mr-1">
+                  <div style="background-color: #f44336;" class="form-group row float-right mt-4 mr-1">
                     <button (click)="addRow()" [disabled]="!rowForm.valid" name="submit" type="submit"
                       class="btn btn-primary">Satırı Ekle</button>
                   </div>
@@ -232,7 +232,7 @@
       <td>{{row.actions}}</td>
       <td>{{row.comments}}</td>
       <!-- <td>{{row.code | vatAdded: 10 | currency:'₺'}}</td> -->
-      <td [style.color]="setColor(row.matter+1)" class="font-weight-bolder">{{row.matter+1}}</td>
+      <td [style.color]="setColor(row.matter+1)" class="font-weight-bolder">{{colorName(row.matter+1)}}</td>
       <td>{{row.start_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.finish_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.is_timeout ? "Var":"Yok"}}</td>

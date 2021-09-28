@@ -12,7 +12,7 @@ const mailer = require("./src/mailSender/sender");
 const crypto = require("crypto");
 var jwt = require("jsonwebtoken");
 const checkAuth = require("./src/middleware/checkAuth");
-let origin = "http://localhost:4200";
+let origin = "http://10.41.150.82";
 let host = "req.headers.host";
 
 app.use(
@@ -224,6 +224,7 @@ app.post("/api/workers", checkAuth, function (req, res) {
     let worker_email = req.body.worker_email;
     let job_title = req.body.job_title;
     let username = req.body.worker_email;
+    console.log("🚀 ~ file: app.js ~ line 227 ~ crypto.randomBytes ~ username", username)
     let token = buf.toString("hex");
 
     let date = new Date();
@@ -265,7 +266,7 @@ app.post("/auth", function (request, response) {
   password = password.substring(0, 16);
   if (username && password) {
     let sql =
-      "SELECT username, worker_name, worker_surname, id FROM workers where username = ? AND password = ?";
+      "SELECT username, worker_name, worker_surname, id FROM workers where worker_email = ? AND password = ?";
     con.query(sql, [username, password], function (err, worker, fields) {
       if (worker.length > 0) {
         const token = jwt.sign(

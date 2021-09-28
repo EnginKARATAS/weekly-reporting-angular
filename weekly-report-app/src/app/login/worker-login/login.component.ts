@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
   login(): void {
     if (this.loginForm.valid) {
       this.authService
+      //username == email
         .login(this.loginForm.value.username, this.loginForm.value.password)
         .subscribe((respond) => {
           if (respond.resCode == 200) {

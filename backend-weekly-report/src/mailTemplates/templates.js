@@ -382,7 +382,7 @@ function getHtmlRegister(username, resetPasswordLink) {
                               <tr>
                                   <td>
                                       <div class="text" style="padding: 0 3em; text-align: center;">
-                                          <h2>Değerli çalışanımız, katana reporting uygulamasında şifre değiştirme talebiniz alınmıştır.</h2>
+                                          <h2>Değerli çalışanımız, katana reporting uygulamasında davet edildiniz.</h2>
                                       </div>
                                   </td>
                               </tr>
@@ -395,7 +395,8 @@ function getHtmlRegister(username, resetPasswordLink) {
                               <tr>
                                   <td class="bg_white email-section">
                                       <div class="heading-section" style="text-align: center; padding: 0 30px;">
-                                          <h2>Kullanıcı Adı <${username}></h2>
+                                          <h2>Kullanıcı Adı:</h2>
+                                          <h2>${username}</h2>
                                           <p>Şifre Sıfırlamak için aşağıdaki linke tıklayınız:</p>
                                           <a href="${resetPasswordLink}">Buraya tıkla</a>
                                       </div>

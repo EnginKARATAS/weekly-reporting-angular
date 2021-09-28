@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MailService {
-  baseUrl: string = 'http://localhost:4000/sendmailtogm';
-  secondUrl: string = 'http://localhost:4000/sendmailtoworker';
+  baseUrl: string = `${environment.apiUrl}/sendmailtogm`;
+  secondUrl: string = `${environment.apiUrl}/sendmailtoworker`;
   constructor(private http: HttpClient) {}
 
   sentToGm(data): Observable<any> {

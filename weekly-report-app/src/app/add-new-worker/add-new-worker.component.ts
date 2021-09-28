@@ -35,14 +35,13 @@ export class AddNewWorkerComponent implements OnInit {
       worker_surname: ['', Validators.required],
       worker_email: ['', Validators.required],
       job_title: ['', Validators.required],
-      username: ['', Validators.required],
+      username: [''],
     });
   }
 
   addNewWorker(): void {
-    console.log(this.addWorkerForm.value);
+    this.addWorkerForm.value.username = this.addWorkerForm.value.email
     this.workerService.addWorker(this.addWorkerForm.value).subscribe(data => {
-      debugger
       if (data.resCode==200) {
         this.toastrService.success(data.message);
       }

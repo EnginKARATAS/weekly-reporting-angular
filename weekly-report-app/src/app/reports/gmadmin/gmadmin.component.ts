@@ -106,8 +106,8 @@ export class GmadminComponent implements OnInit {
 
   overColor(reportId: number) {
     if (reportId == this.currentReportId) {
-      return 'text-primary';
-    } else return 'text-secondary';
+      return 'text-info';
+    } else return 'text-dark';
   }
 
   deleteReport(report_id: number) {

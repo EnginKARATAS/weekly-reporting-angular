@@ -14,8 +14,8 @@
         <a class="nav-link active" (click)="openPopupWithAddReport()">Haftalık Raporumu Ekle</a>
       </li>
 
-      <li *ngIf="gmisLoggedIn" class="nav-item">
-        <a class="nav-link active" routerLink="/add-worker">Yeni Çalışan Ekle</a>
+      <li *ngIf="gmisLoggedIn" class="nav-item pl-1">
+        <button routerLink="/add-worker" type="button" class="btn btn-outline-light">Yeni Çalışan Ekle</button>
       </li>
 
     </ul>

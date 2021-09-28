@@ -12,7 +12,7 @@ const mailer = require("./src/mailSender/sender");
 const crypto = require("crypto");
 var jwt = require("jsonwebtoken");
 const checkAuth = require("./src/middleware/checkAuth");
-
+let origin = "http://localhost:4200";
 let host = "req.headers.host";
 
 app.use(
@@ -32,6 +32,7 @@ const reportWorkerRouter = require("./src/route/reportWorker.route");
 
 const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
+const templates = require("./src/mailTemplates/templates");
 
 app.use("/api/reports", reportRouter);
 app.use("/api/rows", checkAuth, rowRouter);
@@ -41,23 +42,14 @@ app.use("/api/reports/worker", checkAuth, reportWorkerRouter);
 
 server.listen(port, () => {});
 
-//test middleware
-const validatePayloadMiddleware = (req, res, next) => {
-  if (req.body) next();
-  else {
-    res.status(403).send({
-      errorMessage: "you need a payload",
-    });
-  }
-};
-
 app.delete("/deletereportbyid", checkAuth, (req, res) => {
   sql = "";
 });
 
 app.get("/api/workers/getbycode/:code", checkAuth, (req, res) => {
   let code = req.params.code;
-  sql = `SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
+  sql = `
+  SELECT worker_email, worker_name, worker_surname FROM workers w INNER JOIN
          reports ro ON w.id = ro.worker_id INNER JOIN
          report_row_entries rre ON rre.report_id = ro.id
          WHERE code = ?
@@ -123,10 +115,16 @@ app.post("/sendResetEmail", (req, res) => {
           if (err) {
             res.json(err);
           } else {
-            let mailSended = mailer.sendMailToWorker(
+            let resetPasswordLink = `${origin}/#/set-password/${token}`;
+            let isimsoyisim = worker_name + " " +  worker_surname
+            let html = templates.getHtmlResetPassword(isimsoyisim, resetPasswordLink);
+
+
+             
+            mailer.sendMailToWorker(
               email,
               `${worker_name} ${worker_surname} Şifre sıfırlama talebi`,
-              `Şifre sıfırlama talebiniz alınmıştır. Şifrenizi sıfırlamak için <a href="http://localhost/#/set-password/${token}"> TIKLAYINIZ</a>`
+              html
             );
 
             res.json({
@@ -174,7 +172,13 @@ app.put("/setpassword", (req, res) => {
     resCode: 0,
   };
 
-  let date = (new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ');
+  let date = new Date(
+    new Date(new Date(new Date()).toISOString()).getTime() -
+      new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " ");
 
   if (password == repassword) {
     password = crypto.createHash("md5").update(password).digest("hex");
@@ -219,7 +223,7 @@ app.post("/api/workers", checkAuth, function (req, res) {
     let worker_surname = req.body.worker_surname;
     let worker_email = req.body.worker_email;
     let job_title = req.body.job_title;
-    let username = req.body.username;
+    let username = req.body.worker_email;
     let token = buf.toString("hex");
 
     let date = new Date();
@@ -227,9 +231,12 @@ app.post("/api/workers", checkAuth, function (req, res) {
     let token_expire = date;
 
     let subject = "Katana Reporting Kaydı!";
-    let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="http://localhost/#/set-password/${token}">tıklayınız</a>`;
-    // ${req.headers.host}
+    let resetPasswordLink = `${origin}/#/set-password/${token}`;
+    let html = templates.getHtmlRegister(username, resetPasswordLink);
+
+    // let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
+    // <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="${resetPasswordLink}">tıklayınız</a>`;
+    // // ${req.headers.host}
     let data = [
       worker_name,
       worker_surname,

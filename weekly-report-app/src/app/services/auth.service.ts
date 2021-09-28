@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Report } from '../models/reports';
+import { environment } from 'src/enviroment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export  class AuthService {
-baseUrl: string = 'http://localhost:4000/auth';
-gmbaseUrl: string = 'http://localhost:4000/gmauth';
+baseUrl: string = `${environment.apiUrl}/auth`;
+gmbaseUrl: string = `${environment.apiUrl}/gmauth`;
 constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<any> {

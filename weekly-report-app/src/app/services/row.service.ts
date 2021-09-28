@@ -9,8 +9,8 @@ import { environment } from '../../enviroment';
 })
 export class RowService {
   enviroment;
-  baseUrl: string = 'http://localhost:4000/api/rows';
-  secondUrl: string = 'http://localhost:4000/api/rows';
+  baseUrl: string = `${environment.apiUrl}/api/rows`;
+  secondUrl: string = `${environment.apiUrl}/api/rows`;
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {

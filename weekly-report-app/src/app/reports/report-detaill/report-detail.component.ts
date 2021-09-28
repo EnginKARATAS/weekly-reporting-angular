@@ -154,7 +154,7 @@ export class ReportDetailComponent implements OnInit {
       case 5:
         return 'çok yüksek';
       default:
-        return 'belirtilmemiş';
+        return '';
     }
   }
 

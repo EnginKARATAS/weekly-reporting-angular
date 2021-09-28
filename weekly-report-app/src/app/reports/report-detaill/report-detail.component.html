@@ -201,9 +201,8 @@
       <th matTooltip="Önem derecesi, her bir aksiyon için belirlenmelidir. Dikkatlice seçim yapınız.">
         Önem
       </th>
-      <th matTooltip="Talep tarihi, ne zaman atandığı veya hangi tarihte başladığınızdır.">Başlama T.
+      <th matTooltip="Talep tarihi, ne zaman atandığı veya hangi tarihte başladığınızdır./Talebin veya aksiyonun ne zaman son bulduğudur.">Başlama/Bitirme
       </th>
-      <th style="width: 12%" matTooltip="Talebin veya aksiyonun ne zaman son bulduğudur.">Bitirme T.</th>
       <th matTooltip="Aksiyonunuzun zaman aşımına uğrayıp uğramadığını belirtiniz">Aşım</th>
       <th matTooltip="Aksiyonu isteyen/talep eden kişidir">İsteyen</th>
       <th style="width: 12%"
@@ -215,7 +214,7 @@
     </tr>
   </thead>
   <div *ngIf="gmLoginStatus" class="d-inline row container">
-    <p>Tekrar istenecek:</p>
+    <p>Seç:</p>
     <div class="d-inline" *ngFor="let checkBox of checkBoxes; let i = index">
       <p class="d-inline codes" *ngIf="checkBox.checked==true">{{ checkBox.code + " | "}}</p>
     </div>
@@ -238,9 +237,11 @@
       <td>{{row.actions}}</td>
       <td>{{row.comments}}</td>
       <!-- <td>{{row.code | vatAdded: 10 | currency:'₺'}}</td> -->
-      <td [style.color]="setColorMatter(row.matter)" [innerHTML]="colorName(row.matter)" class="font-weight-bolder"></td>
-      <td>{{row.start_date | date: 'dd/MM/yyyy'}}</td>
-      <td>{{row.finish_date | date: 'dd/MM/yyyy'}}</td>
+      <td [style.color]="setColorMatter(row.matter)" [(ngModel)]="pasteModel.status" [innerHTML]="colorName(row.matter)" class="font-weight-bolder"></td>
+      <td>{{row.start_date | date: 'dd/MM/yyyy'}}
+        <br>
+        {{row.finish_date | date: 'dd/MM/yyyy'}}
+      </td>
       <td [style.color]="setColorIsTimeout(row.is_timeout?'Var':'Yok')">{{row.is_timeout?"Var":"Yok"}}</td>
       <td>{{row.claimants}}</td>
       <td>{{row.scheduled_completion_date | date: 'dd/MM/yyyy'}}</td>
@@ -249,12 +250,8 @@
       <td #kod>{{row.code}}</td>
 
     </tr>
-    <tr *ngIf="gmLoginStatus">
-      <th scope="row">
-        <mat-checkbox class="matcheck" (click)="CheckAllOptions()">Tümünü -seç-</mat-checkbox>
-      </th>
+        <mat-checkbox class="matcheck" (click)="CheckAllOptions()">hepsini seç</mat-checkbox>
       <td class="btn btn-sm btn-info m-1" (click)="revisionRequest(checkBoxes)">Revizyon İste</td>
-    </tr>
   </tbody>
 </table>
 

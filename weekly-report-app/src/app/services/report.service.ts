@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Report } from '../models/reports';
+import { environment } from 'src/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportService {
-  baseUrl: string = 'http://localhost:4000/api/reports';
-  secondUrl: string = 'http://localhost:4000/api/reports/isreportsended';
-  thirdUrl: string = 'http://localhost:4000/api/sendreport';
-  fourthUrl: string = 'http://localhost:4000/api/sendbackreport';
-  deleteUrl: string = 'http://localhost:4000/deletereportbyid';
-  sixthUrl: string = 'http://localhost:4000/api/reports/getByCode';
-  seventhUrl: string = 'http://localhost:4000/api/reports/getByAction';
-  eighth: string = 'http://localhost:4000/api/reports/getAllReports';
+  baseUrl: string = `${environment.apiUrl}/api/reports`;
+  secondUrl: string = `${environment.apiUrl}/api/reports/isreportsended`;
+  thirdUrl: string = `${environment.apiUrl}/api/sendreport`;
+  fourthUrl: string = `${environment.apiUrl}/api/sendbackreport`;
+  deleteUrl: string = `${environment.apiUrl}/deletereportbyid`;
+  sixthUrl: string = `${environment.apiUrl}/api/reports/getByCode`;
+  seventhUrl: string = `${environment.apiUrl}/api/reports/getByAction`;
+  eighth: string = `${environment.apiUrl}/api/reports/getAllReports`;
   constructor(private http: HttpClient) {}
 
   getAll(gm_id): Observable<any> {

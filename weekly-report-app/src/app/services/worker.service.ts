@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkerService {
-  baseUrl: string = 'http://localhost:4000/api/workers';
-  passwordUrl: string = 'http://localhost:4000/setpassword';
-  thirdUrl: string = 'http://localhost:4000/getWorkerByReport';
-  fourthUrl: string = 'http://localhost:4000/sendResetEmail'
+  baseUrl: string = `${environment.apiUrl}/api/workers`;
+  passwordUrl: string = `${environment.apiUrl}/setpassword`;
+  thirdUrl: string = `${environment.apiUrl}/getWorkerByReport`;
+  fourthUrl: string = `${environment.apiUrl}/sendResetEmail`
   
   constructor(private http: HttpClient) {}
   

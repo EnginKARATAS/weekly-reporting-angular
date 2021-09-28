@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClaimantService {
-  baseUrl: string = 'http://localhost:4000/api/claimants'
+  baseUrl: string = `${environment.apiUrl}/api/claimants`
 
   constructor(private http : HttpClient) {
   }

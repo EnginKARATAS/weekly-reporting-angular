@@ -2,6 +2,15 @@
     <main class="form-signin col-md-6">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <form [formGroup]="addWorkerForm">
+
+            <div class="form-group row">
+                <label for="text2" class="col-4 col-form-label">Çalışan Email</label>
+                <div class="col-8">
+                    <input formControlName="worker_email" id="text2" name="text2" placeholder="john@dvu.com.tr"
+                        type="text" class="form-control">
+                </div>
+            </div>
+
             <div class="form-group row">
                 <label for="text" class="col-4 col-form-label">Çalışan Ad</label>
                 <div class="col-8">
@@ -30,13 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="text2" class="col-4 col-form-label">Çalışan Email</label>
-                <div class="col-8">
-                    <input formControlName="worker_email" id="text2" name="text2" placeholder="john@dvu.com.tr"
-                        type="text" class="form-control">
-                </div>
-            </div>
+
             <div class="form-group row">
                 <label for="text2" class="col-4 col-form-label">Çalışan Ünvanı</label>
                 <div class="col-8">
@@ -44,13 +47,13 @@
                         class="form-control">
                 </div>
             </div>
-            <div class="form-group row">
+            <!-- <div class="form-group row">
                 <label for="text2" class="col-4 col-form-label">Çalışan Kullanıcı Adı</label>
                 <div class="col-8">
                     <input formControlName="username" id="text2" name="text2" placeholder="" type="text"
                         class="form-control">
                 </div>
-            </div>
+            </div> -->
             <div class="form-group row">
                 <div class="offset-4 col-8">
                     <button name="submit" (click)="addNewWorker()" class="btn btn-primary">Yeni Çalşan Ekle</button>

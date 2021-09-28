@@ -15,8 +15,7 @@ var mailOptions = {
   html: ``,
 };
 
-function sendMailToWorker(workerMail, subject, html ) {
-  console.log("🚀 ~ file: sender.js ~ line 19 ~ sendMailToWorker ~ workerMail, subject, html", workerMail, subject, html)
+function sendMailToWorker(workerMail, subject, html) {
   mailOptions.to = workerMail;
   mailOptions.subject = subject;
   mailOptions.html = html;
@@ -30,7 +29,7 @@ function sendMailToWorker(workerMail, subject, html ) {
   });
 }
 
-function sendMailToGeneralManager(generalManagerMail, subject, html ) {
+function sendMailToGeneralManager(generalManagerMail, subject, html) {
   mailOptions.to = generalManagerMail;
   mailOptions.subject = subject;
   mailOptions.html = html;
@@ -40,7 +39,7 @@ function sendMailToGeneralManager(generalManagerMail, subject, html ) {
       console.log(error);
       return false;
     } else {
-      return true
+      return true;
     }
   });
 }
@@ -53,7 +52,4 @@ function sendMailToGeneralManager(generalManagerMail, subject, html ) {
 //   }
 // });
 
-module.exports = {transporter,
-    sendMailToWorker,
-    sendMailToGeneralManager
-};
+module.exports = { transporter, sendMailToWorker, sendMailToGeneralManager };

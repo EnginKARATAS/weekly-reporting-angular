@@ -124,14 +124,14 @@ export class ReportDetailComponent implements OnInit {
     this.pasteModel.finish_date = row.finish_date;
     this.pasteModel.actions = row.actions;
     this.pasteModel.weekly_time_spent = row.weekly_time_spent;
-    this.pasteModel.is_timeout = row.is_timeout ? 'Var' : 'Yok';
+    this.pasteModel.is_timeout = row.is_timeout==true ? 'Var' : 'Yok';
     this.pasteModel.comments = row.comments;
   }
 
   CheckAllOptions() {
-    let boxes = this.checkBoxes
-    
-    if (boxes.every(val => val.checked == true))
+    let boxes = this.checkBoxes;
+
+    if (boxes.every((val) => val.checked == true))
       for (let i = 0; i < boxes.length; i++) {
         boxes[i].checked = false;
       }
@@ -139,7 +139,25 @@ export class ReportDetailComponent implements OnInit {
       for (let i = 0; i < boxes.length; i++) {
         boxes[i].checked = true;
       }
+  }
 
+  colorName(matter_number) {
+    switch (matter_number) {
+      case 1:
+        return 'çok düşük';
+      case 1:
+        return 'düşük';
+      case 3:
+        return 'normal';
+      case 4:
+        return 'yüksek';
+      case 5:
+        return 'çok yüksek';
+      case 6:
+        return 'çok düşük';
+      default:
+        return 'belirtilmemiş';
+    }
   }
 
   setColor(matter: string): string {
@@ -194,7 +212,11 @@ export class ReportDetailComponent implements OnInit {
       : 'yapılan işler eklenmeden gönderildi. ';
     let subject = `<${week_id}>.Hafta<${worker_name}>`;
 
-    let html = `<h3><${week_id?week_id+".Hafta":"Rapor Numarası: "+this.reportId}><${worker_name}></h3>${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
+    let html = `<h3><${
+      week_id ? week_id + '.Hafta' : 'Rapor Numarası: ' + this.reportId
+    }><${worker_name}></h3>${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${
+      this.reportId
+    }">tıklayınız</a>`;
 
     let mailPacket = {
       general_manager_email: general_manager_email,
@@ -202,8 +224,7 @@ export class ReportDetailComponent implements OnInit {
       html: html,
     };
 
-    this.mailService.sentToGm(mailPacket).subscribe((data) => {
-    });
+    this.mailService.sentToGm(mailPacket).subscribe((data) => {});
   }
 
   sendMailToWorker() {
@@ -222,13 +243,11 @@ export class ReportDetailComponent implements OnInit {
       subject: subject,
       html: html,
     };
-    this.mailService.sentToGm(mailPacket).subscribe((data) => {
-    });
+    this.mailService.sentToGm(mailPacket).subscribe((data) => {});
   }
 
   sendMailToWorker2(mailPacket) {
-    this.mailService.sentToWorker(mailPacket).subscribe((data) => {
-    });
+    this.mailService.sentToWorker(mailPacket).subscribe((data) => {});
   }
 
   getRows(report_id: any) {
@@ -237,7 +256,9 @@ export class ReportDetailComponent implements OnInit {
         if (response.resCode == 200) {
           this.toastrService.success(response.message);
           this.rows = response.data; //sadece rowları değil yanında week idyi de getirir
-          this.week_id = response.data[0].week_id?response.data[0].week_id:"boş";
+          this.week_id = response.data[0].week_id
+            ? response.data[0].week_id
+            : 'boş';
           response.data.forEach((row) => {
             this.checkBoxes.push({
               checked: row.checked_by_admin,
@@ -302,7 +323,7 @@ export class ReportDetailComponent implements OnInit {
     if (checkBoxes.length > 0) {
       const dialogRef = this.dialog.open(PopupEditComponent, {
         width: '400px',
-        data: { name: this.name, claimant_comment: this.claimant_comment},
+        data: { name: this.name, claimant_comment: this.claimant_comment },
       });
 
       checkBoxes.forEach((item) => {
@@ -353,11 +374,10 @@ export class ReportDetailComponent implements OnInit {
               };
 
               this.sendMailToWorker2(mailPacket);
-              debugger
+              debugger;
               this.toastrService.success('kullanıcıya e posta gönderildi');
             });
-        } 
-        else {
+        } else {
           this.toastrService.info('Rapor gönderim işlemi iptal edildi');
         }
       });
@@ -371,22 +391,25 @@ export class ReportDetailComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         this.claimant_comment = result;
         if (this.claimant_comment.length > 0) {
-          
-        this.workerService.getByReport(this.reportId).subscribe((worker) => {
-          this.worker_name = worker[0].worker_name;
-          this.worker_surname = worker[0].worker_surname;
-          this.worker_email = worker[0].worker_email;
-          this.week_id? worker[0].week_id: 0;
+          this.workerService.getByReport(this.reportId).subscribe((worker) => {
+            this.worker_name = worker[0].worker_name;
+            this.worker_surname = worker[0].worker_surname;
+            this.worker_email = worker[0].worker_email;
+            this.week_id ? worker[0].week_id : 0;
 
-          this.reportService.sendBackReport(this.reportId).subscribe((data) => {
-            this.toastrService.info(
-              `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
-            );
-          });
-          let mailPacket = {
-            worker_email: this.worker_email,
-            subject: `<${this.week_id?this.week_id : "Boş"}>.Rapor.Düzeltme Talebi`,
-            html: `
+            this.reportService
+              .sendBackReport(this.reportId)
+              .subscribe((data) => {
+                this.toastrService.info(
+                  `${this.reportId} numaralı rapor gönderilmedi olarak işaretlenmiştir`
+                );
+              });
+            let mailPacket = {
+              worker_email: this.worker_email,
+              subject: `<${
+                this.week_id ? this.week_id : 'Boş'
+              }>.Rapor.Düzeltme Talebi`,
+              html: `
           <table>
               <tr>
                   <td>Başlık</td>
@@ -394,26 +417,30 @@ export class ReportDetailComponent implements OnInit {
                   <td>Yönetici Yorumu</td>
               </tr>
               <tr>
-                  <td>${this.worker_name} ${this.worker_surname} Rapor düzenleme talebi</td>
+                  <td>${this.worker_name} ${
+                this.worker_surname
+              } Rapor düzenleme talebi</td>
                   <td>
                   
-                  Sn. ${this.worker_name} ${this.worker_surname}, <br>${this.week_id?this.week_id:""}. haftalık raporunuzu boş olarak gönderdiniz. Tekrar   <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi
+                  Sn. ${this.worker_name} ${this.worker_surname}, <br>${
+                this.week_id ? this.week_id : ''
+              }. haftalık raporunuzu boş olarak gönderdiniz. Tekrar   <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi
               <br>
-              <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>
+              <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${
+                this.reportId
+              }">tıklayınız</a>
                   </td>
                   <td>${this.claimant_comment}</td>
               </tr>
               
               </table>
           `,
-          };
+            };
 
-          this.sendMailToWorker2(mailPacket);
-          this.toastrService.success('kullanıcıya e posta gönderildi');
-        });
-      }
-      else
-        this.toastrService.info("Rapor revizyon işlemi iptal edildi")
+            this.sendMailToWorker2(mailPacket);
+            this.toastrService.success('kullanıcıya e posta gönderildi');
+          });
+        } else this.toastrService.info('Rapor revizyon işlemi iptal edildi');
       });
     }
   }

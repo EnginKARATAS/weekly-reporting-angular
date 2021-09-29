@@ -46,8 +46,7 @@ export class SetPasswordComponent implements OnInit {
     let repassword = this.setPasswordForm.value.repassword;
     if (password != repassword) {
       this.message = 'Şifreler uyuşmuyor.';
-    } 
-    else if(password === repassword) {
+    } else {
       const data = {
         token: this.token,
         password: password,
@@ -56,8 +55,8 @@ export class SetPasswordComponent implements OnInit {
       this.workerService.updatePassword(data).subscribe((data) => {
         if (data.resCode == 200) {
           this.router.navigate(['/login']).then((b) => {
-            this.toastr.success(data.message);
             window.location.reload();
+            this.toastr.success(data.message);
           });
         }
         if (data.resCode == 400) this.toastr.error(data.message);

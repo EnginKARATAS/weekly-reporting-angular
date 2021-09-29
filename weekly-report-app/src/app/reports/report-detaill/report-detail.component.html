@@ -1,7 +1,6 @@
 <section class="jumbotron text-center mt-4">
   <div class="container">
-    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows[0]? rows[0].week_id + ". Hafta": "" }}&nbsp; | Haftalık Faaliyet
-      Raporu
+    <h1 *ngIf="rows" class="jumbotron-heading">{{ rows[0]? rows[0].week_id + ". Hafta": "" }}&nbsp; | Haftalık Faaliyet Raporu
       |</h1>
     <p class="lead text-muted">Değerli çalışanımız, raporu vaktinde göndermeyi ihmal etmeyiniz Teşekkür ederiz.<br>
       <span *ngIf="rows.length == 0 " class="badge badge-danger">⛔ Boş Rapor</span>
@@ -77,7 +76,7 @@
                         [ngClass]="{ 'is-invalid': f.status.errors && (f.status.touched || f.status.dirty) }">
                         <option label="-seç-"></option>
                         <option value="Devam Ediyor">Devam Ediyor</option>
-                        <option value="Onay Bekleniyor">Onay Bekleniyor</option>
+                        <option value="Bitti">Bitti</option>
                         <option value="Kapandı">Kapandı</option>
                         <option value="İptal Edildi">İptal Edildi</option>
                       </select>
@@ -127,21 +126,17 @@
                         class="form-control"
                         [ngClass]="{ 'is-invalid': f.actions.errors && (f.actions.touched || f.actions.dirty) }">
                       </textarea>
-                      <mat-error *ngIf="f.actions.errors && (f.actions.touched || f.actions.dirty)">Alınan aksiyonlar en
-                        az 30 karakter içermelidir.</mat-error>
+                      <mat-error *ngIf="f.actions.errors && (f.actions.touched || f.actions.dirty)">Alınan aksiyonlar en az 30 karakter içermelidir.</mat-error>
                     </div>
                   </div>
                 </td>
                 <td class="bg-light">
                   <div class="form-group row">
                     <div class="col-md-12">
-                      <ngx-timepicker-field [format]="24" [defaultTime]="'20:00'"
-                        [(ngModel)]="pasteModel.weekly_time_spent" formControlName="weekly_time_spent"
+                      <input [(ngModel)]="pasteModel.weekly_time_spent" formControlName="weekly_time_spent"
                         id="form-time-spent" placeholder="Harcanan Süre" name="form-time-spent" type="text"
                         class="form-control"
                         [ngClass]="{ 'is-invalid': f.weekly_time_spent.errors && (f.weekly_time_spent.touched || f.weekly_time_spent.dirty) }">
-                      </ngx-timepicker-field>
-                      Haftalık harcanan saat
                       <mat-error
                         *ngIf="f.weekly_time_spent.errors && (f.weekly_time_spent.touched || f.weekly_time_spent.dirty)">
                         Harcanan süre belirtilmelidir.</mat-error>
@@ -170,7 +165,7 @@
                         class="form-control"></textarea>
                     </div>
                   </div>
-                  <div class="form-group row float-right mt-4 mr-1">
+                  <div style="background-color: #f44336;" class="form-group row float-right mt-4 mr-1">
                     <button (click)="addRow()" [disabled]="!rowForm.valid" name="submit" type="submit"
                       class="btn btn-primary">Satırı Ekle</button>
                   </div>
@@ -230,7 +225,6 @@
             class="badge badge-outline-danger">{{i+1}}.
             Sil</button>
         </ng-template>
-
         <mat-checkbox *ngIf="gmLoginStatus; else workerEdit" class="example-margin" [(ngModel)]="checkBoxes[i].checked">
         </mat-checkbox>
 
@@ -238,14 +232,14 @@
       <td>{{row.actions}}</td>
       <td>{{row.comments}}</td>
       <!-- <td>{{row.code | vatAdded: 10 | currency:'₺'}}</td> -->
-      <td [style.color]="setColorMatter(row.matter)" [innerHTML]="colorName(row.matter)" class="font-weight-bolder"></td>
+      <td [style.color]="setColor(row.matter+1)" class="font-weight-bolder">{{colorName(row.matter+1)}}</td>
       <td>{{row.start_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.finish_date | date: 'dd/MM/yyyy'}}</td>
-      <td [style.color]="setColorIsTimeout(row.is_timeout?'Var':'Yok')">{{row.is_timeout?"Var":"Yok"}}</td>
+      <td>{{row.is_timeout ? "Var":"Yok"}}</td>
       <td>{{row.claimants}}</td>
       <td>{{row.scheduled_completion_date | date: 'dd/MM/yyyy'}}</td>
       <td>{{row.weekly_time_spent}}</td>
-      <td [style.color]="setColorStatus(row.status)">{{row.status}}</td>
+      <td>{{row.status}}</td>
       <td #kod>{{row.code}}</td>
 
     </tr>

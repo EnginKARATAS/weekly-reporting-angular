@@ -57,17 +57,20 @@ export class ReportFormComponent implements OnInit {
 
   addRow(): void {
     this.toastrService.info('Satır başarılı bir şekilde eklendi');
-    this.reportForm.value.is_timeout.includes('Var') ? 1 : 0;
     console.log('😒😒😒');
     console.log(this.reportForm.value);
-    this.reportForm.value.report_id = this.cookieService.get('id');
+    this.reportForm.value.report_id = this.cookieService.get("id");
+    console.log("🚀 ~ file: report-form.component.ts ~ line 69 ~ ReportFormComponent ~ addRow ~ this.rowForm.value", this.reportForm.value)
 
-    this.rowService.addRow(this.reportForm.value).subscribe((data) => {
-      console.log(
-        '🚀 ~ file: report-form.component.ts ~ line 62 ~ ReportFormComponent ~ this.rowService.addRow ~ data',
-        data
-      );
-    });
+    
+    this.rowService
+      .addRow(this.reportForm.value)
+      .subscribe((data) => {
+        console.log(
+          '🚀 ~ file: report-form.component.ts ~ line 62 ~ ReportFormComponent ~ this.rowService.addRow ~ data',
+          data
+        );
+      });
 
     // if (this.rowForm.valid) {
     //   console.log("valid")

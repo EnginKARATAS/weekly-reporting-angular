@@ -124,7 +124,7 @@ export class ReportDetailComponent implements OnInit {
     this.pasteModel.finish_date = row.finish_date;
     this.pasteModel.actions = row.actions;
     this.pasteModel.weekly_time_spent = row.weekly_time_spent;
-    this.pasteModel.is_timeout = row.is_timeout == true ? 'Var' : 'Yok';
+    this.pasteModel.is_timeout = row.is_timeout==true ? 'Var' : 'Yok';
     this.pasteModel.comments = row.comments;
   }
 
@@ -145,7 +145,7 @@ export class ReportDetailComponent implements OnInit {
     switch (matter_number) {
       case 1:
         return 'çok düşük';
-      case 2:
+      case 1:
         return 'düşük';
       case 3:
         return 'normal';
@@ -153,12 +153,14 @@ export class ReportDetailComponent implements OnInit {
         return 'yüksek';
       case 5:
         return 'çok yüksek';
+      case 6:
+        return 'çok düşük';
       default:
         return 'belirtilmemiş';
     }
   }
 
-  setColorMatter(matter: string): string {
+  setColor(matter: string): string {
     switch (parseInt(matter)) {
       case 1:
         return '#36b342';
@@ -170,31 +172,6 @@ export class ReportDetailComponent implements OnInit {
         return '#f2852e';
       case 5:
         return '#f43735';
-      default:
-        return 'black';
-    }
-  }
-
-  setColorIsTimeout(timeout: string): string {
-    switch (timeout) {
-      case 'Var':
-        return 'red';
-      case 'Yok':
-        return 'green';
-      default:
-        return 'black';
-    }
-  }
-  setColorStatus(status) {
-    switch (status) {
-      case 'Devam Ediyor':
-        return 'blue';
-      case 'Kapandı':
-        return 'green';
-      case 'Onay Bekleniyor':
-        return '#FFD700';
-      case 'İptal Edildi':
-        return 'red';
       default:
         return 'black';
     }
@@ -329,15 +306,11 @@ export class ReportDetailComponent implements OnInit {
   }
   addRow(): void {
     this.toastrService.info('Satır başarılı bir şekilde eklendi');
+
     this.rowForm.value.report_id = this.reportId;
-    if (this.rowForm.value.is_timeout.includes('Var')) {
-      this.rowForm.value.is_timeout = 1;
-    } else if (this.rowForm.value.is_timeout.includes('Yok')) {
-      this.rowForm.value.is_timeout = 0;
-    }
-    console.log('😒😒😒');
-    console.log(this.rowForm.value);
+
     this.rowService.addRow(this.rowForm.value).subscribe((data) => {
+      debugger;
       this.rows.push(data);
     });
   }

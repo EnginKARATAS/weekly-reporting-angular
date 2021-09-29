@@ -76,6 +76,7 @@ exports.create = function (req, res) {
     return res.status(400).send("One or more required fields are missing");
   } else {
     Row.create(newRow, function (err, report_id) {
+
       if (err || report_id <= 0)
         return res.status(500).send("Error occured during saving report");
 

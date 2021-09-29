@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Row } from '../models/row';
-import { environment } from '../../enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RowService {
-  enviroment;
   baseUrl: string = 'http://localhost:4000/api/rows';
   secondUrl: string = 'http://localhost:4000/api/rows';
   constructor(private http: HttpClient) {}
@@ -40,4 +38,8 @@ export class RowService {
   deleteAll(): Observable<any> {
     return this.http.delete(this.baseUrl);
   }
+
+  // findByCode(code): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}?code=${code}`);
+  // }
 }

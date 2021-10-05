@@ -12,11 +12,12 @@ reportRouter.get("/:id", checkAuth, controller.findByWorkerId);
 reportRouter.get("/", checkAuth, controller.findAll);
 
 // Create a new item
-reportRouter.post("/", checkAuth, controller.create);
+// reportRouter.post("/", checkAuth, controller.create);
 
 reportRouter.post("/getAllReports", checkGmAuth, controller.getAllReports);
 
 reportRouter.post("/getByCode", checkAuth, controller.getByCode);
+
 reportRouter.post("/getByAction", checkAuth, controller.getByAction);
 
 // Update an item
@@ -24,5 +25,7 @@ reportRouter.put("/", controller.update);
 
 // Delete an item with id
 reportRouter.delete("/:id", controller.delete);
+
+ 
 
 module.exports = reportRouter;

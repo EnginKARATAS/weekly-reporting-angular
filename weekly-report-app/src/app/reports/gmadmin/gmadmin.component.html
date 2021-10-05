@@ -23,6 +23,8 @@
   </button>
 </form>
 
+<button (click)="getSendedReports()" class="btn btn-success">Gönderilen Raporlar</button>
+<button (click)="getNoSendedReports() "class="btn btn-info">Gönderilmeyen Raporlar</button>
 
 <table>
   <thead>
@@ -43,7 +45,7 @@
           }}
         </td>
         <div class="row">
-          <button class="btn btn-dark btn-sm text-xs-right col-md-4 m-1 pb-2"
+          <button class="btn btn-outline-info btn-sm text-xs-right col-md-4 m-1 pb-2"
             routerLink="/report-detail/{{ report.id }}">
             Gör
           </button>

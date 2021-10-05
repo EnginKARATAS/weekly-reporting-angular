@@ -2,34 +2,43 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Report } from '../models/reports';
-import { environment } from 'src/enviroment';
+import { environment } from 'src/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportService {
-  baseUrl: string = `${environment.apiUrl}/api/reports`;
-  secondUrl: string = `${environment.apiUrl}/api/reports/isreportsended`;
-  thirdUrl: string = `${environment.apiUrl}/api/sendreport`;
-  fourthUrl: string = `${environment.apiUrl}/api/sendbackreport`;
-  deleteUrl: string = `${environment.apiUrl}/deletereportbyid`;
-  sixthUrl: string = `${environment.apiUrl}/api/reports/getByCode`;
-  seventhUrl: string = `${environment.apiUrl}/api/reports/getByAction`;
-  eighth: string = `${environment.apiUrl}/api/reports/getAllReports`;
+  baseUrl: string =     `${environment.apiUrl}/api/reports`;
+  secondUrl: string =   `${environment.apiUrl}/api/reports/isreportsended`;
+  thirdUrl: string =    `${environment.apiUrl}/api/sendreport`;
+  fourthUrl: string =   `${environment.apiUrl}/api/sendbackreport`;
+  deleteUrl: string =   `${environment.apiUrl}/deletereportbyid`;
+  sixthUrl: string =    `${environment.apiUrl}/api/reports/getByCode`;
+  seventhUrl: string =  `${environment.apiUrl}/api/reports/getByAction`;
+  eighth: string =      `${environment.apiUrl}/api/reports/getAllReports`;
+  ninth: string =       `${environment.apiUrl}/getSendedReports`;
+  tenth: string =       `${environment.apiUrl}/getNoSendedReports`;
   constructor(private http: HttpClient) {}
 
+  getSendedReports(): Observable<any> {
+    return this.http.get<Report>(`${this.ninth}/`);
+  }
+
+  getNoSendedReports(): Observable<any> {
+    return this.http.get<Report>(`${this.tenth}/`);
+  }
+
   getAll(gm_id): Observable<any> {
-    return this.http.post<Report>(this.eighth,{gm_id});
+    return this.http.post<Report>(this.eighth, { gm_id });
   }
 
   getByCode(code): Observable<any> {
-    return this.http.post(`${this.sixthUrl}`, {code});//need to send in json format!
+    return this.http.post(`${this.sixthUrl}`, { code }); //need to send in json format!
   }
 
   getByAction(action): Observable<any> {
-    return this.http.post(`${this.seventhUrl}`, {action});//need to send in json format!
+    return this.http.post(`${this.seventhUrl}`, { action }); //need to send in json format!
   }
-
 
   get(id): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);

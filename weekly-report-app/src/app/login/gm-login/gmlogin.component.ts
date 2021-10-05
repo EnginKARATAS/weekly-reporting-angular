@@ -58,7 +58,7 @@ export class GmloginComponent implements OnInit {
               window.location.reload();
             });;
           }
-          else this.toastrService.error("Kullanıcı Adı Veya Şifre Hatalı")
+          else this.toastrService.error("E-Posta Veya Şifre Hatalı")
         });
     }
   }

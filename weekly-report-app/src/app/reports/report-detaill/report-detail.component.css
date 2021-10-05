@@ -61,6 +61,6 @@ ngx-timepicker-field {
   width: 73%;
 }
 
-  mat-accordion > mat-expansion-panel{
-    background: lavender;
+mat-accordion > mat-expansion-panel {
+  background: lavender;
 }

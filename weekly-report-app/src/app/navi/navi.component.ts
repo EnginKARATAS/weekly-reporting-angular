@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import Swal from 'sweetalert2'
+
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -63,10 +65,11 @@ export class NaviComponent implements OnInit {
       this.reportService.create(report).subscribe((data) => {
         debugger
       if (data.resCode == 300) {
-        this.toastrService.info(data.message);
+        Swal.fire('Haftalık raporunuz mevcut.', data.message, 'error')
+
       }
       if (data.resCode == 200) {
-        this.toastrService.success(data.message);
+        Swal.fire('Haftalık raporunuz eklenmiştir.', data.message, 'success')
         window.location.reload();
       }
     });

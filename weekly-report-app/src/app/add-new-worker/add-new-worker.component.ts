@@ -31,12 +31,16 @@ export class AddNewWorkerComponent implements OnInit {
 
   createWorkerForm() {
     this.addWorkerForm = this.formBuilder.group({
-      worker_name: ['', Validators.required],
-      worker_surname: ['', Validators.required],
-      worker_email: ['', Validators.required],
-      job_title: ['', Validators.required],
+      worker_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+      worker_surname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+      worker_email: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@dvu.com.tr$")]],
+      job_title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
       username: [''],
     });
+  }
+
+  get f() {
+    return this.addWorkerForm.controls
   }
 
   addNewWorker(): void {

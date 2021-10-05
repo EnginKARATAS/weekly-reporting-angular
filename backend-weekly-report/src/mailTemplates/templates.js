@@ -395,9 +395,9 @@ function getHtmlRegister(username, resetPasswordLink) {
                               <tr>
                                   <td class="bg_white email-section">
                                       <div class="heading-section" style="text-align: center; padding: 0 30px;">
-                                          <h2>Kullanıcı Adı:</h2>
+                                          <h2>E-Posta:</h2>
                                           <h2>${username}</h2>
-                                          <p>Şifre Sıfırlamak için aşağıdaki linke tıklayınız:</p>
+                                          <p>Şifre belirlemek için aşağıdaki linke tıklayınız:</p>
                                           <a href="${resetPasswordLink}">Buraya tıkla</a>
                                       </div>
                                       <td valign="top" width="50%">

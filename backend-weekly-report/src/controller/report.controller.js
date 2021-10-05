@@ -66,33 +66,17 @@ let getSystemWeekOfYear = function () {
   var week_of_year = Math.ceil((currentdate.getDay() + 1 + numberOfDays) / 7);
   return week_of_year;
 };
-let ResponseModel = function () {
-  (this.message = ""), (this.resCode = 0);
-};
+ 
 exports.create = function (req, res) {
   const newReport = new Report(req.body);
-  let rpmc = { ...ResponseModel };
   if (newReport.week_id != getSystemWeekOfYear()) {
-    rpmc.message =
-      "Tarayıcınız ile sistemimizin tarih aralıkları aynı değildir. Lütfen tekrar deneyiniz.";
-    rpmc.resCode = 401;
-    res.json(rpmc);
+    res.json({message:"Tarayıcınız ile sistemimizin tarih aralıkları aynı değildir. Lütfen tekrar deneyiniz.", resCode:401});
   }
-  // 400 = bad request
-  else if (req.body.constructor === Object && Object.keys(req.body).length === 0) 
-  {
-    rpmc.message = "Kabul edilmeyen bir istekte bulunuldu";
-    rpmc.resCode = 402;
-    return res.json(rpmc);
-  }
-   else if (!newReport.week_id || !newReport.worker_id) {
-    rpmc.message = "Sistem yeni rapor eklerken hata verdi";
-    rpmc.resCode = 400;
-    return res.json(rpmc);
-  } 
+ 
   else {
     Report.create(newReport, function (err, row) {
-      if (err) return res.status(500).send("Kayıt ederken hata meydana geldi");
+      if (err) return res.json({message:err, resCode:402});
+
       return res.json(row);
     });
   }

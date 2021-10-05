@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkerService } from '../services/worker.service';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2'
+
 
 @Component({
   selector: 'app-set-password',
@@ -55,8 +57,8 @@ export class SetPasswordComponent implements OnInit {
       this.workerService.updatePassword(data).subscribe((data) => {
         if (data.resCode == 200) {
           this.router.navigate(['/login']).then((b) => {
-            window.location.reload();
-            this.toastr.success(data.message);
+            Swal.fire('Başarılı işlem ', 'Şifre  değiştirme başarılı', 'success')
+            // this.toastr.success(data.message);
           });
         }
         if (data.resCode == 400) this.toastr.error(data.message);

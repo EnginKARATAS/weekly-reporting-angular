@@ -8,6 +8,8 @@
                 <div class="col-8">
                     <input formControlName="worker_email" id="text2" name="text2" placeholder="john@dvu.com.tr"
                         type="text" class="form-control">
+                    <mat-error *ngIf="f.worker_email.errors && (f.worker_email.touched || f.worker_email.dirty)">
+                        Çalışanlar sadece dvu emaili ile tanımlanabilir.</mat-error>
                 </div>
             </div>
 
@@ -22,6 +24,8 @@
                         </div>
                         <input formControlName="worker_name" id="text" name="text" type="text" class="form-control"
                             required="required">
+                        <mat-error *ngIf="f.worker_name.errors && (f.worker_name.touched || f.worker_name.dirty)">
+                            Çalışan adı, email göndermek için gereklidir.</mat-error>
                     </div>
                 </div>
             </div>
@@ -36,6 +40,9 @@
                         </div>
                         <input formControlName="worker_surname" id="text" name="text" type="text" class="form-control"
                             required="required">
+                        <mat-error
+                            *ngIf="f.worker_surname.errors && (f.worker_surname.touched || f.worker_surname.dirty)">
+                            Çalışan soyadı, email göndermek için gereklidir.</mat-error>
                     </div>
                 </div>
             </div>
@@ -45,6 +52,8 @@
                 <div class="col-8">
                     <input formControlName="job_title" id="text2" name="text2" placeholder="" type="text"
                         class="form-control">
+                    <mat-error *ngIf="f.job_title.errors && (f.job_title.touched || f.job_title.dirty)">
+                        Çalışan ünvanı, email göndermek için gereklidir.</mat-error>
                 </div>
             </div>
             <!-- <div class="form-group row">
@@ -56,7 +65,7 @@
             </div> -->
             <div class="form-group row">
                 <div class="offset-4 col-8">
-                    <button name="submit" (click)="addNewWorker()" class="btn btn-primary">Yeni Çalşan Ekle</button>
+                    <button [disabled]="!this.addWorkerForm.valid" name="submit" (click)="addNewWorker()" class="btn btn-primary">Yeni Çalışan Ekle</button>
                 </div>
             </div>
         </form>

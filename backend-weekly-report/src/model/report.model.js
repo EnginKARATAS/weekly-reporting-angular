@@ -14,6 +14,8 @@ var Report = function (report) {
   this.report_edit_date = report.report_edit_date;
 };
 
+ 
+
 Report.getAllReports = function (result) {
   let sql = `SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
   weeks w ON r.week_id = w.week_id INNER JOIN 
@@ -100,6 +102,7 @@ Report.create = function (newReport, result) {
     "INSERT INTO `reports` (`is_report_sended`, `week_id`, `worker_id`, `claimant_id`, `report_commit_date`, `report_edit_date`) VALUES (?, ?, ?, ?, ?, ?)";
 
   con.query(checkSql, checkData, (err, rows, fields) => {
+    console.log("rapor eklemek üzere girdi")
     if (rows.length > 0) {
       rspc.message =
         "Haftalık raporunuz sistemde mevcuttur. Haftalık rapor, haftada bir kere oluşturulabilir";
@@ -107,6 +110,7 @@ Report.create = function (newReport, result) {
       result(null, rspc);
     } else {
       con.query(sql, data, (err, row, fields) => {
+        console.log(row)
         if (err) result(err, null);
 
         rspc.message = "Haftalık raporunuz eklenmiştir.";

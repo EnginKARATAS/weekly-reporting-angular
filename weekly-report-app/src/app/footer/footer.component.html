@@ -1,13 +1,10 @@
 <footer class="pt-4 my-md-5 pt-md-5  " 
-[style.visibility]="(isLoggedIn||gmisLoggedIn)?'':'hidden'">
+[style.visibility]="(isLoggedIn||gmisLoggedIn)?'':'hidden'"
+>
 
-  <div class="row">
-    <div class="container">
-      <div class="my-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0"></h6>
-
-      </div>
-    </div>
+  <div class="row" [style.padding-top]="'120px'"
+  >
+ 
     <div class="col-6 col-md">
       <h5>Gönderilmeyen raporlar</h5>
       <ul class="list-unstyled text-small">

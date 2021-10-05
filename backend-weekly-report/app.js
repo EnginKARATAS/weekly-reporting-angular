@@ -13,6 +13,7 @@ const crypto = require("crypto");
 var jwt = require("jsonwebtoken");
 const checkAuth = require("./src/middleware/checkAuth");
 let origin = "http://10.41.150.82";
+// let origin = "http://localhost:4200";
 let host = "req.headers.host";
 
 app.use(
@@ -33,6 +34,7 @@ const reportWorkerRouter = require("./src/route/reportWorker.route");
 const reportRouter = require("./src/route/report.route");
 const rowRouter = require("./src/route/row.route");
 const templates = require("./src/mailTemplates/templates");
+const checkGmAuth = require("./src/middleware/checkGmAuth");
 
 app.use("/api/reports", reportRouter);
 app.use("/api/rows", checkAuth, rowRouter);
@@ -41,6 +43,44 @@ app.use("/item", checkAuth, routes);
 app.use("/api/reports/worker", checkAuth, reportWorkerRouter);
 
 server.listen(port, () => {});
+
+app.post("/api/reports", checkAuth, function (req, res) {
+  const newReport = req.body
+  let checkData = [newReport.worker_id, newReport.week_id];
+  let data = [
+    newReport.is_report_sended,
+    newReport.week_id,
+    newReport.worker_id,
+    2,// newReport.claimant_id,
+    newReport.report_commit_date,
+    newReport.report_edit_date,
+  ];
+  console.log("🚀 ~ file: app.js ~ line 51 ~ data", data)
+
+  let checkSql = "select * from reports where worker_id = ? AND week_id = ?";
+  let sql =
+  "INSERT INTO `reports` (`is_report_sended`, `week_id`, `worker_id`, `claimant_id`, `report_commit_date`, `report_edit_date`) VALUES (?, ?, ?, ?, ?, ?)";
+
+  con.query(checkSql, checkData, (err, rows, fields) => {
+    if (rows.length > 0) {
+      res.json({
+        message: "Haftalık raporunuz sistemde mevcuttur. Haftalık rapor, haftada bir kere oluşturulabilir",
+        resCode: 300,
+      });
+    } else {
+      con.query(sql, data, (err, row, fields) => {
+        console.log(row);
+        if (err) res.json(err, null);
+ 
+        res.json({
+          message: "Haftalık raporunuz eklenmiştir.",
+          resCode: 200,
+          data: row
+        });
+      });
+    }
+  });
+});
 
 app.delete("/deletereportbyid", checkAuth, (req, res) => {
   sql = "";
@@ -116,11 +156,12 @@ app.post("/sendResetEmail", (req, res) => {
             res.json(err);
           } else {
             let resetPasswordLink = `${origin}/#/set-password/${token}`;
-            let isimsoyisim = worker_name + " " +  worker_surname
-            let html = templates.getHtmlResetPassword(isimsoyisim, resetPasswordLink);
+            let isimsoyisim = worker_name + " " + worker_surname;
+            let html = templates.getHtmlResetPassword(
+              isimsoyisim,
+              resetPasswordLink
+            );
 
-
-             
             mailer.sendMailToWorker(
               email,
               `${worker_name} ${worker_surname} Şifre sıfırlama talebi`,
@@ -224,7 +265,10 @@ app.post("/api/workers", checkAuth, function (req, res) {
     let worker_email = req.body.worker_email;
     let job_title = req.body.job_title;
     let username = req.body.worker_email;
-    console.log("🚀 ~ file: app.js ~ line 227 ~ crypto.randomBytes ~ username", username)
+    console.log(
+      "🚀 ~ file: app.js ~ line 227 ~ crypto.randomBytes ~ username",
+      username
+    );
     let token = buf.toString("hex");
 
     let date = new Date();
@@ -236,7 +280,7 @@ app.post("/api/workers", checkAuth, function (req, res) {
     let html = templates.getHtmlRegister(username, resetPasswordLink);
 
     // let html = `Değerli çalışanımız, katana reporting uygulamasına davet edildiniz. Dilerseniz aşağıdaki linke tıklayark şifrenizi belirleyebilirsiniz
-    // <br>Kullanıcı adı: ${username} <br>şifre:belirlemek için bu linke <a href="${resetPasswordLink}">tıklayınız</a>`;
+    // <br>E-Posta: ${username} <br>şifre:belirlemek için bu linke <a href="${resetPasswordLink}">tıklayınız</a>`;
     // // ${req.headers.host}
     let data = [
       worker_name,
@@ -290,7 +334,7 @@ app.post("/auth", function (request, response) {
       } else {
         response.json({
           data: null,
-          message: "Kullanıcı adı veya şifre hatalı",
+          message: "E-Posta adı veya şifre hatalı",
           resCode: 400,
           token: "oluşturulmadı",
         });
@@ -300,7 +344,7 @@ app.post("/auth", function (request, response) {
   } else {
     response.json({
       data: null,
-      message: "Kullanıcı adı veya şifre hatalı",
+      message: "E-Posta veya şifre hatalı",
       resCode: 403,
       token: "oluşturulmadı",
     });
@@ -357,13 +401,48 @@ app.get("/api/claimants", checkAuth, (req, res) => {
   });
 });
 
+app.get("/getSendedReports", checkGmAuth, (req, res) => {
+  let sql = `  SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+    weeks w ON r.week_id = w.week_id INNER JOIN 
+    workers wo ON r.worker_id = wo.id
+    where is_report_sended = 1`;
+
+  con.query(sql, (err, reports, fields) => {
+    if (err) res.json(err);
+
+    res.json({
+      message: "Gönderilen raporlar getirildi",
+      resCode: 200,
+      data: reports,
+    });
+  });
+});
+
+app.get("/getNoSendedReports", checkGmAuth, (req, res) => {
+  let sql = ` 
+  SELECT r.id,  r.is_report_sended, w.week_name, w.week_id, concat(wo.worker_name, ' ', wo.worker_surname) as worker  FROM reports r INNER JOIN
+    weeks w ON r.week_id = w.week_id INNER JOIN 
+    workers wo ON r.worker_id = wo.id
+    where is_report_sended = 0`;
+
+  con.query(sql, (err, reports, fields) => {
+    if (err) res.json(err);
+
+    res.json({
+      message: "Gönderilmeyen raporlar getirildi",
+      resCode: 200,
+      data: reports,
+    });
+  });
+});
+
 app.get("/getWorkerByReport/:report_id", (req, res) => {
   let report_id = parseInt(req.params.report_id);
 
   let sql = `
   select r.id, wee.week_id, w.worker_name, w.worker_surname, w.worker_email from workers w 
   inner JOIN reports r ON r.worker_id = w.id 
-  Left join weeks wee ON r.week_id = wee.id
+  Left join weeks wee ON r.week_id = wee.week_id
   left JOIN report_row_entries rre ON rre.report_id = r.id where r.id = ?
   `;
 

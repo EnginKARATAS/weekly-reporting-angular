@@ -19,6 +19,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
   imports: [
     CommonModule,
     RouterModule,
-
+    MatSidenavModule,
     MatDatepickerModule,
     MatSliderModule,
     MatTooltipModule,

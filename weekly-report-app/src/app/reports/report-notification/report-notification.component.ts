@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
+import * as EventEmitter from 'events';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -8,6 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ReportNotificationComponent implements OnInit {
   _message: string = '';
+
+  innerText = ""
+
   public get message(): string {
     return this._message;
   }
@@ -17,6 +21,7 @@ export class ReportNotificationComponent implements OnInit {
   }
 
   constructor(private toastrService: ToastrService) {}
+
   getir(): void {
     const output = document.getElementById('test');
     if (output) {
@@ -27,7 +32,6 @@ export class ReportNotificationComponent implements OnInit {
       let howManyDaysToDelivery = Math.abs(thisDay - lastDayToSend); //5 gün
 
       let days = [
-        'pazar',
         'pazartesi',
         'salı',
         'çarşamba',
@@ -49,7 +53,8 @@ export class ReportNotificationComponent implements OnInit {
         +'gecesidir';
       }
     }
-    this.toastrService.success(output.innerHTML)
+    this.innerText = output.innerHTML;
+
   }
 
   ngOnInit(): void {

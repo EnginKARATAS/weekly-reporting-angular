@@ -12,6 +12,7 @@ import { WorkerService } from 'src/app/services/worker.service';
 import { PopupConfirmationComponent } from 'src/app/shared/popup-confirmation/popup-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupEditComponent } from 'src/app/shared/popup-edit/popup-edit.component';
+import { environment } from 'src/environment';
 export interface DialogData {
   test: 'tested';
 }
@@ -35,6 +36,7 @@ export class ReportDetailComponent implements OnInit {
 
   claimant_comment: string;
   name: string;
+  
 
   pasteModel = {
     claimants: '',
@@ -237,9 +239,9 @@ export class ReportDetailComponent implements OnInit {
 
     let html = `<h3><${
       week_id ? week_id + '.Hafta' : 'Rapor Numarası: ' + this.reportId
-    }><${worker_name}></h3>${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${
-      this.reportId
-    }">tıklayınız</a>`;
+    }><${worker_name}></h3>${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="${
+      environment.ngUrl
+    }/report-detail/${this.reportId}">tıklayınız</a>`;
 
     let mailPacket = {
       general_manager_email: general_manager_email,
@@ -259,7 +261,7 @@ export class ReportDetailComponent implements OnInit {
       : 'yapılan işler eklenmeden gönderildi. ';
     let subject = `<${week_id}>.Hafta<${worker_name}>`;
     let html = `<h3><${week_id}>.Hafta<${worker_name}></h3>
-    ${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="http://localhost:4200/report-detail/${this.reportId}">tıklayınız</a>`;
+    ${week_id}. Hafta raporu ${worker_name} tarafından gönderildi.<br>Raporu hemen görüntülemek için<a href="${environment.ngUrl}/report-detail/${this.reportId}">tıklayınız</a>`;
 
     let mailPacket = {
       worker_email: worker_email,
@@ -278,7 +280,11 @@ export class ReportDetailComponent implements OnInit {
       this.rowService.clientGet(report_id, this.id).subscribe((response) => {
         if (response.resCode == 200) {
           this.toastrService.success(response.message);
+
           this.rows = response.data; //sadece rowları değil yanında week idyi de getirir
+
+          
+
           this.week_id = response.data[0].week_id
             ? response.data[0].week_id
             : 'boş';
@@ -376,23 +382,29 @@ export class ReportDetailComponent implements OnInit {
               this.worker_name = data[0].worker_name;
               this.worker_surname = data[0].worker_surname;
               this.worker_email = data[0].worker_email;
+
               let mailPacket = {
                 worker_email: this.worker_email,
                 subject: `<${this.week_id}>.Rapor.Düzeltme Talebi`,
                 html: `
                 <table>
                 <tr>
-                    <td>Başlık</td>
-                    <td>Açıklama</td>
-                    <td>Yönetici Yorumu</td>
+                  <td><b>Başlık</b></td>
+                  <td><b>Açıklama</b></td>
+                  <td><b>Yönetici Yorumu</b></td>
                 </tr>
                 <tr>
-                    <td>${this.worker_name} ${this.worker_surname} Rapor düzenleme talebi</td>
-                    <td><br>${this.week_id}. hafta <strong>${code}</strong> kodlu satırını
-                        tekrar <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi 
+                    <td>${this.worker_name} ${
+                  this.worker_surname
+                } Rapor düzenleme talebi</td>
+                    <td><br>${this.week_id}. haftayı <strong>${
+                  code ? code + ' kodlu satırını' : ''
+                }</strong><br> tekrar düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi 
                         <br>
                         <b>raporu düzenlemek için</b><a
-                            href="http://localhost:4200/report-detail/${this.reportId}&codes=${code}">tıklayınız</a><br>
+                            href="${environment.ngUrl}/report-detail/${
+                  this.reportId
+                }&codes=${code}">tıklayınız</a><br>
                     </td>
                     <td>${this.claimant_comment}</td>
                 </tr>
@@ -401,7 +413,6 @@ export class ReportDetailComponent implements OnInit {
               };
 
               this.sendMailToWorker2(mailPacket);
-              debugger;
               this.toastrService.success('kullanıcıya e posta gönderildi');
             });
         } else {
@@ -439,9 +450,9 @@ export class ReportDetailComponent implements OnInit {
               html: `
           <table>
               <tr>
-                  <td>Başlık</td>
-                  <td>Açıklama</td>
-                  <td>Yönetici Yorumu</td>
+                  <td><b>Başlık</b></td>
+                  <td><b>Açıklama</b></td>
+                  <td><b>Yönetici Yorumu</b></td>
               </tr>
               <tr>
                   <td>${this.worker_name} ${
@@ -453,9 +464,9 @@ export class ReportDetailComponent implements OnInit {
                 this.week_id ? this.week_id : ''
               }. haftalık raporunuzu boş olarak gönderdiniz. Tekrar   <br> düzenlemelisiniz.  <b>raporunuz gönderilmedi olarak </b> işaretlendi
               <br>
-              <b>raporu düzenlemek için</b><a href="http://localhost:4200/report-detail/${
-                this.reportId
-              }">tıklayınız</a>
+              <b>raporu düzenlemek için</b><a href="${
+                environment.ngUrl
+              }/report-detail/${this.reportId}">tıklayınız</a>
                   </td>
                   <td>${this.claimant_comment}</td>
               </tr>

@@ -20,10 +20,18 @@ export class AllReportsComponent implements OnInit {
   message: string = '';
   gmId: number = 0;
 
+   
   constructor(
     private reportService: ReportService,
     private cookieService: CookieService
   ) {}
+
+  items = ['item1', 'item2', 'item3', 'item4'];
+
+  addItem(newItem: string) {
+    this.items.push(newItem);
+  }
+
 
   public get filterText(): string {
     return this.filterText;

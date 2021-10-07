@@ -1,11 +1,9 @@
-<footer class="pt-4 my-md-5 pt-md-5  " 
+<footer id="footer" class="pt-4 pb-3 " 
 [style.visibility]="(isLoggedIn||gmisLoggedIn)?'':'hidden'"
 >
 
-  <div class="row" [style.padding-top]="'120px'"
-  >
- 
-    <div class="col-6 col-md">
+  <div class="row">
+    <div class="col-md-4">
       <h5>Gönderilmeyen raporlar</h5>
       <ul class="list-unstyled text-small">
         <div class="media text-muted pt-3">
@@ -22,7 +20,7 @@
         </div>
       </ul>
     </div>
-    <div class="col-6 col-md">
+    <div class="col-md-4">
       <h5>Gönderilen raporlar</h5>
       <ul class="list-unstyled text-small">
         <div class="media text-muted pt-3">
@@ -40,7 +38,7 @@
         </div>
       </ul>
     </div>
-    <div class="col-6 col-md">
+    <div class="col-md-4">
       <h5>Özellikler</h5>
       <ul class="list-unstyled text-small">
         <div class="media text-muted pt-3">
@@ -57,7 +55,7 @@
       </ul>
     </div>
   </div>
-  <footer class="footer">
+  <footer class="footer mb-5">
     <div class="container">
       <span class="text-muted">@DVU <strong> 2021</strong> Tüm hakları saklıır
       </span>

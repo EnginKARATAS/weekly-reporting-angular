@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
@@ -62,15 +62,19 @@ export class NaviComponent implements OnInit {
       report_commit_date: report_commit_date,
       report_edit_date: report_edit_date,
     };
-      this.reportService.create(report).subscribe((data) => {
-        debugger
+    this.reportService.create(report).subscribe((data) => {
+      debugger;
       if (data.resCode == 300) {
-        Swal.fire('Haftalık raporunuz mevcut.', data.message, 'error')
-
+        Swal.fire('Haftalık raporunuz mevcut.', data.message, 'error');
       }
       if (data.resCode == 200) {
-        Swal.fire('Haftalık raporunuz eklenmiştir.', data.message, 'success')
-        window.location.reload();
+        Swal.fire(
+          'Haftalık raporunuz eklenmiştir.',
+          data.message,
+          'success'
+        ).then((a) => {
+          window.location.reload();
+        });
       }
     });
   }
@@ -85,7 +89,10 @@ export class NaviComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result == true) {
         this.addReport();
-      } else this.toastrService.info('Haftalık rapor ekleme işlemi iptal edilmiştir.');
+      } else
+        this.toastrService.info(
+          'Haftalık rapor ekleme işlemi iptal edilmiştir.'
+        );
     });
   }
 

@@ -25,7 +25,6 @@ span {
 }
 
 th {
-  width: 0%;
   font-size: 14px;
 }
 
@@ -58,9 +57,11 @@ span {
 }
 ngx-timepicker-field {
   padding: 0;
-  width: 73%;
 }
 
-mat-accordion > mat-expansion-panel {
-  background: lavender;
+.table-responsive {
+  width: 100%;
+  margin-bottom: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }

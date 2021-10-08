@@ -92,10 +92,11 @@
                     <input [(ngModel)]="pasteModel.start_date" class="col-md-6" formControlName="start_date" matInput
                       [matDatepicker]="picker1"
                       [ngClass]="{ 'is-invalid': f.claimants.errors && (f.start_date.touched || f.start_date.dirty) }">
-                    <mat-error *ngIf="f.start_date.errors && (f.start_date.touched || f.start_date.dirty)">Başlangıç
-                      tarihi belirtilmelidir.</mat-error>
+ 
                     <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker1">
                     </mat-datepicker-toggle>
+                    <mat-error *ngIf="f.start_date.errors && (f.start_date.touched || f.start_date.dirty)">Başlama
+                      tarihi belirtilmelidir.</mat-error>
                     <p class="rowP col-md-12">Başlama T.</p>
                     <mat-datepicker #picker1></mat-datepicker>
                   </div>
@@ -105,8 +106,10 @@
                       formControlName="scheduled_completion_date" matInput [matDatepicker]="picker2">
                     <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker2">
                     </mat-datepicker-toggle>
-                    <p class="rowP col-md-12">Planlanmış Bitirme T.</p>
                     <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error *ngIf="f.scheduled_completion_date.errors && (f.scheduled_completion_date.touched || f.scheduled_completion_date.dirty)">Planlanmış bitirme
+                      tarihi belirtilmelidir.</mat-error>
+                    <p class="rowP col-md-12">Planlanmış Bitirme T.</p>
                   </div>
                   <!-- -->
                   <div class="row ml-2">
@@ -114,6 +117,7 @@
                       [matDatepicker]="picker3">
                     <mat-datepicker-toggle class="col-md-2 bg-dark pr-5" matSuffix [for]="picker3">
                     </mat-datepicker-toggle>
+                    <mat-error *ngIf="f.finish_date.errors && (f.finish_date.touched || f.finish_date.dirty)">Bitirme tarihi belirtilmelidir.</mat-error>
                     <p class="rowP col-md-12">Bitirme T.</p>
                     <mat-datepicker #picker3></mat-datepicker>
                   </div>
@@ -262,10 +266,6 @@
     </tbody>
   </table>
 </div>
-
-
-
-
 
 <div  *ngIf="!reportSendStatus && !gmLoginStatus" class="rowSendButton">
   <button [disabled]="rows.length==0" (click)="sendWorkerWeeklyReport()" class="btn btn-success mb-2">Haftalık Raporumu

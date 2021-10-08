@@ -60,9 +60,6 @@ export class GmadminComponent implements OnInit {
     this.reportService.getNoSendedReports().subscribe((sended) => {
       // this.reports = this.reports.filter(report => report.is_report_sended == true)
       this.reports = sended.data;
-      sended.data.forEach(element => {
-        this.reports.push(element)
-      });
       if (sended.resCode == 200) this.toastrService.success(sended.message);
       if (sended.resCode == 400) this.toastrService.error(sended.message);
     });

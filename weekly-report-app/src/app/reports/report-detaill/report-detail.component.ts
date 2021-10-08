@@ -107,8 +107,8 @@ export class ReportDetailComponent implements OnInit {
       weekly_time_spent: ['', [Validators.required]],
       actions: ['', [Validators.required, Validators.minLength(30)]],
       start_date: ['', [Validators.required]],
-      scheduled_completion_date: [''],
-      finish_date: [''],
+      scheduled_completion_date: ['', [Validators.minLength(2),Validators.minLength(11)]],
+      finish_date: ['', [Validators.minLength(2),Validators.minLength(11)]],
       is_timeout: ['', [Validators.required]],
       comments: [''],
     });

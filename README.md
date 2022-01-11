@@ -1,21 +1,6 @@
 #weekly-reporting-angular
 weekly reporting app, track workers weekly activities
-![image](https://user-images.githubusercontent.com/43602725/148957143-eba6b65f-4d86-4188-b177-7524aedc0641.png)
-![image](https://user-images.githubusercontent.com/43602725/148957171-8b9c47eb-47aa-4670-94a8-3c3eb9f1d215.png)
-![image](https://user-images.githubusercontent.com/43602725/148957179-f3c8f8af-82c2-48a4-bf1c-5993059da73f.png)
-![image](https://user-images.githubusercontent.com/43602725/148957184-5f4a5dc2-b594-4af2-af9f-36d0d53a0202.png)
-![image](https://user-images.githubusercontent.com/43602725/148957214-d217339d-b784-43fa-8fb1-d55a5ef12a08.png)
-![image](https://user-images.githubusercontent.com/43602725/148957236-b2177f25-e3f0-4ca2-8d80-1d05579eed62.png)
-![image](https://user-images.githubusercontent.com/43602725/148957252-651e2ce0-99fc-46be-844a-e285064c47e5.png)
-![image](https://user-images.githubusercontent.com/43602725/148957257-59102f87-0acf-4f26-a03c-6f62b4978ec3.png)
-![image](https://user-images.githubusercontent.com/43602725/148957267-517595aa-f77b-4e8b-ba9e-d5ab7cc9ed5e.png)
-![image](https://user-images.githubusercontent.com/43602725/148957291-e5511556-0062-4320-9fce-9f7535e87458.png)
 
-Responsive design
-![image](https://user-images.githubusercontent.com/43602725/148957361-02861d24-37f8-4d99-be87-ea2706317f00.png)
-![image](https://user-images.githubusercontent.com/43602725/148957437-b5db4c69-41d0-4186-8b5e-3f89a573ab64.png)
-
-![image](https://user-images.githubusercontent.com/43602725/148957467-d930d636-6908-4acb-ba72-53dd1ae853f9.png)
 
 
 #Project Introduction
@@ -74,18 +59,18 @@ RxJS:
 RxJS is a reactive programming library written in JavaScript where you can convert events and data sources into subscriptable objects, perform transformations on them with the help of operators, and consume the result through observers. [9]
 
 Bootstrap:
-Twitter Bootstrap açık kaynak kodlu, web sayfaları veya uygulamaları geliştirmek için kullanılabilecek araçlar bütünü ve önyüz çatısı. Bootstrap, web sayfaları veya uygulamalarında kullanılabilecek, HTML ve CSS tabanlı tasarım şablonlarını içerir. [10]
+Twitter Bootstrap is open source, a suite of tools and frontend framework that can be used to develop web pages or applications. Bootstrap contains HTML and CSS based design templates that can be used in web pages or applications. [10]
 NPM:
-Npm javascript betik dili için geliştirilmiş olan ve Node.js'in standart olarak kabul ettiği bir paket yönetim sistemidir. npm komut satırından çalıştırılır ve uygulamalar için bağımlılık yönetimi sağlar. [11]
-Visual Studio Code nedir?
-Visual Studio Code Microsoft tarafından Windows, Linux ve MacOS için geliştirilen bir kaynak kodu düzenleyicisidir. Hata ayıklama, gömülü Git kontrolü, sözdizimi vurgulama, akıllı kod tamamlama, snippet'ler ve kod yeniden yapılandırma desteği içerir. [12]
+Npm is a package management system developed for the javascript scripting language and accepted as a standard by Node.js. npm is run from the command line and provides dependency management for applications. [11]
+What is Visual Studio Code?
+Visual Studio Code is a source code editor developed by Microsoft for Windows, Linux and MacOS. It includes support for debugging, embedded Git checking, syntax highlighting, smart code completion, snippets, and code refactoring. [12]
 
 Project name: KATANA REPORTING
 Purpose of the project: Katana Reporting is a platform where employees can submit their reports and managers can manage these reports.
 Project need:
-  Before the Katana Reporting project, users were opening a new excel sheet to submit their weekly reports to the manager. On this page, they were filling in the fields one by one, following the template set by the administrators. These created excel files were delivered to the managers via email. This process is very costly for users. It is aimed that users can access the Katana Reporting application from their web browsers with their login information and transmit their reports quickly to the manager.
-  
- 5. Requirements to be included in the Project:
+Before the Katana Reporting project, users were opening a new excel sheet to submit their weekly reports to the manager. On this page, they were filling in the fields one by one, following the template set by the administrators. These created excel files were delivered to the managers via email. This process is very costly for users. It is aimed that users can access the Katana Reporting application from their web browsers with their login information and transmit their reports quickly to the manager.
+
+5. Requirements to be included in the Project:
 It is to deliver the weekly report entered by the user to the administrator. For this reason, users should be able to edit and send their own weekly reports. In this time period, it should save as clean data as possible to the database, so form validation processes should be provided in the best way.
 ![image](https://user-images.githubusercontent.com/43602725/148956118-fd043d5c-1954-4e11-8cd8-11c2d809c51a.png)
 
@@ -123,35 +108,71 @@ After the staff finishes and adds the report, the manager should be notified by 
 If user should be able to submit weekly reports. If it did, it shouldn't be able to add newlines.
 5.2 Admin Actions:
 After logging into the system, the administrator should be able to see the reports of all employees.
- 
+
 Figure 5.2.1 Admin reports display screen
 It should be able to search the reports of the employees, and be able to sort them according to the sending status.
-  
-  Figure 5.2.2 Report filtering options
 
-  ![image](https://user-images.githubusercontent.com/43602725/148956631-f12f82cb-c4f5-46e0-8984-dc783c81db09.png)
+Figure 5.2.2 Report filtering options
+
+![image](https://user-images.githubusercontent.com/43602725/148956631-f12f82cb-c4f5-46e0-8984-dc783c81db09.png)
 
 After the report is entered and sent to the manager, if the manager finds the information in one of the lines in the report insufficient, he should be able to send the report with an explanation text to the employee with a request for correction.
-  
-  Figure 5.2.3 Revision comment can be written with the Require revision button.
-  ![image](https://user-images.githubusercontent.com/43602725/148956725-552506a2-8dbc-415f-b821-5d1f3ee7f240.png)
+
+Figure 5.2.3 Revision comment can be written with the Require revision button.
+![image](https://user-images.githubusercontent.com/43602725/148956725-552506a2-8dbc-415f-b821-5d1f3ee7f240.png)
 
 
 When a report correction request is made to the personnel by the manager, the personnel should be notified by e-mail. In the subject part of the mail, "<Week number of the year>.Report.Correction Request" should be written.
 
 When the staff responds to the correction request and reposts the report, an e-mail should be sent to the manager. In the subject part of the mail, “<Week number of the year>.Report. <Staff name>.Revision” should be written.
-  
-  Figure 5.2.4 The general manager who makes a revision request can send an e-mail by the system as above.
-  ![image](https://user-images.githubusercontent.com/43602725/148956785-f9d058e4-0c55-40dc-b872-0620d4973af3.png)
-  
-  Users will initially be defined as static, on the admin screen. When the manager enters the personnel on the screen, the personnel should be notified by e-mail. You have been invited to the Weekly Report Platform. You can set your password using the link below and start generating a report. When the link to be given in the mail body is clicked, the user should be able to set his own password.
-  
-  Şekil 5.2.5 E-mail register link
-  ![image](https://user-images.githubusercontent.com/43602725/148956864-980cb794-796c-4205-8ffc-d2bb6ff8c950.png)
 
-  Figure 5.2.6 Diagram of relational tables in the database with mysql workbench and reverse engineering method
-  ![image](https://user-images.githubusercontent.com/43602725/148956938-a237df69-6ea8-49ab-b126-165ff237861e.png)
+Figure 5.2.4 The general manager who makes a revision request can send an e-mail by the system as above.
+![image](https://user-images.githubusercontent.com/43602725/148956785-f9d058e4-0c55-40dc-b872-0620d4973af3.png)
 
-  
+Users will initially be defined as static, on the admin screen. When the manager enters the personnel on the screen, the personnel should be notified by e-mail. You have been invited to the Weekly Report Platform. You can set your password using the link below and start generating a report. When the link to be given in the mail body is clicked, the user should be able to set his own password.
+
+Şekil 5.2.5 E-mail register link
+![image](https://user-images.githubusercontent.com/43602725/148956864-980cb794-796c-4205-8ffc-d2bb6ff8c950.png)
+
+Figure 5.2.6 Diagram of relational tables in the database with mysql workbench and reverse engineering method
+![image](https://user-images.githubusercontent.com/43602725/148956938-a237df69-6ea8-49ab-b126-165ff237861e.png)
+
+
 5.3 Shortcomings of the Project:
 Some date fields opened in the database are not used. Angular, especially the models, could not be used fully, the lack of this was felt while developing the project. It lacks abstraction techniques. At some points, the RxJS library has been used for state managing. For this reason, one of the best practices of Angular has been waived from the fact that the flow occurs without refreshing the pages. Improvements can be made for these situations in the future.
+
+
+
+  PROJECT IMAGES:
+![image](https://user-images.githubusercontent.com/43602725/148957143-eba6b65f-4d86-4188-b177-7524aedc0641.png)
+![image](https://user-images.githubusercontent.com/43602725/148957171-8b9c47eb-47aa-4670-94a8-3c3eb9f1d215.png)
+![image](https://user-images.githubusercontent.com/43602725/148957179-f3c8f8af-82c2-48a4-bf1c-5993059da73f.png)
+![image](https://user-images.githubusercontent.com/43602725/148957184-5f4a5dc2-b594-4af2-af9f-36d0d53a0202.png)
+![image](https://user-images.githubusercontent.com/43602725/148957214-d217339d-b784-43fa-8fb1-d55a5ef12a08.png)
+![image](https://user-images.githubusercontent.com/43602725/148957236-b2177f25-e3f0-4ca2-8d80-1d05579eed62.png)
+![image](https://user-images.githubusercontent.com/43602725/148957252-651e2ce0-99fc-46be-844a-e285064c47e5.png)
+![image](https://user-images.githubusercontent.com/43602725/148957257-59102f87-0acf-4f26-a03c-6f62b4978ec3.png)
+![image](https://user-images.githubusercontent.com/43602725/148957267-517595aa-f77b-4e8b-ba9e-d5ab7cc9ed5e.png)
+![image](https://user-images.githubusercontent.com/43602725/148957291-e5511556-0062-4320-9fce-9f7535e87458.png)
+Responsive design
+![image](https://user-images.githubusercontent.com/43602725/148957361-02861d24-37f8-4d99-be87-ea2706317f00.png)
+![image](https://user-images.githubusercontent.com/43602725/148957437-b5db4c69-41d0-4186-8b5e-3f89a573ab64.png)
+![image](https://user-images.githubusercontent.com/43602725/148957467-d930d636-6908-4acb-ba72-53dd1ae853f9.png)
+  
+  REFERENCES:
+  1.	Angular (framework) - Vikipedi. https://tr.wikipedia.org/wiki/Angular_(Framework)
+2.	NodeJs - Vikipedi. https://tr.wikipedia.org/wiki/Node.js
+3.	MYSQL - Vikipedi. https://tr.wikipedia.org/wiki/MySQL
+4.	ExpressJs - Vikipedi. https://tr.wikipedia.org/wiki/Express.js
+5.	TypeScript - Vikipedi. https://tr.wikipedia.org/wiki/TypeScript
+6.	PM2 - Vikipedi. https://en.wikipedia.org/wiki/PM2_(software)
+7.	Ubuntu - Vikipedi. https://tr.wikipedia.org/wiki/Ubuntu_(i%C5%9Fletim_sistemi)
+8.	Apache Server - Vikipedi. https://tr.wikipedia.org/wiki/Apache_HTTP_Sunucusu
+9.	RxJs - Vikipedi. https://en.wikipedia.org/wiki/Reactive_programming
+10.	Bootstrap-Vikipedi. https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)
+11. NPM - Vikipedi. https://tr.wikipedia.org/wiki/Npm
+12. Vscode - Vikipedi. https://tr.wikipedia.org/wiki/Visual_Studio_Code 
+13.	SQL Server – İstatistik – Statistic Nedir?. https://www.cozumpark.com/sql-server-istatistik-statistic-nedir/
+14.	SQL Server’da İstatistik Kavramı ve Performansa Etkisi. http://www.veritabani.gen.tr/2016/11/17/sql-serverda-istatistik-kavrami-performansa-etkisi/
+15.	SQL Server Statistics Basics. - https://www.red-gate.com/simple-talk/databases/sql-server/performance-sql-server/sql-server-statistics-basics/
+16.	Wikipedi - JWT JSON Web Token - Vikipedi (wikipedia.org)

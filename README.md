@@ -67,4 +67,74 @@ Project name: KATANA REPORTING
 Purpose of the project: Katana Reporting is a platform where employees can submit their reports and managers can manage these reports.
 Project need:
   Before the Katana Reporting project, users were opening a new excel sheet to submit their weekly reports to the manager. On this page, they were filling in the fields one by one, following the template set by the administrators. These created excel files were delivered to the managers via email. This process is very costly for users. It is aimed that users can access the Katana Reporting application from their web browsers with their login information and transmit their reports quickly to the manager.
+  
+ 5. Requirements to be included in the Project:
+It is to deliver the weekly report entered by the user to the administrator. For this reason, users should be able to edit and send their own weekly reports. In this time period, it should save as clean data as possible to the database, so form validation processes should be provided in the best way.
+![image](https://user-images.githubusercontent.com/43602725/148956118-fd043d5c-1954-4e11-8cd8-11c2d809c51a.png)
 
+figure 5.1 user reports
+![image](https://user-images.githubusercontent.com/43602725/148956200-7e64aef5-7f0d-4fdf-a053-10e3ad0363b2.png)
+
+figure 5.2 user report details
+![image](https://user-images.githubusercontent.com/43602725/148956245-7688d883-51a2-4326-ad4d-730b586516d5.png)
+
+figure 5.3 user can send reports
+![image](https://user-images.githubusercontent.com/43602725/148956281-54788d32-1421-4089-a6df-0cc271eefdb0.png)
+
+figure 5.4 user have to credentials
+![image](https://user-images.githubusercontent.com/43602725/148956313-ffd390cf-5454-4a75-aa07-5676fa09da37.png)
+
+The administrator, on the other hand, should be able to request, view and edit these submitted reports again.
+
+Reports can have multiple rows and the fields of each row are as seen in table 3.
+Table 3
+• Sequence Number (expected to increase as the number of lines increases)
+• Severity (Scored from 1 to 5)
+•	Starting date
+• End Date
+• Works / Actions
+• Requestor
+• Scheduled Completion Date
+• Timeout/Timeout Yes-No
+
+• Status / Status
+• Comments/Suggestions
+5.1 User Actions:
+After logging into the system, the user should be able to see their weekly reports. When he wants to go to the details of the report he wants, he should be able to go.
+The user should be able to create a report for a particular week by entering the week number he wants to add into the system and fill in it.
+After the staff finishes and adds the report, the manager should be notified by e-mail. In the subject part of the mail to be sent to the administrator, "<Year.week no>.Report. <Personnel name>” should be written.
+If user should be able to submit weekly reports. If it did, it shouldn't be able to add newlines.
+5.2 Admin Actions:
+After logging into the system, the administrator should be able to see the reports of all employees.
+ 
+Figure 5.2.1 Admin reports display screen
+It should be able to search the reports of the employees, and be able to sort them according to the sending status.
+  
+  Figure 5.2.2 Report filtering options
+
+  ![image](https://user-images.githubusercontent.com/43602725/148956631-f12f82cb-c4f5-46e0-8984-dc783c81db09.png)
+
+After the report is entered and sent to the manager, if the manager finds the information in one of the lines in the report insufficient, he should be able to send the report with an explanation text to the employee with a request for correction.
+  
+  Figure 5.2.3 Revision comment can be written with the Require revision button.
+  ![image](https://user-images.githubusercontent.com/43602725/148956725-552506a2-8dbc-415f-b821-5d1f3ee7f240.png)
+
+
+When a report correction request is made to the personnel by the manager, the personnel should be notified by e-mail. In the subject part of the mail, "<Week number of the year>.Report.Correction Request" should be written.
+
+When the staff responds to the correction request and reposts the report, an e-mail should be sent to the manager. In the subject part of the mail, “<Week number of the year>.Report. <Staff name>.Revision” should be written.
+  
+  Figure 5.2.4 The general manager who makes a revision request can send an e-mail by the system as above.
+  ![image](https://user-images.githubusercontent.com/43602725/148956785-f9d058e4-0c55-40dc-b872-0620d4973af3.png)
+  
+  Users will initially be defined as static, on the admin screen. When the manager enters the personnel on the screen, the personnel should be notified by e-mail. You have been invited to the Weekly Report Platform. You can set your password using the link below and start generating a report. When the link to be given in the mail body is clicked, the user should be able to set his own password.
+  
+  Şekil 5.2.5 E-mail register link
+  ![image](https://user-images.githubusercontent.com/43602725/148956864-980cb794-796c-4205-8ffc-d2bb6ff8c950.png)
+
+  Figure 5.2.6 Diagram of relational tables in the database with mysql workbench and reverse engineering method
+  ![image](https://user-images.githubusercontent.com/43602725/148956938-a237df69-6ea8-49ab-b126-165ff237861e.png)
+
+  
+5.3 Shortcomings of the Project:
+Some date fields opened in the database are not used. Angular, especially the models, could not be used fully, the lack of this was felt while developing the project. It lacks abstraction techniques. At some points, the RxJS library has been used for state managing. For this reason, one of the best practices of Angular has been waived from the fact that the flow occurs without refreshing the pages. Improvements can be made for these situations in the future.

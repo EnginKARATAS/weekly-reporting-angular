@@ -75,15 +75,19 @@ It is to deliver the weekly report entered by the user to the administrator. For
 ![image](https://user-images.githubusercontent.com/43602725/148956118-fd043d5c-1954-4e11-8cd8-11c2d809c51a.png)
 
 figure 5.1 user reports
+
 ![image](https://user-images.githubusercontent.com/43602725/148956200-7e64aef5-7f0d-4fdf-a053-10e3ad0363b2.png)
 
 figure 5.2 user report details
+
 ![image](https://user-images.githubusercontent.com/43602725/148956245-7688d883-51a2-4326-ad4d-730b586516d5.png)
 
 figure 5.3 user can send reports
+
 ![image](https://user-images.githubusercontent.com/43602725/148956281-54788d32-1421-4089-a6df-0cc271eefdb0.png)
 
 figure 5.4 user have to credentials
+
 ![image](https://user-images.githubusercontent.com/43602725/148956313-ffd390cf-5454-4a75-aa07-5676fa09da37.png)
 
 The administrator, on the other hand, should be able to request, view and edit these submitted reports again.
@@ -110,6 +114,9 @@ If user should be able to submit weekly reports. If it did, it shouldn't be able
 After logging into the system, the administrator should be able to see the reports of all employees.
 
 Figure 5.2.1 Admin reports display screen
+  
+![image](https://user-images.githubusercontent.com/43602725/148958152-a2374a23-0df7-4086-bd7d-c90d3295f796.png)
+
 It should be able to search the reports of the employees, and be able to sort them according to the sending status.
 
 Figure 5.2.2 Report filtering options
@@ -119,6 +126,7 @@ Figure 5.2.2 Report filtering options
 After the report is entered and sent to the manager, if the manager finds the information in one of the lines in the report insufficient, he should be able to send the report with an explanation text to the employee with a request for correction.
 
 Figure 5.2.3 Revision comment can be written with the Require revision button.
+  
 ![image](https://user-images.githubusercontent.com/43602725/148956725-552506a2-8dbc-415f-b821-5d1f3ee7f240.png)
 
 
@@ -127,14 +135,17 @@ When a report correction request is made to the personnel by the manager, the pe
 When the staff responds to the correction request and reposts the report, an e-mail should be sent to the manager. In the subject part of the mail, “<Week number of the year>.Report. <Staff name>.Revision” should be written.
 
 Figure 5.2.4 The general manager who makes a revision request can send an e-mail by the system as above.
+  
 ![image](https://user-images.githubusercontent.com/43602725/148956785-f9d058e4-0c55-40dc-b872-0620d4973af3.png)
 
 Users will initially be defined as static, on the admin screen. When the manager enters the personnel on the screen, the personnel should be notified by e-mail. You have been invited to the Weekly Report Platform. You can set your password using the link below and start generating a report. When the link to be given in the mail body is clicked, the user should be able to set his own password.
 
-Şekil 5.2.5 E-mail register link
+Figure 5.2.5 E-mail register link
+  
 ![image](https://user-images.githubusercontent.com/43602725/148956864-980cb794-796c-4205-8ffc-d2bb6ff8c950.png)
 
 Figure 5.2.6 Diagram of relational tables in the database with mysql workbench and reverse engineering method
+  
 ![image](https://user-images.githubusercontent.com/43602725/148956938-a237df69-6ea8-49ab-b126-165ff237861e.png)
 
 

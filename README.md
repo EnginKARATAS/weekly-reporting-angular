@@ -72,6 +72,7 @@ Before the Katana Reporting project, users were opening a new excel sheet to sub
 
 5. Requirements to be included in the Project:
 It is to deliver the weekly report entered by the user to the administrator. For this reason, users should be able to edit and send their own weekly reports. In this time period, it should save as clean data as possible to the database, so form validation processes should be provided in the best way.
+
 ![image](https://user-images.githubusercontent.com/43602725/148956118-fd043d5c-1954-4e11-8cd8-11c2d809c51a.png)
 
 figure 5.1 user reports

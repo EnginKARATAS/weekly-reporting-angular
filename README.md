@@ -1,5 +1,22 @@
 #weekly-reporting-angular
 weekly reporting app, track workers weekly activities
+![image](https://user-images.githubusercontent.com/43602725/148957143-eba6b65f-4d86-4188-b177-7524aedc0641.png)
+![image](https://user-images.githubusercontent.com/43602725/148957171-8b9c47eb-47aa-4670-94a8-3c3eb9f1d215.png)
+![image](https://user-images.githubusercontent.com/43602725/148957179-f3c8f8af-82c2-48a4-bf1c-5993059da73f.png)
+![image](https://user-images.githubusercontent.com/43602725/148957184-5f4a5dc2-b594-4af2-af9f-36d0d53a0202.png)
+![image](https://user-images.githubusercontent.com/43602725/148957214-d217339d-b784-43fa-8fb1-d55a5ef12a08.png)
+![image](https://user-images.githubusercontent.com/43602725/148957236-b2177f25-e3f0-4ca2-8d80-1d05579eed62.png)
+![image](https://user-images.githubusercontent.com/43602725/148957252-651e2ce0-99fc-46be-844a-e285064c47e5.png)
+![image](https://user-images.githubusercontent.com/43602725/148957257-59102f87-0acf-4f26-a03c-6f62b4978ec3.png)
+![image](https://user-images.githubusercontent.com/43602725/148957267-517595aa-f77b-4e8b-ba9e-d5ab7cc9ed5e.png)
+![image](https://user-images.githubusercontent.com/43602725/148957291-e5511556-0062-4320-9fce-9f7535e87458.png)
+
+Responsive design
+![image](https://user-images.githubusercontent.com/43602725/148957361-02861d24-37f8-4d99-be87-ea2706317f00.png)
+![image](https://user-images.githubusercontent.com/43602725/148957437-b5db4c69-41d0-4186-8b5e-3f89a573ab64.png)
+
+![image](https://user-images.githubusercontent.com/43602725/148957467-d930d636-6908-4acb-ba72-53dd1ae853f9.png)
+
 
 #Project Introduction
 

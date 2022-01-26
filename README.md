@@ -1,5 +1,7 @@
 #weekly-reporting-angular
 weekly reporting app, track workers weekly activities
+Project explaining in Turkish Language(English explaining coming soon):
+https://youtu.be/F-x9DOQEvKA
 
 
 

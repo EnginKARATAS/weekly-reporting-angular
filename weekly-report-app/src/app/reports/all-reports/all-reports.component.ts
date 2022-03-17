@@ -52,6 +52,7 @@ export class AllReportsComponent implements OnInit {
 
     if (this.id || this.gmId) {
       this.retrieveReports();
+
     } else this.message = 'İlk Önce Giriş Yapmalısınız!';
   }
   setCurrentCategory(currentReportId: number) {
@@ -66,6 +67,8 @@ export class AllReportsComponent implements OnInit {
 
   retrieveReports(): void {
     this.reportService.get(this.id).subscribe(data => {
+      debugger
+
       this.reports = data;
       this.dataLoaded = true;
     });

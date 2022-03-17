@@ -23,17 +23,6 @@ export class GmadminComponent implements OnInit {
   showMessage = '';
   gm_id;
 
-<<<<<<< Updated upstream
-=======
-  searchForm = new FormGroup({
-    searchBarValue: new FormControl('')
-    });
-
-  ngOnInit(): void {  
-    this.retrieveReports();
-    // this.showMessage = this.cookieService.get('Test');
-  }
->>>>>>> Stashed changes
   constructor(
     private reportService: ReportService,
     private router: Router,

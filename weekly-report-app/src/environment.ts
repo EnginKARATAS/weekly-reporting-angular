@@ -1,11 +1,11 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-const origin = "http://10.41.150.82:4000";//backend
-// const origin = "http://localhost:4000";//window.location.origin;
+// const origin = "http://10.41.150.82:4000";//backend
+const origin = "http://localhost:4000";//window.location.origin;
 
-const ngUrl = "http://10.41.150.82"
-// const ngUrl = "http://localhost:4200"
+// const ngUrl = "http://10.41.150.82"
+const ngUrl = "http://localhost:4200"
 export const environment = {
   production: false,
   apiUrl: origin,

@@ -303,54 +303,54 @@ app.post("/api/workers", checkAuth, function (req, res) {
   });
 });
 
-app.post("/auth", function (request, response) {
-  var username = request.body.username;
-  let password = request.body.password;
-  password = crypto.createHash("md5").update(password).digest("hex");
-  password = password.substring(0, 16);
-  if (username && password) {
-    let sql =
-      "SELECT username, worker_name, worker_surname, id FROM workers where worker_email = ? AND password = ?";
-    con.query(sql, [username, password], function (err, worker, fields) {
-      if (worker.length > 0) {
-        const token = jwt.sign(
-          {
-            muuid: worker.worker_name,
-            memail: worker.worker_email,
-            cid: worker.id,
-            admin: false,
-          },
-          "dvurising",
-          {
-            expiresIn: "2h",
-          }
-        );
-        response.json({
-          data: worker,
-          message: "success",
-          resCode: 200,
-          token: token,
-        });
-      } else {
-        response.json({
-          data: null,
-          message: "E-Posta adı veya şifre hatalı",
-          resCode: 400,
-          token: "oluşturulmadı",
-        });
-      }
+  app.post("/auth", function (request, response) {
+    var username = request.body.username;
+    let password = request.body.password;
+    password = crypto.createHash("md5").update(password).digest("hex");
+    password = password.substring(0, 16);
+    if (username && password) {
+      let sql =
+        "SELECT username, worker_name, worker_surname, id FROM workers where worker_email = ? AND password = ?";
+      con.query(sql, [username, password], function (err, worker, fields) {
+        if (worker.length > 0) {
+          const token = jwt.sign(
+            {
+              muuid: worker.worker_name,
+              memail: worker.worker_email,
+              cid: worker.id,
+              admin: false,
+            },
+            "dvurising",
+            {
+              expiresIn: "2h",
+            }
+          );
+          response.json({
+            data: worker,
+            message: "success",
+            resCode: 200,
+            token: token,
+          });
+        } else {
+          response.json({
+            data: null,
+            message: "E-Posta adı veya şifre hatalı",
+            resCode: 400,
+            token: "oluşturulmadı",
+          });
+        }
+        response.end();
+      });
+    } else {
+      response.json({
+        data: null,
+        message: "E-Posta veya şifre hatalı",
+        resCode: 403,
+        token: "oluşturulmadı",
+      });
       response.end();
-    });
-  } else {
-    response.json({
-      data: null,
-      message: "E-Posta veya şifre hatalı",
-      resCode: 403,
-      token: "oluşturulmadı",
-    });
-    response.end();
-  }
-});
+    }
+  });
 
 app.post("/gmauth", function (request, response) {
   var username = request.body.username;

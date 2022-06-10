@@ -1,3 +1,0 @@
-// class EmailManager implemnets EmailHelperService {
-
-// }

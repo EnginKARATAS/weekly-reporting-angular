@@ -53,6 +53,5 @@ export class AddNewWorkerComponent implements OnInit {
         this.toastrService.error(data.message);
       }
     });
-    
   }
 }

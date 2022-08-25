@@ -28,7 +28,7 @@ const routes = ([
 
 const childRoutes = ([
   { path: 'all-reports', component: AllReportsComponent, canActive:[AuthGuard]  },
-  { path: 'report-detail/:report_id', component: ReportDetailComponent, canActive:[AuthGuard]  },
+  { path: 'report-detail/:report_id', component: ReportDetailComponent,  },// canActive:[AuthGuard]
   { path: '**', component: Page404Component, pathMatch: 'full' }, //404
 
 ])

@@ -45,8 +45,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
-      this.authService
-      //username == email
+      this.authService//username == email
         .login(this.loginForm.value.username, this.loginForm.value.password)
         .subscribe((respond) => {
           if (respond.resCode == 200) {
@@ -63,7 +62,7 @@ export class LoginComponent implements OnInit {
             });
             this.toastrService.success('Başarıyla Giriş Yapıldı');
             // this.toastrService.success(data.message);
-          } 
+          }
           else if (respond.resCode == 403) {
             this.toastrService.error(respond.message);
           }

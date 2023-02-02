@@ -1,0 +1,93 @@
+CREATE TABLE claimants(
+	id INT AUTO_INCREMENT,
+	claimant_name VARCHAR(50) NOT NULL,
+	claimant_surname VARCHAR(50) NOT NULL,
+username
+password
+
+	CONSTRAINT pk_id PRIMARY KEY(id)
+);
+
+CREATE TABLE workers(
+	id INT AUTO_INCREMENT,
+	worker_name VARCHAR(50) NOT NULL,
+	worker_surname VARCHAR (50) NOT NULL,
+	username VARCHAR (25) NOT NULL,
+	password VARCHAR (16) NOT NULL,
+	job_title VARCHAR (30) NOT NULL,
+	CONSTRAINT pk_workers PRIMARY KEY (id)
+	
+);
+
+CREATE TABLE report_row_entries(
+	id INT AUTO_INCREMENT,
+	code INT NOT NULL,
+	matter INT NOT NULL,
+	start_date Date NOT NULL,
+	finish_date Date NOT NULL,
+	claimant
+	actions VARCHAR(500) NOT NULL
+	is_timeout BOOLEAN NOT NULL,
+	scheduled_completion_date Date NOT NULL,
+	weekly_time_spent INT NOT NULL,
+	status VARCHAR(15) NOT NULL,
+	comments VARCHAR (300),
+	CONSTRAINT pk_reportrowentries PRIMARY KEY(id)
+);
+
+CREATE TABLE weeks(
+	id INT AUTO_INCREMENT,
+	week_date Date NOT NULL
+	CONSTRAINT pk_weeks PRIMARY KEY(id),
+);
+
+CREATE TABLE reports(
+	id INT AUTO_INCREMENT,
+	is_report_sended BOOLEAN NOT NULL,
+	week_id INT NOT NULL,
+	worker_id INT NOT NULL,
+	claimants VARCHAR(50) NOT NULL,
+	report_row_entry_id INT NOT NULL,
+	report_commit_date DATE NOT NULL,
+	report_edit_date Date NOT NULL,
+	CONSTRAINT pk_reports PRIMARY KEY(id),
+	CONSTRAINT pk_reports_workers FOREIGN KEY (worker_id) REFERENCES workers(id),
+	CONSTRAINT fk_reports_claimants FOREIGN KEY(claimant_id) REFERENCES claimants(id),
+	CONSTRAINT fk_reports_weeks FOREIGN KEY(weeks_id) REFERENCES weeks(id),
+	CONSTRAINT fk_reports_report_row_entries FOREIGN KEY(report_row_entry_id) REFERENCES report_row_entries(id)
+);
+
+
+CREATE TABLE forpass(
+	id INT NOT NULL AUTO_INCREMENT,
+	username INT NOT NULL,
+	twin_identity varchar(200) NOT NULL ,
+	created_date DATE NOT NULL,
+    CONSTRAINT forpass_id PRIMARY KEY(id),
+    CONSTRAINT forpass_worker_id FOREIGN KEY(worker_id) REFERENCES workers(id)
+);	
+
+INSERT INTO claimants(
+	 name, surname)
+	VALUES ( 'Jasper', 'Mind');
+	
+INSERT INTO workers(
+	  name, surname, job_title)
+	VALUES (  'Cengiz', 'Rızaoğlu', 'HMT');
+	
+INSERT INTO report_row_entries(
+	matter, start_date, finish_date, work_done, scheduled_completion_date, weekly_time_spent, status, comments)
+	VALUES ( 3, '2017-03-14' ,'2017-03-14', false, '2017-03-14', '12', 'devam ediyor', 'Veritabanı hazırlandı');	
+	
+INSERT INTO `reports` (`id`, `worker_id`, `claimant_id`, `report_row_entry_id`, `report_commit_date`, `report_edit_date`) VALUES (NULL, '1', '1', '1', '2021-08-13', '2021-08-13');
+
+
+
+SELECT * FROM reports r 
+INNER JOIN workers w ON r.worker_id = w.id 
+INNER JOIN report_row_entries s ON r.report_row_entry_id = s.id
+INNER JOIN claimants c ON r.claimant_id = c.id
+
+INSERT INTO `report_row_entries`
+(`code`, `matter`, `start_date`, `finish_date`, `is_timeout`, `scheduled_completion_date`, `weekly_time_spent`, `status`, `comments`, `actions`, `claimants`, `report_id`) VALUES 
+('int sv versin', 'int 1-5', 'user seçmeli', 'user seçmeli', 'bool 1 0 ', 'user seçsin', 'integ', 'devam', 'yorum', 'su talep doğrultusunda su yapıldı', 'varchar ali veli ', 'int hangi reporta ait');

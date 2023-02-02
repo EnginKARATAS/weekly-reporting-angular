@@ -1,0 +1,34 @@
+SELECT * FROM reports r 
+INNER JOIN workers w ON r.worker_id = r.id
+INNER JOIN report_row_entries s ON r.report_row_entry_id = s.id 
+INNER JOIN claimants c ON r.claimant_id = c.id
+WHERE w.id = 1
+
+  "SELECT * FROM reports r "+
+  "INNER JOIN workers w ON r.worker_id = r.id "+
+  "INNER JOIN report_row_entries s ON r.report_row_entry_id = s.id "+
+  "INNER JOIN claimants c ON r.claimant_id = c.id "+
+  "WHERE w.id = 1"
+
+INSERT INTO `reports` (
+    `id`,
+    `claimant_name`, 
+    `claimant_surname`,
+    `worker_name`,
+    `worker_surname`,
+    `job_title`, `matter`,
+    `start_date`,
+    `finish_date`, 
+    `is_timeout`,
+    `scheduled_completion_date`,
+    `weekly_time_spent`,
+    `status`,
+    `comments`,
+    `worker_id`, 
+    `claimant_id`,
+    `report_row_entry_id`,
+    `report_commit_date`, 
+    `report_edit_date`
+) VALUES (NULL, 'Jasper', 'Mind', 'Engin', 'Karataş', 'AFS', 2, '10-08-2021', '10-08-2021', false, '10-08-2021', 14, 'finished', 'yorum yok', 1, 1, '', 10-08-2021, '10-08-2021');
+
+INSERT INTO `reports` (`id`, `claimant_name`, `claimant_surname`, `worker_name`, `worker_surname`, `job_title`, `matter`, `start_date`, `finish_date`, `is_timeout`, `scheduled_completion_date`, `weekly_time_spent`, `status`, `comments`, `worker_id`, `claimant_id`, `report_row_entry_id`, `report_commit_date`, `report_edit_date`) VALUES (NULL, 'Wogar', 'Natel', 'Harun', 'Büyük', 'Tüm veritabanı düzenlenecek', '1', '10-08-2021', '10-08-2021', '1', '10-08-2021', '22', 'finished', 'Tüm veritabanı düzenlenecek', '4', '3', '2', '1', '1');

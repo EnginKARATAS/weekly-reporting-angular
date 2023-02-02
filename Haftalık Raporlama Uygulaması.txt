@@ -1,0 +1,43 @@
+PROJE:Haftalık rapor uygulaması
+PROJE DETAYI: Firma çalışanlarının haftalık olarak yaptığı çalışmaları düzenleyip yöneticiye teslim etmeleri gerekmektedir. 
+Projemizde yapmamız gereken, kullanıcının girdiği haftalık raporu yöneticiye ulaştırmaktır.
+
+Her raporun:
+Çalışan Adı Soyadı,	
+Çalışanın Ünvanı,		
+Raporlanan Kişi/Kişiler,
+Rapor Düzenleme Tarihi,
+Sıra Nosu vardır
+	
+Raporlara yeni satırlar eklenebilmelidir. Satırlar aşağıdaki bilgileri içermelidir.
+Sıra No(otomatik artan şekilde olabilr), 
+Önem Derecesi(1 ile 5 arasında puanlanır), 
+Başlangıç Tarihi,
+Bitiş Tarihi, 
+Yapılan İşler / Aksiyonlar, 
+Talep Sahibi, 
+Planlanmış Bitirme Tarihi, 
+Süre Aşımı/Timeout Evet-Hayır,
+Haftalık Harcanan Süre (Saat),
+Durumu / Status,
+Yorumlar/Öneriler		
+
+Kullanıcı sisteme giriş yaptıktan sonra haftalık raporlarını görebilmelidir. 
+Yönetici sisteme giriş yaptıktan sonra tüm çalışanların raporlarını görebilmelidir.
+Haftalık raporlarının detaylarını görmek istediğinde, raporunu göndermişse sadece rapor detayını görebilmeli, 
+eğer göndermemişse yeni satırlarını ekleyebilmelidir. 
+Güncel haftanın raporu sistem tarafından veya yönetici tarafından açılır ve kullanıcılara atanır.
+
+Rapor girildikten ve yöneticiye gönderildikten sonra yönetici eğer rapordaki item’lardan birindeki bilgiyi yetersiz bulmuşsa, raporu bir açıklama metni ile tekrar çalışana düzeltme yapması talebi ile gönderebilmeli. 
+ 
+-Personel raporu bitirip ekledikten sonra yöneticiye mail ile bildirim gitmeli.  Yöneticiye gönderilecek mailin subject kısmında “<Yıl.hafta no>.Rapor. <Personel ismi>” yazmalı.
+
+-Personele yönetici tarafından rapor düzeltme talebi yapıldığında personele mail ile bildirim gitmeli.  Mailin subject kısmında “<Yılın hafta no>.Rapor.Düzeltme Talebi” yazmalı
+
+-Personel düzeltme talebini yanıtlayıp raporunu tekrar post ettiğinde yöneticiye mail gönderilmeli. Mailin subject kısmında “<Yıl.hafta no>.Rapor. <Personel ismi>.Revizyon” yazmalı.
+
+-Kullanıcılar başlangıçta statik olarak tanımlanacak, yönetici ekranında.  Yönetici ekranda personel girişi yaptığı zaman personele mail ile bildirim gitmeli.  Gidecek bildirimin içerisinde “Haftalık Rapor Platformuna davet edildiniz.  Alttaki linki kullanarak şifrenizi belirleyebilir ve rapor oluşturmaya başlayabilirsiniz” yazmalı.  Mail body’de verilecek linke tıklandığında kullanıcı kendi şifresini belirleyebilmeli.  
+
+
+
+

@@ -1,0 +1,1 @@
+INSERT INTO workers (password) VALUES ('asdfdsfa') WHERE token = 'abc' AND 'Wed Aug 25 2021 15:15:49 GMT+0300 (GMT+03:00)' < token_expire
